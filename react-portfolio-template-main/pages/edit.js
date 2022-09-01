@@ -47,7 +47,7 @@ const Edit = () => {
           imageSrc:
             "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTAyfHxwYXN0ZWx8ZW58MHx8MHw%3D&auto=format&fit=crop&w=400&q=60",
 
-          url: "www.asach.co",
+          url: "http://chetanverma.com/",
         },
       ],
     });
@@ -104,7 +104,7 @@ const Edit = () => {
         {
           id: uuidv4(),
           title: "New Link",
-          link: "http://www.asach.co",
+          link: "www.chetanverma.com",
         },
       ],
     });
@@ -152,8 +152,9 @@ const Edit = () => {
       <Cursor />
       <div className="mt-10">
         <div
-          className={`z-10 sticky top-12 ${theme === "dark" ? "bg-transparent" : "bg-white"
-            }`}
+          className={`z-10 sticky top-12 ${
+            theme === "dark" ? "bg-transparent" : "bg-white"
+          }`}
         >
           <div className="flex items-center justify-between">
             <h1 className="text-4xl">Dashboard</h1>
@@ -178,10 +179,10 @@ const Edit = () => {
               Projects
             </Button>
             <Button
-              onClick={() => setCurrentTabs("Experience")}
-              type={currentTabs === "Experience" && "primary"}
+              onClick={() => setCurrentTabs("SERVICES")}
+              type={currentTabs === "SERVICES" && "primary"}
             >
-              Expirence
+              Services
             </Button>
             <Button
               onClick={() => setCurrentTabs("ABOUT")}
@@ -415,7 +416,7 @@ const Edit = () => {
           </>
         )}
         {/* SERVICES */}
-        {currentTabs === "Experience" && (
+        {currentTabs === "SERVICES" && (
           <>
             <div className="mt-10">
               {data.services.map((service, index) => (
@@ -464,7 +465,7 @@ const Edit = () => {
             </div>
             <div className="my-10">
               <Button onClick={addService} type="primary">
-                Add Experience +
+                Add Service +
               </Button>
             </div>
           </>

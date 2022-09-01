@@ -1,146 +1,120 @@
 {
-    "name": "Om",
-    "headerTaglineOne": "Hello 👋",
-    "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "designer and devloper",
-    "headerTaglineFour": " based in Mumbai, India.",
-    "showBlog": true,
-    "darkMode": true,
-    "showResume": true,
-    "socials": [
-        {
-            "id": "1",
-            "title": "Github",
-            "link": "https://github.com/chetanverma16"
-        },
-        {
-            "id": "2",
-            "title": "LinkedIn",
-            "link": "https://www.linkedin.com/in/chetanverma7/"
-        },
-        {
-            "id": "3",
-            "title": "Twitter",
-            "link": "https://twitter.com/realchetanverma"
-        },
-        {
-            "id": "4",
-            "title": "Blog",
-            "link": "https://blog.chetanverma.com/"
-        },
-        {
-            "id": "5",
-            "title": "Email",
-            "link": "mailto:osurve20ece@student.mes.ac.in"
-        }
-    ],
-    "projects": [
-        {
-            "id": "1",
-            "title": "Project One Test",
-            "description": "Web Design",
-            "imageSrc": "https://images.unsplash.com/photo-1487837647815-bbc1f30cd0d2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Njl8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        },
-        {
-            "id": "2",
-            "title": "Project Two",
-            "description": "Web Development",
-            "imageSrc": "https://images.unsplash.com/photo-1605153864431-a2795a1b2f95?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwyNTY3ODl8fGVufDB8fHw%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        },
-        {
-            "id": "3",
-            "title": "Project Three",
-            "description": "Design",
-            "imageSrc": "https://images.unsplash.com/photo-1504083898675-c896ecdae86e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjJ8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        },
-        {
-            "id": "4",
-            "title": "Project Four",
-            "description": "Marketing",
-            "imageSrc": "https://images.unsplash.com/photo-1492171983775-a51717616c0d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjB8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        },
-        {
-            "id": "5",
-            "title": "Project Five",
-            "description": "Development",
-            "imageSrc": "https://images.unsplash.com/photo-1534239143101-1b1c627395c5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8NzZ8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        },
-        {
-            "id": "6",
-            "title": "Project Six",
-            "description": "Design & Development",
-            "imageSrc": "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTAyfHxwYXN0ZWx8ZW58MHx8MHw%3D&auto=format&fit=crop&w=400&q=60",
-            "url": "www.asach.co"
-        }
-    ],
-    "services": [
-        {
-            "id": "1",
-            "title": "Art Direction",
-            "description": "We help with the creation and development of online advertising ideas, with particular focus on their visual appearance."
-        },
-        {
-            "id": "2",
-            "title": "Branding",
-            "description": "We design key brand elements such as the logo, color scheme, typography, and other design components that makes your brand stand out from competitors."
-        },
-        {
-            "id": "3",
-            "title": "Web Design",
-            "description": "We build and optimize your online presence.  Website is the digital entry point into your business and a powerful revenue channel."
-        },
-        {
-            "id": "4",
-            "title": "3D Design",
-            "description": "We combine creative design and technical skills to build striking 3D visualisations that bring your project to life."
-        }
-    ],
-    "aboutpara": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "resume": {
-        "tagline": "👋  I'm a software engineer, product designer.",
-        "description": "I have delivered world-class user experiences to millions of people. Well-versed with React, Javascript, and most of the Web frameworks.",
-        "experiences": [
-            {
-                "id": "1",
-                "dates": "March 2022 - Present",
-                "type": "Full Time",
-                "position": "Frontend Engineer at X",
-                "bullets": "Bullet One, Bullet Two"
-            },
-            {
-                "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
-                "dates": "July 2020 - March 2022",
-                "type": "Full Time",
-                "position": "Frontend Engineer at X",
-                "bullets": "Worked on the frontend of a React application, Worked on the frontend of a React application"
-            }
-        ],
-        "education": {
-            "universityName": "University X",
-            "universityDate": "2016-2020",
-            "universityPara": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-        },
-        "languages": [
-            "Javascript",
-            "HTML5",
-            "CSS",
-            "Python",
-            "Go"
-        ],
-        "frameworks": [
-            "React",
-            "Typescript",
-            "NodeJs"
-        ],
-        "others": [
-            "Figma",
-            "AdobeXD",
-            "AWS"
-        ]
-    }
+  "name": "Om",
+  "headerTaglineOne": "Hello 👋 👨‍💻",
+  "headerTaglineTwo": "I'm Om Surve - curious",
+  "headerTaglineThree": "designer and devloper",
+  "headerTaglineFour": " based in New Delhi, India.",
+  "showBlog": false,
+  "darkMode": true,
+  "showResume": true,
+  "socials": [
+      {
+          "id": "1",
+          "title": "Github",
+          "link": "https://github.com/gamingflexer"
+      },
+      {
+          "id": "2",
+          "title": "Website",
+          "link": "https://www.asach.co/"
+      },
+
+      {
+          "id": "5",
+          "title": "Email",
+          "link": "mailto:osurve20ece@student.mes.ac.in"
+      }
+  ],
+  "projects": [
+      {
+          "id": "1",
+          "title": "Extraction and classification of data from social media during natural disasters | NDRF",
+          "description": "Deep Learning Pipelines | Django | NextJs",
+          "imageSrc": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/fa38c09c-164a-4927-810f-9f84cea027d2/2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220901T210956Z&X-Amz-Expires=86400&X-Amz-Signature=942cf64c07765e94b95f8bdb2bf821e7e3752c6493fd82d445aad0b5b1f2ac17&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%222.png%22&x-id=GetObject",
+          "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/"
+      },
+      {
+          "id": "2",
+          "title": "Resume Parsing and summarisation of candidates resumes | Mastek",
+          "description": "Deep Learning Custom Models | Flask | Web Suite",
+          "imageSrc": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/add38912-38a1-4b14-b764-965f9a12e2a9/4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220901T210947Z&X-Amz-Expires=86400&X-Amz-Signature=943d831f4d41c31960ff2583e17cf38273d35c33be8faa5360491e825c9ebd82&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%224.png%22&x-id=GetObject",
+          "url": "https://github.com/gamingflexer/dp-production"
+      },
+      {
+          "id": "3",
+          "title": "Crime Analysis | APP & Dashboard Integrated | Chattisgarh Police ",
+          "description": "Application to collect data, analyse it to understand criminal behaviour better along side connecting on-desk and on-site police.",
+          "imageSrc": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/3eae02cd-1f0c-4363-a119-fa92734aebb3/Group_20.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220901T210453Z&X-Amz-Expires=86400&X-Amz-Signature=d312d6088fcf987c58bf04df3ee6db3bc540051e9a4f66f3288d19c8056a8f61&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Group%252020.png%22&x-id=GetObject",
+          "url": "https://github.com/gamingflexer/hackManthan"
+      },
+      {
+          "id": "4",
+          "title": "Backend As A Service | IPFS | IIT Hackathon 3rd Price",
+          "description": "Using IPFS Decentralised Storage to provide backend as a service",
+          "imageSrc": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9224ef84-6217-4979-a319-189942b55680/3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220901T210951Z&X-Amz-Expires=86400&X-Amz-Signature=5018ba3048e60ac8c1f6f8712df62caada0c8a8da23ed0093da58cde42b44310&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%223.png%22&x-id=GetObject",
+          "url": "https://github.com/gamingflexer/hack-o-pitch"
+      }
+  ],
+  "services": [
+      {
+          "id": "1",
+          "title": "IITB Internship | ML Developer",
+          "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
+      },
+      {
+          "id": "2",
+          "title": "Team Leader | 10+ Hackathons",
+          "description": "Winner of about 6 hackathons. Managed the teams with my role as ML developer and backend developer."
+      }
+  ],
+  "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
+  "resume": {
+      "tagline": "👋  I'm a Ml & Backend Developer ",
+      "description": "Well-versed with Deep Learning and Backend Frameworks in python with all popular databases. ",
+      "experiences": [
+          {
+              "id": "1",
+              "dates": "june 2022 - Present",
+              "type": "Full Time",
+              "position": "IITB Internship | Ml Developer",
+              "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
+          },
+          {
+              "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
+              "dates": "Dec 2021 - Present",
+              "type": "Team Leader",
+              "position": "Ml Developer & Backend Developer",
+              "bullets": "Custom deep learning models, DL pipelines for all Media "
+          }
+      ],
+      "education": {
+          "universityName": "Pillai College Of Engineering",
+          "universityDate": "2021-2024",
+          "universityPara": "Bachelor in Information Technology"
+      },
+      "achievements": {
+          "a": "Smart India Hackathon 2022 Winner",
+          "b": "Manthan National Hackathon 2021 Winner ",
+          "c": "Hack-O-Pitch IITM 2022 3rd Price",
+          "d": "Pillai Alegria Hackathon 2021 Winner "
+      },
+      "languages": [
+          "Python",
+          "Js",
+          "C++"
+      ],
+      "frameworks": [
+          "TensorFlow ",
+          "Pytorch",
+          "Django",
+          "Flask",
+          "OpenCv",
+          "MySql | MongoDB | Casendra"
+      ],
+      "others": [
+          "Figma",
+          "Adobe Premier Pro",
+          "Adobe PhotoShop"
+      ]
+  }
 }
