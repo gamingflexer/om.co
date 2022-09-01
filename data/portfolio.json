@@ -3,7 +3,7 @@
   "headerTaglineOne": "Hello 👋 👨‍💻",
   "headerTaglineTwo": "I'm Om Surve - curious",
   "headerTaglineThree": "designer and devloper",
-  "headerTaglineFour": " based in New Delhi, India.",
+  "headerTaglineFour": " based in Mumbai, India.",
   "showBlog": false,
   "darkMode": true,
   "showResume": true,
@@ -64,7 +64,7 @@
       {
           "id": "2",
           "title": "Team Leader | 10+ Hackathons",
-          "description": "Winner of about 6 hackathons. Managed the teams with my role as ML developer and backend developer."
+          "description": "Winner of about 5 hackathons. Managed the teams with my role as ML developer and backend developer."
       }
   ],
   "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
