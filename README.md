@@ -1,5 +1,7 @@
 ### Live - https://asach.co/
 
+### Thanks to for sharing the template where i made the required changes and added some sections.
+`https://github.com/chetanverma16/react-portfolio-template`
 
 ## Notes
 
