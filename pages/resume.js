@@ -43,7 +43,7 @@ const Resume = () => {
               <h1 className="text-3xl font-bold">{name}</h1>
               <h2 className="text-xl mt-5">{resume.tagline}</h2>
               <h3 className="text-sm opacity-0">spacing</h3>
-              <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" href="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a992e13a-61d2-4030-9a53-a0127112ff96/om_resume.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220901%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220901T202838Z&X-Amz-Expires=86400&X-Amz-Signature=5d4dd201dfc463173a2201cd93f233c17906da032ac2dac82271d5977c229c6a&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22om_resume.pdf%22&x-id=GetObject">
+              <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" href="https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/om_resume.pdf?alt=media&token=5c93f3ae-943d-4ea5-9eff-d7fa087fb49c">
               <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
               <span>Download</span>
               </a>
