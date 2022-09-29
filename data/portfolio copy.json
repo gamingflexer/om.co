@@ -18,7 +18,6 @@
             "title": "Website",
             "link": "https://www.asach.co/"
         },
-  
         {
             "id": "5",
             "title": "Email",
@@ -80,6 +79,13 @@
                 "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
             },
             {
+                "id": "2",
+                "dates": "Sep 2022 - Present",
+                "type": "Part Time",
+                "position": "Alegria | Backend Developer",
+                "bullets": "Backend Development | Flask | Docker | ML for better user experience"
+            },
+            {
                 "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
                 "dates": "Dec 2021 - Present",
                 "type": "Team Leader",
@@ -117,4 +123,4 @@
             "Adobe PhotoShop"
         ]
     }
-  }
+}
