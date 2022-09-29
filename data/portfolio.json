@@ -1,120 +1,126 @@
 {
-  "name": "Om",
-  "headerTaglineOne": "Hello 👋 👨‍💻",
-  "headerTaglineTwo": "I'm Om Surve - curious",
-  "headerTaglineThree": "designer and devloper",
-  "headerTaglineFour": " based in Mumbai, India.",
-  "showBlog": false,
-  "darkMode": true,
-  "showResume": true,
-  "socials": [
-      {
-          "id": "1",
-          "title": "Github",
-          "link": "https://github.com/gamingflexer"
-      },
-      {
-          "id": "2",
-          "title": "Website",
-          "link": "https://www.asach.co/"
-      },
-
-      {
-          "id": "5",
-          "title": "Email",
-          "link": "mailto:osurve20ece@student.mes.ac.in"
-      }
-  ],
-  "projects": [
-      {
-          "id": "1",
-          "title": "Extraction and classification of data from social media during natural disasters | NDRF",
-          "description": "Deep Learning Pipelines | Django | NextJs",
-          "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
-          "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/"
-      },
-      {
-          "id": "2",
-          "title": "Resume Parsing and summarisation of candidates resumes | Mastek",
-          "description": "Deep Learning Custom Models | Flask | Web Suite",
-          "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
-          "url": "https://github.com/gamingflexer/dp-production"
-      },
-      {
-          "id": "3",
-          "title": "Crime Analysis | APP & Dashboard Integrated | Chattisgarh Police ",
-          "description": "Application to collect data, analyse it to understand criminal behaviour better along side connecting on-desk and on-site police.",
-          "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/1.png?alt=media&token=88e6d19a-cea8-4256-888a-2b2cd628b718",
-          "url": "https://github.com/gamingflexer/hackManthan"
-      },
-      {
-          "id": "4",
-          "title": "Backend As A Service | IPFS | IIT Hackathon 3rd Price",
-          "description": "Using IPFS Decentralised Storage to provide backend as a service",
-          "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
-          "url": "https://github.com/gamingflexer/hack-o-pitch"
-      }
-  ],
-  "services": [
-      {
-          "id": "1",
-          "title": "IITB Internship | ML Developer",
-          "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
-      },
-      {
-          "id": "2",
-          "title": "Team Leader | 10+ Hackathons",
-          "description": "Winner of about 5 hackathons. Managed the teams with my role as ML developer and backend developer."
-      }
-  ],
-  "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
-  "resume": {
-      "tagline": "👋  I'm a Ml & Backend Developer ",
-      "description": "Well-versed with Deep Learning and Backend Frameworks in python with all popular databases. ",
-      "experiences": [
-          {
-              "id": "1",
-              "dates": "june 2022 - Present",
-              "type": "Full Time",
-              "position": "IITB Internship | Ml Developer",
-              "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
-          },
-          {
-              "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
-              "dates": "Dec 2021 - Present",
-              "type": "Team Leader",
-              "position": "Ml Developer & Backend Developer",
-              "bullets": "Custom deep learning models, DL pipelines for all Media "
-          }
-      ],
-      "education": {
-          "universityName": "Pillai College Of Engineering",
-          "universityDate": "2021-2024",
-          "universityPara": "Bachelor in Information Technology"
-      },
-      "achievements": {
-          "a": "Smart India Hackathon 2022 Winner",
-          "b": "Manthan National Hackathon 2021 Winner ",
-          "c": "Hack-O-Pitch IITM 2022 3rd Price",
-          "d": "Pillai Alegria Hackathon 2021 Winner "
-      },
-      "languages": [
-          "Python",
-          "Js",
-          "C++"
-      ],
-      "frameworks": [
-          "TensorFlow ",
-          "Pytorch",
-          "Django",
-          "Flask",
-          "OpenCv",
-          "MySql | MongoDB | Casendra"
-      ],
-      "others": [
-          "Figma",
-          "Adobe Premier Pro",
-          "Adobe PhotoShop"
-      ]
-  }
+    "name": "Om",
+    "headerTaglineOne": "Hello 👋 👨‍💻",
+    "headerTaglineTwo": "I'm Om Surve - curious",
+    "headerTaglineThree": "designer and devloper",
+    "headerTaglineFour": " based in Mumbai, India.",
+    "showBlog": false,
+    "darkMode": true,
+    "showResume": true,
+    "socials": [
+        {
+            "id": "1",
+            "title": "Github",
+            "link": "https://github.com/gamingflexer"
+        },
+        {
+            "id": "2",
+            "title": "Website",
+            "link": "https://www.asach.co/"
+        },
+        {
+            "id": "5",
+            "title": "Email",
+            "link": "mailto:osurve20ece@student.mes.ac.in"
+        }
+    ],
+    "projects": [
+        {
+            "id": "1",
+            "title": "Extraction and classification of data from social media during natural disasters | NDRF",
+            "description": "Deep Learning Pipelines | Django | NextJs",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
+            "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/"
+        },
+        {
+            "id": "2",
+            "title": "Resume Parsing and summarisation of candidates resumes | Mastek",
+            "description": "Deep Learning Custom Models | Flask | Web Suite",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
+            "url": "https://github.com/gamingflexer/dp-production"
+        },
+        {
+            "id": "3",
+            "title": "Crime Analysis | APP & Dashboard Integrated | Chattisgarh Police ",
+            "description": "Application to collect data, analyse it to understand criminal behaviour better along side connecting on-desk and on-site police.",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/1.png?alt=media&token=88e6d19a-cea8-4256-888a-2b2cd628b718",
+            "url": "https://github.com/gamingflexer/hackManthan"
+        },
+        {
+            "id": "4",
+            "title": "Backend As A Service | IPFS | IIT Hackathon 3rd Price",
+            "description": "Using IPFS Decentralised Storage to provide backend as a service",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
+            "url": "https://github.com/gamingflexer/hack-o-pitch"
+        }
+    ],
+    "services": [
+        {
+            "id": "1",
+            "title": "IITB Internship | ML Developer",
+            "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
+        },
+        {
+            "id": "2",
+            "title": "Team Leader | 10+ Hackathons",
+            "description": "Winner of about 5 hackathons. Managed the teams with my role as ML developer and backend developer."
+        }
+    ],
+    "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
+    "resume": {
+        "tagline": "👋  I'm a Ml & Backend Developer ",
+        "description": "Well-versed with Deep Learning and Backend Frameworks in python with all popular databases. ",
+        "experiences": [
+            {
+                "id": "1",
+                "dates": "june 2022 - Present",
+                "type": "Full Time",
+                "position": "IITB Internship | Ml Developer",
+                "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
+            },
+            {
+                "id": "2",
+                "dates": "Sep 2022 - Present",
+                "type": "Part Time",
+                "position": "Alegria | Backend Developer",
+                "bullets": "Backend Development | Flask | Docker | ML for better user experience"
+            },
+            {
+                "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
+                "dates": "Dec 2021 - Present",
+                "type": "Team Leader",
+                "position": "Ml Developer & Backend Developer",
+                "bullets": "Custom deep learning models, DL pipelines for all Media "
+            }
+        ],
+        "education": {
+            "universityName": "Pillai College Of Engineering",
+            "universityDate": "2021-2024",
+            "universityPara": "Bachelor in Information Technology"
+        },
+        "achievements": {
+            "a": "Smart India Hackathon 2022 Winner",
+            "b": "Manthan National Hackathon 2021 Winner ",
+            "c": "Hack-O-Pitch IITM 2022 3rd Price",
+            "d": "Pillai Alegria Hackathon 2021 Winner "
+        },
+        "languages": [
+            "Python",
+            "Js",
+            "C++"
+        ],
+        "frameworks": [
+            "TensorFlow ",
+            "Pytorch",
+            "Django",
+            "Flask",
+            "OpenCv",
+            "MySql | MongoDB | Casendra"
+        ],
+        "others": [
+            "Figma",
+            "Adobe Premier Pro",
+            "Adobe PhotoShop"
+        ]
+    }
 }
