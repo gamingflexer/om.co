@@ -1,7 +1,7 @@
 {
   "name": "Chetan",
   "headerTaglineOne": "Hello 👋",
-  "headerTaglineTwo": "I'm Chetan Verma - curious",
+  "headerTaglineTwo": "I'm Om Surve - curious",
   "headerTaglineThree": "designer and devloper",
   "headerTaglineFour": " based in New Delhi, India.",
   "showBlog": true,
@@ -22,8 +22,16 @@
       "title": "Twitter",
       "link": "https://twitter.com/realchetanverma"
     },
-    { "id": "4", "title": "Blog", "link": "https://blog.chetanverma.com/" },
-    { "id": "5", "title": "Email", "link": "mailto:hello@chetanverma.com" }
+    {
+      "id": "4",
+      "title": "Blog",
+      "link": "https://blog.chetanverma.com/"
+    },
+    {
+      "id": "5",
+      "title": "Email",
+      "link": "mailto:hello@chetanverma.com"
+    }
   ],
   "projects": [
     {
@@ -111,7 +119,9 @@
         "dates": "March 2020 - March 2022",
         "type": "Full Time",
         "position": "Frontend Engineer at X",
-        "bullets": ["Worked on the frontend of a React application"]
+        "bullets": [
+          "Worked on the frontend of a React application"
+        ]
       }
     ],
     "education": {
@@ -119,8 +129,21 @@
       "universityDate": "2016-2020",
       "universityPara": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
     },
-    "languages": ["Javascript", "HTML5", "CSS", "Python"],
-    "frameworks": ["React", "Typescript", "NodeJs"],
-    "others": ["Figma", "AdobeXD", "AWS"]
+    "languages": [
+      "Javascript",
+      "HTML5",
+      "CSS",
+      "Python"
+    ],
+    "frameworks": [
+      "React",
+      "Typescript",
+      "NodeJs"
+    ],
+    "others": [
+      "Figma",
+      "AdobeXD",
+      "AWS"
+    ]
   }
 }

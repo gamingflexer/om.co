@@ -19,6 +19,11 @@
             "link": "https://www.asach.co/"
         },
         {
+            "id": "3",
+            "title": "Kaggle",
+            "link": "https://www.kaggle.com/omsurve"
+        },
+        {
             "id": "5",
             "title": "Email",
             "link": "mailto:osurve20ece@student.mes.ac.in"
