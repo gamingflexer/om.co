@@ -2,7 +2,7 @@
     "name": "Om",
     "headerTaglineOne": "Hello 👋 👨‍💻",
     "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "dDsigner and developer",
+    "headerTaglineThree": "Designer and developer",
     "headerTaglineFour": " based in Mumbai, India.",
     "showBlog": false,
     "darkMode": true,
@@ -67,13 +67,6 @@
             "description": "Using IPFS Decentralised Storage to provide backend as a service",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
             "url": "https://github.com/gamingflexer/hack-o-pitch"
-        },
-        {
-            "id": "5",
-            "title": "Alegria | Festival of joy",
-            "description": "Website & App for the largest student fest in India",
-            "imageSrc": "https://alegria.co.in/logo7to12.png",
-            "url": "https://alegria.co.in/"
         }
     ],
     "services": [
