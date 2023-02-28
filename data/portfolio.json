@@ -2,7 +2,7 @@
     "name": "Om",
     "headerTaglineOne": "Hello 👋 👨‍💻",
     "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "designer and developer",
+    "headerTaglineThree": "Designer and devloper",
     "headerTaglineFour": " based in Mumbai, India.",
     "showBlog": false,
     "darkMode": true,
@@ -62,6 +62,13 @@
             "description": "Using IPFS Decentralised Storage to provide backend as a service",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
             "url": "https://github.com/gamingflexer/hack-o-pitch"
+        },
+        {
+            "id": "5",
+            "title": "Alegria | Festival of joy",
+            "description": "Website & App for the largest student fest in India",
+            "imageSrc": "https://alegria.co.in/logo7to12.png",
+            "url": "https://alegria.co.in/"
         }
     ],
     "services": [
@@ -73,7 +80,7 @@
         {
             "id": "2",
             "title": "Alegria | Backend Developer",
-            "description": "Alegria is the largest student fest in India. I am working on the backend development of the website."
+            "description": "Alegria is the largest student fest in India. I am working on the backend development of the website and app."
         },
         {
             "id": "3",
@@ -88,21 +95,21 @@
         "experiences": [
             {
                 "id": "1",
-                "dates": "june 2022 - Present",
+                "dates": "June 2022 - Present",
                 "type": "Full Time",
                 "position": "IITB Internship | Ml Developer",
                 "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
             },
             {
                 "id": "2",
-                "dates": "Sep 2022 - Present",
+                "dates": "Sep 2022 - Feb 2022",
                 "type": "Part Time",
                 "position": "Alegria | Backend Developer",
-                "bullets": "Backend Development | Flask | Docker | ML for better user experience"
+                "bullets": "Backend Development | Flask | Docker | Flutter AR"
             },
             {
                 "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
-                "dates": "Dec 2021 - Present",
+                "dates": "10+ Hackathons",
                 "type": "Team Leader",
                 "position": "Ml Developer & Backend Developer",
                 "bullets": "Custom deep learning models, DL pipelines for all Media "
@@ -117,16 +124,17 @@
             "a": "Smart India Hackathon 2022 Winner",
             "b": "Manthan National Hackathon 2021 Winner ",
             "c": "Hack-O-Pitch IITM 2022 3rd Price",
-            "d": "Pillai Alegria Hackathon 2021 Winner "
+            "d": "Pillai Alegria Hackathon 2021 Winner ",
+            "e":  "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh"
         },
         "languages": [
             "Python",
             "Js",
-            "C++"
+            "Dart"
         ],
         "frameworks": [
-            "TensorFlow ",
             "Pytorch",
+            "TensorFlow",
             "Django",
             "Flask",
             "OpenCv",
