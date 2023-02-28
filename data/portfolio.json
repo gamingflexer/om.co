@@ -2,7 +2,7 @@
     "name": "Om",
     "headerTaglineOne": "Hello 👋 👨‍💻",
     "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "Designer and devloper",
+    "headerTaglineThree": "dDsigner and developer",
     "headerTaglineFour": " based in Mumbai, India.",
     "showBlog": false,
     "darkMode": true,
@@ -20,16 +20,21 @@
         },
         {
             "id": "3",
+            "title": "Linkedin",
+            "link": "https://www.linkedin.com/in/om0/"
+        },
+        {
+            "id": "4",
             "title": "Kaggle",
             "link": "https://www.kaggle.com/omsurve"
         },
         {
-            "id": "4",
+            "id": "5",
             "title": "Blogs",
             "link": "https://medium.com/@surve790_52343"
         },
         {
-            "id": "4",
+            "id": "6",
             "title": "Email",
             "link": "mailto:osurve20ece@student.mes.ac.in"
         }
