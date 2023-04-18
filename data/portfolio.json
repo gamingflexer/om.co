@@ -2,7 +2,7 @@
     "name": "Om",
     "headerTaglineOne": "Hello 👋 👨‍💻",
     "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "Designer and developer",
+    "headerTaglineThree": "Developer and Designer",
     "headerTaglineFour": " based in Mumbai, India.",
     "showBlog": false,
     "darkMode": true,
@@ -82,8 +82,8 @@
         },
         {
             "id": "3",
-            "title": "Team Leader | 10+ Hackathons",
-            "description": "Winner of about 5 hackathons. Managed the teams with my role as ML developer and backend developer."
+            "title": "Team Leader | 12+ Hackathons",
+            "description": "Winner of about 6+ hackathons. Managed the teams with my role as ML developer and backend developer."
         }
     ],
     "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
@@ -96,21 +96,21 @@
                 "dates": "June 2022 - Present",
                 "type": "Full Time",
                 "position": "IITB Internship | Ml Developer",
-                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions, Spear & Decile resulting increase in performance. , Built single pipelines using trocr, vision transformers, and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
+                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions Spear & Decile resulting increase in performance. , Built single pipelines using trocr vision transformers and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
             },
             {
                 "id": "2",
                 "dates": "Sep 2022 - Feb 2022",
                 "type": "Part Time",
                 "position": "Alegria | Backend Developer",
-                "bullets": "Backend Development | Flask | Docker | Flutter AR"
+                "bullets": "Collaborated with a team of 10 developer's to build Website & App for Alegira , Developed and tested Back-End APIs for a large-scale student festival website and mobile app , Demonstrated proficiency in SQL databases and Flask framework to build efficient and reliable Back- End API’s. , Added new features to alegria.co.in and Alegria app enhancing user experience and engagement."
             },
             {
                 "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
-                "dates": "10+ Hackathons",
+                "dates": "12+ Hackathons",
                 "type": "Team Leader",
                 "position": "Ml Developer & Backend Developer",
-                "bullets": "Custom deep learning models, DL pipelines for all Media "
+                "bullets": "Project ranging of max about 6 months ,Custom deep learning models, DL pipelines for all Media "
             }
         ],
         "education": {
@@ -123,11 +123,13 @@
             "b": "Manthan National Hackathon 2021 Winner ",
             "c": "Hack-O-Pitch IITM 2022 3rd Price",
             "d": "Pillai Alegria Hackathon 2021 Winner ",
-            "e":  "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh"
+            "e":  "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh",
+            "f":  "HACKOVERFLOW 1.0 PAN-INDIA HACKATHON | Team Lead | 3RD"
         },
         "languages": [
             "Python",
             "Js",
+            "R",
             "Dart"
         ],
         "frameworks": [
@@ -136,6 +138,7 @@
             "Django",
             "Flask",
             "OpenCv",
+            "Devops",
             "MySql | MongoDB | Casendra"
         ],
         "others": [
