@@ -96,7 +96,7 @@
                 "dates": "June 2022 - Present",
                 "type": "Full Time",
                 "position": "IITB Internship | Ml Developer",
-                "bullets": "Deep Learning Models implementations , Model Improvements and Testing , Django | Celery Development"
+                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions, Spear & Decile resulting increase in performance. , Built single pipelines using trocr, vision transformers, and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
             },
             {
                 "id": "2",

@@ -43,7 +43,7 @@ const Resume = () => {
               <h1 className="text-3xl font-bold">{name}</h1>
               <h2 className="text-xl mt-5">{resume.tagline}</h2>
               <h3 className="text-sm opacity-0">spacing</h3>
-              <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" href="https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/om_resume.pdf?alt=media&token=5c93f3ae-943d-4ea5-9eff-d7fa087fb49c">
+              <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" href="https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/Om's%20Resume.pdf?alt=media&token=8a4d1176-dd0b-439b-a9be-af98bd8f14fa">
               <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
               <span>Download</span>
               </a>
