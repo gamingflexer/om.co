@@ -1,8 +1,8 @@
 {
     "name": "Om",
     "headerTaglineOne": "Hello 👋 👨‍💻",
-    "headerTaglineTwo": "I'm Om Surve - curious",
-    "headerTaglineThree": "Developer and Designer",
+    "headerTaglineTwo": "I'm Om Surve - ML",
+    "headerTaglineThree": "Engineer and Designer",
     "headerTaglineFour": " based in Mumbai, India.",
     "showBlog": false,
     "darkMode": true,
@@ -16,7 +16,7 @@
         {
             "id": "2",
             "title": "Website",
-            "link": "https://www.asach.co/"
+            "link": "https://asach.netlify.app/"
         },
         {
             "id": "3",
@@ -42,46 +42,51 @@
     "projects": [
         {
             "id": "1",
+            "title": "FreeLance Projects | US Clients | (Click to open the list)",
+            "description": "Worked on many projects using DocsGPT, GPT Podcaster, Open source LLM's & GPT based applications and also Stable Diffusion Models for Image inpating ",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
+            "url": "https://docs.google.com/document/d/e/2PACX-1vQzs0-s-fQgfJ9fGYhx71R6Tqq3AJHlq6-J5kVJqCTZg-4y3cbmyHPpTb5l4ge2UXgxQBnjGfi5Zvbv/pub"
+        },
+        {
+            "id": "2",
             "title": "Extraction and classification of data from social media during natural disasters | NDRF",
             "description": "Deep Learning Pipelines | Django | NextJs",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
             "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/"
         },
         {
-            "id": "2",
+            "id": "3",
             "title": "Resume Parsing and summarisation of candidates resumes | Mastek",
             "description": "Deep Learning Custom Models | Flask | Web Suite",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
             "url": "https://github.com/gamingflexer/dp-production"
         },
         {
-            "id": "3",
+            "id": "4",
             "title": "Crime Analysis | APP & Dashboard Integrated | Chattisgarh Police ",
             "description": "Application to collect data, analyse it to understand criminal behaviour better along side connecting on-desk and on-site police.",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/1.png?alt=media&token=88e6d19a-cea8-4256-888a-2b2cd628b718",
             "url": "https://github.com/gamingflexer/hackManthan"
-        },
-        {
-            "id": "4",
-            "title": "Backend As A Service | IPFS | IIT Hackathon 3rd Price",
-            "description": "Using IPFS Decentralised Storage to provide backend as a service",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
-            "url": "https://github.com/gamingflexer/hack-o-pitch"
         }
     ],
     "services": [
         {
             "id": "1",
-            "title": "IITB Internship | ML Developer",
-            "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
+            "title": "Tericsoft | ML Engineer",
+            "description": "Open source Large Language Models Fine Tunning and Deployment. Also on scalable vector db's"
         },
         {
             "id": "2",
+            "title": "IITB Internship | ML Engineer",
+            "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
+        },
+        {
+            "id": "3",
             "title": "Alegria | Backend Developer",
             "description": "Alegria is the largest student fest in India. I am working on the backend development of the website and app."
         },
         {
-            "id": "3",
+            "id": "4",
             "title": "Team Leader | 12+ Hackathons",
             "description": "Winner of about 6+ hackathons. Managed the teams with my role as ML developer and backend developer."
         }
@@ -93,23 +98,30 @@
         "experiences": [
             {
                 "id": "1",
-                "dates": "June 2022 - Present",
+                "dates": "May 2023 - Present",
                 "type": "Full Time",
-                "position": "IITB Internship | Ml Developer",
-                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions Spear & Decile resulting increase in performance. , Built single pipelines using trocr vision transformers and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
+                "position": "Tericsoft | Ml Engineer",
+                "bullets": "Worked on open-source large language models (LLMs) for fine-tuning and prompt engineering as well as information retrieval using vector databases and LLMs from unstructured data. ,Developed customized OCR solutions for healthcare companies."
             },
             {
                 "id": "2",
+                "dates": "June 2022 - Jul 2023",
+                "type": "Full Time",
+                "position": "IITB Internship | Ml Engineer",
+                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions Spear & Decile resulting increase in performance. , Built single pipelines using trocr vision transformers and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
+            },
+            {
+                "id": "3",
                 "dates": "Sep 2022 - Feb 2022",
                 "type": "Part Time",
                 "position": "Alegria | Backend Developer",
                 "bullets": "Collaborated with a team of 10 developer's to build Website & App for Alegira , Developed and tested Back-End APIs for a large-scale student festival website and mobile app , Demonstrated proficiency in SQL databases and Flask framework to build efficient and reliable Back- End API’s. , Added new features to alegria.co.in and Alegria app enhancing user experience and engagement."
             },
             {
-                "id": "d495c23b-4f65-479a-9b8a-cfbc1c089725",
+                "id": "4",
                 "dates": "12+ Hackathons",
                 "type": "Team Leader",
-                "position": "Ml Developer & Backend Developer",
+                "position": "Ml Engineer & Backend Developer",
                 "bullets": "Project ranging of max about 6 months ,Custom deep learning models, DL pipelines for all Media "
             }
         ],
@@ -119,12 +131,12 @@
             "universityPara": "Bachelor in Information Technology"
         },
         "achievements": {
-            "a": "Smart India Hackathon 2022 Winner",
-            "b": "Manthan National Hackathon 2021 Winner ",
-            "c": "Hack-O-Pitch IITM 2022 3rd Price",
-            "d": "Pillai Alegria Hackathon 2021 Winner ",
-            "e":  "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh",
-            "f":  "HACKOVERFLOW 1.0 PAN-INDIA HACKATHON | Team Lead | 3RD"
+            "a": "Smart India Hackathon 2022 | Winner",
+            "b": "Manthan National Hackathon 2021 | Winner ",
+            "c": "Hack-O-Pitch IIT Madras 2022 | 3rd Price",
+            "d": "Pillai Alegria Hackathon 2021 | Winner ",
+            "e": "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh",
+            "f": "HACKOVERFLOW 1.0 PAN-INDIA HACKATHON | Team Lead | 3RD"
         },
         "languages": [
             "Python",
@@ -135,10 +147,13 @@
         "frameworks": [
             "Pytorch",
             "TensorFlow",
-            "Django",
-            "Flask",
+            "LLM",
             "OpenCv",
+            "Docker",
+            "Django",
+            "Flask & FastAPI",
             "Devops",
+            "AWS & GCP",
             "MySql | MongoDB | Casendra"
         ],
         "others": [

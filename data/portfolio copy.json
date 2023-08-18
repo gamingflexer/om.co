@@ -16,7 +16,7 @@
         {
             "id": "2",
             "title": "Website",
-            "link": "https://www.asach.co/"
+            "link": "https://asach.netlify.app/"
         },
         {
             "id": "3",
@@ -130,7 +130,7 @@
             "b": "Manthan National Hackathon 2021 Winner ",
             "c": "Hack-O-Pitch IITM 2022 3rd Price",
             "d": "Pillai Alegria Hackathon 2021 Winner ",
-            "e":  "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh"
+            "e": "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh"
         },
         "languages": [
             "Python",

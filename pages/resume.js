@@ -89,6 +89,8 @@ const Resume = () => {
                   <h2 className="text-lg">{resume.achievements.b}</h2>
                   <h2 className="text-lg">{resume.achievements.c}</h2>
                   <h2 className="text-lg">{resume.achievements.d}</h2>
+                  <h2 className="text-lg">{resume.achievements.e}</h2>
+                  <h2 className="text-lg">{resume.achievements.f}</h2>
                 </div>
               </div>
               <h3 className="text-sm opacity-0">spacing</h3>
