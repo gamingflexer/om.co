@@ -91,34 +91,41 @@
             "description": "Winner of about 6+ hackathons. Managed the teams with my role as ML developer and backend developer."
         }
     ],
-    "aboutpara": "I am Om. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
+    "aboutpara": "I am Om, Now building End to End prodcuts for clients. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
     "resume": {
         "tagline": "👋  I'm a Ml & Backend Developer ",
         "description": "Well-versed with Deep Learning and Backend Frameworks in python with all popular databases. ",
         "experiences": [
             {
                 "id": "1",
-                "dates": "May 2023 - Present",
+                "dates": "Current",
+                "type": "Full Time",
+                "position": "Freelance - Ml Engineer",
+                "bullets": "Building Full Stack AI Products using GPT-4, Claude, Azure API's for Clients with a group of friends. Working on many usecases in Fashion, Marketing, Architecture Industries. "
+            },
+            {
+                "id": "2",
+                "dates": "May 2023 - Sep 2023",
                 "type": "Full Time",
                 "position": "Tericsoft | Ml Engineer",
                 "bullets": "Worked on open-source large language models (LLMs) for fine-tuning and prompt engineering as well as information retrieval using vector databases and LLMs from unstructured data. ,Developed customized OCR solutions for healthcare companies."
             },
             {
-                "id": "2",
+                "id": "3",
                 "dates": "June 2022 - Jul 2023",
                 "type": "Full Time",
                 "position": "IITB Internship | Ml Engineer",
                 "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions Spear & Decile resulting increase in performance. , Built single pipelines using trocr vision transformers and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
             },
             {
-                "id": "3",
+                "id": "4",
                 "dates": "Sep 2022 - Feb 2022",
                 "type": "Part Time",
                 "position": "Alegria | Backend Developer",
                 "bullets": "Collaborated with a team of 10 developer's to build Website & App for Alegira , Developed and tested Back-End APIs for a large-scale student festival website and mobile app , Demonstrated proficiency in SQL databases and Flask framework to build efficient and reliable Back- End API’s. , Added new features to alegria.co.in and Alegria app enhancing user experience and engagement."
             },
             {
-                "id": "4",
+                "id": "5",
                 "dates": "12+ Hackathons",
                 "type": "Team Leader",
                 "position": "Ml Engineer & Backend Developer",
