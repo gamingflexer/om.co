@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import ProjectResume from "../components/ProjectResume";
 import Socials from "../components/Socials";
 import Button from "../components/Button";
-import { useTheme } from "next-themes";
 // Data
 import portfolioData from "../data/portfolio.json";
 
@@ -13,7 +12,6 @@ const { name, showResume, resume } = portfolioData;
 
 const Resume = () => {
   const router = useRouter();
-  const theme = useTheme();
   const [mount, setMount] = useState(false);
 
   useEffect(() => {
