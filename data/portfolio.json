@@ -1,11 +1,12 @@
 {
-    "name": "Om",
-    "headerTaglineOne": "Hello 👋 👨‍💻",
-    "headerTaglineTwo": "I'm Om Surve - ML",
-    "headerTaglineThree": "Engineer and Designer",
-    "headerTaglineFour": " based in Mumbai, India.",
+    "name": "Om Surve",
+    "headerTaglineOne": "Hello 👋",
+    "headerTaglineTwo": "I'm Om Surve",
+    "headerTaglineThree": "VP of AI @FusionCyber",
+    "headerTaglineFour": "Building AI LMS scaled to $3M+ | AI Engineer & Backend Dev",
+    "currentRole": "VP of Artificial Intelligence @ Fusion Cyber",
     "showBlog": false,
-    "darkMode": true,
+    "darkMode": false,
     "showResume": true,
     "socials": [
         {
@@ -36,106 +37,206 @@
         {
             "id": "6",
             "title": "Email",
-            "link": "mailto:osurve20ece@student.mes.ac.in"
+            "link": "mailto:omsurve.work@gmail.com"
+        },
+        {
+            "id": "7",
+            "title": "Phone",
+            "link": "tel:+917588339211"
         }
     ],
     "projects": [
         {
             "id": "1",
-            "title": "FreeLance Projects | US Clients | (Click to open the list)",
-            "description": "Worked on many projects using DocsGPT, GPT Podcaster, Open source LLM's & GPT based applications and also Stable Diffusion Models for Image inpating ",
+            "title": "Beacon AI - AI LMS Platform",
+            "description": "$1M strategic deal for AI-powered Learning Management System. Partnered with VetCOMM (F3), Cisco, FIU, USC, Kentucky, Denmark & Lincoln university.",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
-            "url": "https://docs.google.com/document/d/e/2PACX-1vQzs0-s-fQgfJ9fGYhx71R6Tqq3AJHlq6-J5kVJqCTZg-4y3cbmyHPpTb5l4ge2UXgxQBnjGfi5Zvbv/pub"
+            "url": "https://beaconai.fusioncyber.co",
+            "tech": ["AI Agents", "LLM", "AWS", "Python"]
         },
         {
             "id": "2",
-            "title": "Extraction and classification of data from social media during natural disasters | NDRF",
-            "description": "Deep Learning Pipelines | Django | NextJs",
+            "title": "Rangsphera - AI Cyber Range",
+            "description": "Next-gen AI-powered cyber simulation platform (Better than RangeForce). Saved $500K in development costs with adaptive learning.",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
-            "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/"
+            "url": "https://fusioncyber.co",
+            "tech": ["AI", "Cyber Security", "Docker", "K8s"]
         },
         {
             "id": "3",
-            "title": "Resume Parsing and summarisation of candidates resumes | Mastek",
-            "description": "Deep Learning Custom Models | Flask | Web Suite",
+            "title": "Alice AI Calling Agents",
+            "description": "Internal AI calling system that optimized admissions workflow, boosting lead generation by 30% and operational efficiency.",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
-            "url": "https://github.com/gamingflexer/dp-production"
+            "url": "https://fusioncyber.co",
+            "tech": ["Voice AI", "TTS", "STT", "Agent"]
         },
         {
             "id": "4",
-            "title": "Crime Analysis | APP & Dashboard Integrated | Chattisgarh Police ",
-            "description": "Application to collect data, analyse it to understand criminal behaviour better along side connecting on-desk and on-site police.",
+            "title": "GPOD AI & Freelance Projects",
+            "description": "Built AI systems for edgeof.xyz (largest web3 podcast), schooltube.com, proto-geo.xyz, realorfake.co, gyanbot.ai, travhub.ai & Daply.co",
             "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/1.png?alt=media&token=88e6d19a-cea8-4256-888a-2b2cd628b718",
-            "url": "https://github.com/gamingflexer/hackManthan"
+            "url": "https://gpodai.fusioncyber.co",
+            "tech": ["GPT-4", "Stable Diffusion", "Vector DB"]
+        },
+        {
+            "id": "5",
+            "title": "Smart India Hackathon Winner | NDRF",
+            "description": "Extraction and classification of data from social media during natural disasters. Deep Learning Pipelines | Django | NextJs",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
+            "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/",
+            "tech": ["Deep Learning", "Django", "Next.js"]
+        },
+        {
+            "id": "6",
+            "title": "Formula Racing Telemetry System",
+            "description": "Driver Assist System for formula cars. Won First Price in Formula Imperial 2023. Real-time data acquisition and dashboards.",
+            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
+            "url": "https://sparkracingteam.com/",
+            "tech": ["IoT", "Real-time", "Data Pipeline"]
         }
     ],
     "services": [
         {
             "id": "1",
-            "title": "Tericsoft | ML Engineer",
-            "description": "Open source Large Language Models Fine Tunning and Deployment. Also on scalable vector db's"
+            "title": "Fusion Cyber | VP of AI",
+            "description": "Leading AI development. Licensed Beacon AI LMS ($1M deal). Built Rangsphera cyber range (saved $500K). Deployed Alice AI agents (30% lead boost). Scaled to $3M+ revenue.",
+            "dates": "April 2025 - Present",
+            "location": "Washington, DC",
+            "logo": "🚀"
         },
         {
             "id": "2",
-            "title": "IITB Internship | ML Engineer",
-            "description": "Working on developing OCR models for Sanskrit handwritten and printed text."
+            "title": "Fusion Cyber | Head of AI Development",
+            "description": "Led & Built Fusion Cyber AI Development Team. Building Beacon AI, GPOD AI, and fusioncyber.co platform with intelligent agents and LLMs.",
+            "dates": "April 2024 - May 2025",
+            "location": "Washington, DC",
+            "logo": "🤖"
         },
         {
             "id": "3",
-            "title": "Alegria | Backend Developer",
-            "description": "Alegria is the largest student fest in India. I am working on the backend development of the website and app."
+            "title": "Fusion Cyber | AI Engineer",
+            "description": "Built core AI infrastructure for Beacon AI and GPOD platforms. Developed ML pipelines and deployed production AI systems.",
+            "dates": "May 2023 - March 2024",
+            "location": "Washington, DC",
+            "logo": "⚡"
         },
         {
             "id": "4",
-            "title": "Team Leader | 12+ Hackathons",
-            "description": "Winner of about 6+ hackathons. Managed the teams with my role as ML developer and backend developer."
+            "title": "Freelance | ML Engineer",
+            "description": "Built Daply.co, worked with edgeof.xyz & schooltube.com. AI systems for proto-geo.xyz, realorfake.co, gyanbot.ai, travhub.ai. GPT-4 agents, Triton deployments, TTS/STT APIs, Stable Diffusion.",
+            "dates": "August 2023 - December 2024",
+            "location": "Mumbai, India",
+            "logo": "💼"
+        },
+        {
+            "id": "5",
+            "title": "bbsAI | AWS Consultant",
+            "description": "AWS Security & Cloud Infosec, AutoScaling setup, CI-CD pipelines. Worked with banks on OCR apps deployed on AWS.",
+            "dates": "March 2024",
+            "location": "Maharashtra, India",
+            "logo": "☁️"
+        },
+        {
+            "id": "6",
+            "title": "Spark Racing Team | Telemetry Head",
+            "description": "Driver Assist System (Won 1st Price Formula Imperial 2023). Built data acquisition pipelines, real-time dashboards for BMS.",
+            "dates": "March 2023 - November 2023",
+            "location": "Mumbai, India",
+            "logo": "🏎️"
+        },
+        {
+            "id": "7",
+            "title": "Tericsoft | AI Intern",
+            "description": "Open source LLMs fine-tuning, prompt engineering. Information retrieval with Vector DBs. Customized OCR for healthcare companies.",
+            "dates": "May 2023 - August 2023",
+            "location": "Hyderabad, India",
+            "logo": "🔬"
+        },
+        {
+            "id": "8",
+            "title": "IIT Bombay | ML Engineer",
+            "description": "OCR models for Indian languages. Worked with Labeling Functions & Spear. Built pipelines with TrOCR, Vision Transformers, Donut.",
+            "dates": "July 2022 - July 2023",
+            "location": "Mumbai, India",
+            "logo": "🎓"
         }
     ],
-    "aboutpara": "I am Om, Now building End to End prodcuts for clients. I got into tech at a young age, from breaking and installing custom Android OS's to learning ML and solving problems. I have a good grasp on Python with good debugging abilities and am well-versed in deep learning libraries like Tensorflow, PyTorch, and OpenCV.",
+    "aboutpara": "VP of AI at Fusion Cyber, working with VetCOMM (F3), Cisco, FIU, USC, Kentucky, Denmark & Lincoln university building AI LMS that scaled to $3M+ in revenue. Built Beacon AI, Rangsphera (AI Cyber Range), and Alice AI agents. Also working on Health AI products in India as side hustle. Led teams at IIT Bombay, won Smart India Hackathon 2022, and passionate about building end-to-end AI products that solve real problems.",
     "resume": {
-        "tagline": "👋  I'm a Ml & Backend Developer ",
-        "description": "Well-versed with Deep Learning and Backend Frameworks in python with all popular databases. ",
+        "tagline": "VP of AI | AI Engineer & Backend Dev",
+        "description": "Leading AI development at Fusion Cyber. Built AI LMS scaled to $3M+ revenue. Expert in LLMs, AI Agents, ML pipelines, and production deployments.",
         "experiences": [
             {
                 "id": "1",
-                "dates": "Current",
+                "dates": "April 2025 - Present",
                 "type": "Full Time",
-                "position": "Freelance - Ml Engineer",
-                "bullets": "Building Full Stack AI Products using GPT-4 Claude Azure API's for Clients with a group of friends. Working on many usecases in Fashion - Marketing- Architecture Industries. "
+                "position": "Fusion Cyber - VP of Artificial Intelligence",
+                "bullets": "Licensed Beacon AI LMS & AI Agents — $1M strategic deal driving scalable AI adoption. , Built next-gen Cyber Range (AI-powered Better RangeForce) — saved $500K in development while launching Rangsphera. , Deployed internal Alice AI calling agents — optimized admissions workflow boosting lead generation by 30%. , Scaled company to $3M+ revenue working with VetCOMM USC Kentucky Denmark & Lincoln university."
             },
             {
                 "id": "2",
-                "dates": "May 2023 - Sep 2023",
+                "dates": "April 2024 - May 2025",
                 "type": "Full Time",
-                "position": "Tericsoft | Ml Engineer",
-                "bullets": "Worked on open-source large language models (LLMs) for fine-tuning and prompt engineering as well as information retrieval using vector databases and LLMs from unstructured data. ,Developed customized OCR solutions for healthcare companies."
+                "position": "Fusion Cyber - Head of AI Development",
+                "bullets": "Led & Built Fusion Cyber AI Development Team building production AI systems. , Built Beacon AI (beaconai.fusioncyber.co) & GPOD AI (gpodai.fusioncyber.co) platforms. , Architected AI agent infrastructure and deployed intelligent LLM systems. , Developed ML pipelines for cyber security and educational applications."
             },
             {
                 "id": "3",
-                "dates": "June 2022 - Jul 2023",
+                "dates": "May 2023 - March 2024",
                 "type": "Full Time",
-                "position": "IITB Internship | Ml Engineer",
-                "bullets": "Developed new OCR models and pipelines for Indian languages and document analysis , Worked collaboratively with the Labeling Functions Spear & Decile resulting increase in performance. , Built single pipelines using trocr vision transformers and donut to replace the general OCR pipeline. , Developed & Deployed API's for Indian government projects using these models."
+                "position": "Fusion Cyber - AI Engineer",
+                "bullets": "Built core infrastructure for Beacon AI & GPOD platforms from ground up. , Developed AI models and deployed production systems for cyber security training. , Implemented ML pipelines and API services for scalable AI applications."
             },
             {
                 "id": "4",
-                "dates": "Sep 2022 - Feb 2022",
-                "type": "Part Time",
-                "position": "Alegria | Backend Developer",
-                "bullets": "Collaborated with a team of 10 developer's to build Website & App for Alegira , Developed and tested Back-End APIs for a large-scale student festival website and mobile app , Demonstrated proficiency in SQL databases and Flask framework to build efficient and reliable Back- End API’s. , Added new features to alegria.co.in and Alegria app enhancing user experience and engagement."
+                "dates": "August 2023 - December 2024",
+                "type": "Freelance",
+                "position": "Machine Learning Engineer",
+                "bullets": "Built Daply.co and worked with edgeof.xyz (largest podcast in web3) & schooltube.com. , Developed AI systems for proto-geo.xyz realorfake.co gyanbot.ai & travhub.ai. , GPT-4 Prompt Engineering for custom agents completing complex workflows. , Deep Learning Model Deployment on Triton Containers for low latency inference. , Built customizable Speech-To-Text & TTS APIs for multiple products. , Stable Diffusion fine-tuning in-painting and Virtual Try-On prototypes."
             },
             {
                 "id": "5",
-                "dates": "12+ Hackathons",
-                "type": "Team Leader",
-                "position": "Ml Engineer & Backend Developer",
-                "bullets": "Project ranging of max about 6 months ,Custom deep learning models, DL pipelines for all Media "
+                "dates": "March 2024",
+                "type": "Contract",
+                "position": "bbsAI - AWS Consultant",
+                "bullets": "AWS Security Checklist & Cloud Infosec implementation. , AutoScaling Setup for applications & CI-CD pipeline configuration. , Evaluation metrics & Report Generation for application outputs. , Worked with different banks for OCR Apps deployed on AWS."
+            },
+            {
+                "id": "6",
+                "dates": "March 2023 - November 2023",
+                "type": "Leadership",
+                "position": "Spark Racing Team - Telemetry Head",
+                "bullets": "Driver Assist System for formula cars (Won First Price in Formula Imperial 2023). , Built Data Acquisition Pipelines for Battery Management System. , Real-time Dashboards for data delivery from moving vehicles. , Led department of 5 members developing BPP for Formula Imperial & Formula Bharat."
+            },
+            {
+                "id": "7",
+                "dates": "May 2023 - August 2023",
+                "type": "Internship",
+                "position": "Tericsoft - AI Intern",
+                "bullets": "Working on Open source Large Language Models for Fine tuning as per clients need. , Information Retrieval using Vector Databases & LLM from unstructured-data. , Customised OCR Solutions for HealthCare companies."
+            },
+            {
+                "id": "8",
+                "dates": "July 2022 - July 2023",
+                "type": "Full Time",
+                "position": "IIT Bombay - Machine Learning Engineer",
+                "bullets": "Developed new OCR models & pipelines for Indian languages achieving significant accuracy increase. , Worked with Labeling Functions Spear (Decile) to improve OCR systems. , Built pipelines using TrOCR Vision Transformers Donut to replace traditional OCR detection+recognition. , Deployed APIs for Indian government projects using these models."
             }
         ],
         "education": {
+            "universityName": "Indian Institute of Management Bangalore",
+            "universityDate": "May 2025 - December 2025",
+            "universityPara": "HealthCare Incubation, Entrepreneurship/Entrepreneurial Studies"
+        },
+        "education2": {
             "universityName": "Pillai College Of Engineering",
-            "universityDate": "2021-2024",
-            "universityPara": "Bachelor in Information Technology"
+            "universityDate": "2021 - 2024",
+            "universityPara": "Bachelor's degree, Information Technology"
+        },
+        "education3": {
+            "universityName": "Indian Institute of Technology, Madras",
+            "universityDate": "December 2021 - December 2022",
+            "universityPara": "Foundation level Data Science"
         },
         "achievements": {
             "a": "Smart India Hackathon 2022 | Winner",
@@ -152,16 +253,16 @@
             "Dart"
         ],
         "frameworks": [
-            "Pytorch",
-            "TensorFlow",
-            "LLM",
-            "OpenCv",
-            "Docker",
-            "Django",
-            "Flask & FastAPI",
-            "Devops",
-            "AWS & GCP",
-            "MySql | MongoDB | Casendra"
+            "PyTorch & TensorFlow",
+            "LLMs & AI Agents",
+            "GPT-4 & Claude",
+            "Vector Databases",
+            "Transformers & OpenCV",
+            "Docker & Kubernetes",
+            "Django & FastAPI",
+            "AWS & GCP & Azure",
+            "Triton Inference Server",
+            "MySQL | MongoDB | Redis"
         ],
         "others": [
             "Figma",

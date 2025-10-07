@@ -71,15 +71,39 @@ const Resume = () => {
               </div>
               <div className="mt-5">
                 <h1 className="text-2xl font-bold">Education</h1>
-                <div className="mt-2">
-                  <h2 className="text-lg">{resume.education.universityName}</h2>
-                  <h3 className="text-sm opacity-75">
-                    {resume.education.universityDate}
-                  </h3>
-                  <p className="text-sm mt-2 opacity-50">
-                    {resume.education.universityPara}
-                  </p>
-                </div>
+                {resume.education && (
+                  <div className="mt-2">
+                    <h2 className="text-lg">{resume.education.universityName}</h2>
+                    <h3 className="text-sm opacity-75">
+                      {resume.education.universityDate}
+                    </h3>
+                    <p className="text-sm mt-2 opacity-50">
+                      {resume.education.universityPara}
+                    </p>
+                  </div>
+                )}
+                {resume.education2 && (
+                  <div className="mt-4">
+                    <h2 className="text-lg">{resume.education2.universityName}</h2>
+                    <h3 className="text-sm opacity-75">
+                      {resume.education2.universityDate}
+                    </h3>
+                    <p className="text-sm mt-2 opacity-50">
+                      {resume.education2.universityPara}
+                    </p>
+                  </div>
+                )}
+                {resume.education3 && (
+                  <div className="mt-4">
+                    <h2 className="text-lg">{resume.education3.universityName}</h2>
+                    <h3 className="text-sm opacity-75">
+                      {resume.education3.universityDate}
+                    </h3>
+                    <p className="text-sm mt-2 opacity-50">
+                      {resume.education3.universityPara}
+                    </p>
+                  </div>
+                )}
               </div>
               <h3 className="text-sm opacity-0">spacing</h3>
               <div className="mt-5">

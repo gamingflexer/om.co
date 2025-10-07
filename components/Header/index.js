@@ -61,8 +61,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </div>
             </div>
             <Popover.Panel
-              className={`absolute right-0 z-10 w-11/12 p-4 ${theme === "dark" ? "bg-slate-800" : "bg-white"
-                } shadow-md rounded-md`}
+              className="absolute right-0 z-10 w-11/12 p-4 bg-black/95 backdrop-blur-md text-white shadow-lg rounded-2xl border border-slate-700"
             >
               {!isBlog ? (
                 <div className="grid grid-cols-1">
@@ -82,7 +81,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                   )}
 
                   <Button
-                    onClick={() => window.open("mailto:osurve20ece@student.mes.ac.in")}
+                    onClick={() => window.open("mailto:omsurve.work@gmail.com")}
                   >
                     Contact
                   </Button>
@@ -105,7 +104,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                   )}
 
                   <Button
-                    onClick={() => window.open("mailto:osurve20ece@student.mes.ac.in")}
+                    onClick={() => window.open("mailto:omsurve.work@gmail.com")}
                   >
                     Contact
                   </Button>
@@ -116,8 +115,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         )}
       </Popover>
       <div
-        className={`mt-10 hidden flex-row items-center justify-between sticky ${theme === "light" && "bg-white"
-          } dark:text-white top-0 z-10 tablet:flex`}
+        className="mt-10 hidden flex-row items-center justify-between sticky bg-black/95 backdrop-blur-md text-white top-0 z-10 tablet:flex px-4 py-3 shadow-lg rounded-full mx-4"
       >
         <h1
           onClick={() => router.push("/")}
@@ -141,7 +139,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:osurve20ece@student.mes.ac.in")}>
+            <Button onClick={() => window.open("mailto:omsurve.work@gmail.com")}>
               Contact
             </Button>
             {mounted && theme && data.darkMode && (
@@ -170,7 +168,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:osurve20ece@student.mes.ac.in")}>
+            <Button onClick={() => window.open("mailto:omsurve.work@gmail.com")}>
               Contact
             </Button>
 

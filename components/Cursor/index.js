@@ -8,11 +8,7 @@ const Cursor = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   const getCusomColor = () => {
-    if (theme.theme === "dark") {
-      return "#fff";
-    } else if (theme.theme === "light") {
-      return "#000";
-    }
+    return "#0891b2"; // Cyan-600 for light theme
   };
 
   useEffect(() => {
