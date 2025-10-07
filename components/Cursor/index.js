@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import CustomCursor from "custom-cursor-react";
-import "custom-cursor-react/dist/index.css";
 import { useTheme } from "next-themes";
 
 const Cursor = () => {
   const theme = useTheme();
-  const [mount, setMount] = useState();
+  const [mount, setMount] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
 
   const getCusomColor = () => {
     if (theme.theme === "dark") {
@@ -17,25 +17,55 @@ const Cursor = () => {
 
   useEffect(() => {
     setMount(true);
+
+    const updatePosition = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseOver = (e) => {
+      if (e.target.closest('.link')) {
+        setIsHovering(true);
+      }
+    };
+
+    const handleMouseOut = (e) => {
+      if (!e.target.closest('.link')) {
+        setIsHovering(false);
+      }
+    };
+
+    window.addEventListener('mousemove', updatePosition);
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
+
+    return () => {
+      window.removeEventListener('mousemove', updatePosition);
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
+    };
   }, []);
+
+  if (!mount) return null;
+
   return (
-    <>
-      {mount && (
-        <CustomCursor
-          targets={[".link"]}
-          customClass="custom-cursor"
-          dimensions={30}
-          fill={getCusomColor()}
-          smoothness={{
-            movement: 0.1,
-            scale: 0.1,
-            opacity: 0.2,
-          }}
-          targetOpacity={0.5}
-          targetScale={2}
-        />
-      )}
-    </>
+    <div
+      className="custom-cursor"
+      style={{
+        position: 'fixed',
+        left: position.x,
+        top: position.y,
+        width: isHovering ? '60px' : '30px',
+        height: isHovering ? '60px' : '30px',
+        borderRadius: '50%',
+        backgroundColor: getCusomColor(),
+        opacity: isHovering ? 0.5 : 0.3,
+        pointerEvents: 'none',
+        transform: 'translate(-50%, -50%)',
+        transition: 'width 0.1s, height 0.1s, opacity 0.2s',
+        zIndex: 9999,
+        mixBlendMode: 'difference'
+      }}
+    />
   );
 };
 
