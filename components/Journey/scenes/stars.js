@@ -115,7 +115,7 @@ export const createStars = async (THREE, { tier, small }) => {
   scene.add(filler);
 
   // The Sun itself.
-  const sunGlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512), color: 0xfff1d0, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  const sunGlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xfff1d0, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   scene.add(sunGlare);
 
   const dir = new THREE.Vector3(0.35, 0.55, 0.76).normalize();

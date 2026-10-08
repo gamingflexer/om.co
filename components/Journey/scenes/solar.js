@@ -42,7 +42,11 @@ export const createSolar = async (THREE, { tier, small }) => {
   sky.group.rotation.set(1.1, 0.4, 0.3);
   scene.add(sky.group);
 
-  // Sun: granulated photosphere plus a corona sprite.
+  // Sun. Modelled on white-light and eclipse photographs: a granulated
+  // photosphere with dark intergranular lanes, strong limb darkening, a few
+  // sunspots with penumbrae, bright faculae near the limb, a thin pink
+  // chromosphere just off the limb, and a corona of radial streamers with
+  // prominence loops at the edge.
   const sunUniforms = { time: { value: 0 } };
   const sunMat = new THREE.ShaderMaterial({
     uniforms: sunUniforms,
@@ -52,18 +56,109 @@ export const createSolar = async (THREE, { tier, small }) => {
       ${SUN_NOISE}
       void main(){
         vec3 V = normalize(cameraPosition - vW);
-        float limb = pow(max(dot(normalize(vN), V), 0.0), 0.5);
-        float g1 = fbm(vP * 9.0 + time * 0.03);
-        float g2 = fbm(vP * 28.0 - time * 0.05);
-        vec3 col = mix(vec3(1.0, 0.42, 0.06), vec3(1.0, 0.86, 0.55), g1 * 1.2);
-        col *= 0.75 + 0.5 * g2;
-        col *= 0.45 + 0.55 * limb;
-        gl_FragColor = vec4(col * 4.0, 1.0);
+        float mu = max(dot(normalize(vN), V), 0.0);
+        vec3 q = vP / 0.6; // unit sphere
+        // Granulation: bright cells about 1/60 of the radius, drifting slowly,
+        // separated by dark lanes.
+        float c1 = noise(q * 42.0 + time * 0.02);
+        float c2 = noise(q * 84.0 - time * 0.03 + 5.0);
+        float cells = smoothstep(0.25, 0.75, 0.6 * c1 + 0.4 * c2);
+        float lanes = pow(1.0 - abs(noise(q * 64.0 + time * 0.015 + 9.0) * 2.0 - 1.0), 4.0);
+        float gran = (0.86 + 0.22 * cells) * (1.0 - 0.3 * lanes);
+        // Supergranulation / large-scale mottling.
+        gran *= 0.95 + 0.1 * fbm(q * 6.0);
+        // Sunspots in two belts, umbra inside penumbra.
+        float lat = abs(q.y);
+        float belt = smoothstep(0.08, 0.2, lat) * (1.0 - smoothstep(0.45, 0.6, lat));
+        float sp = fbm(q * 3.5 + 13.0) * belt;
+        float penumbra = smoothstep(0.62, 0.7, sp);
+        float umbra = smoothstep(0.7, 0.76, sp);
+        float spotFil = 0.6 + 0.4 * noise(q * 120.0);
+        float spot = 1.0 - penumbra * (0.55 * spotFil) - umbra * 0.9;
+        // Faculae: bright lacework that only shows near the limb.
+        float fac = smoothstep(0.55, 0.8, fbm(q * 14.0 + 21.0)) * pow(1.0 - mu, 1.5) * 0.35;
+        // Limb darkening (visible light): I/I0 = 0.3 + 0.93mu - 0.23mu^2.
+        float ld = 0.3 + 0.93 * mu - 0.23 * mu * mu;
+        vec3 centre = vec3(1.0, 0.9, 0.7);
+        vec3 edge = vec3(1.0, 0.6, 0.25);
+        vec3 col = mix(edge, centre, smoothstep(0.0, 0.7, mu));
+        col *= gran * spot + fac;
+        col *= ld;
+        gl_FragColor = vec4(col * 1.35, 1.0);
       }`,
   });
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(0.6, 96, 64), sunMat);
+  const sun = new THREE.Mesh(new THREE.SphereGeometry(0.6, 128, 96), sunMat);
   scene.add(sun);
-  const corona = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512), color: 0xffd9a0, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  // Chromosphere: a thin pink-red rim just outside the limb.
+  const chromo = new THREE.Mesh(
+    new THREE.SphereGeometry(0.612, 96, 64),
+    new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: `varying vec3 vN; varying vec3 vW; void main(){ vN = normalize(mat3(modelMatrix) * normal); vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
+      fragmentShader: `
+        precision highp float; varying vec3 vN; varying vec3 vW;
+        void main(){
+          vec3 V = normalize(cameraPosition - vW);
+          float mu = max(dot(normalize(vN), V), 0.0);
+          float rim = pow(1.0 - mu, 6.0);
+          gl_FragColor = vec4(vec3(1.0, 0.35, 0.3) * rim * 1.6, rim);
+        }`,
+    })
+  );
+  scene.add(chromo);
+  // Corona: a camera-facing plane with radial streamers (denser at the
+  // equator, as at solar minimum), a bright inner K-corona, and a few
+  // prominence loops hugging the limb.
+  const coronaUniforms = { time: { value: 0 }, fade: { value: 1 } };
+  const coronaPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    new THREE.ShaderMaterial({
+      uniforms: coronaUniforms,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+      fragmentShader: `
+        precision highp float; uniform float time, fade; varying vec2 vUv;
+        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float noise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); f = f*f*(3.0-2.0*f);
+          return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
+        float fbm(vec2 p){ float v = 0.0; float a = 0.5; for (int i = 0; i < 4; i++){ v += a * noise(p); p = p * 2.1 + 3.7; a *= 0.5; } return v; }
+        #define PI 3.14159265
+        void main(){
+          // r = 1 at the limb; the plane spans 8 solar radii.
+          vec2 q = (vUv - 0.5) * 16.0;
+          float r = length(q);
+          float ang = atan(q.y, q.x);
+          if (r < 0.98) discard;
+          // Streamers: narrow radial rays that drift very slowly.
+          float ray = fbm(vec2(ang * 9.0 + 0.4 * sin(time * 0.02), log(r) * 1.2)) * 0.7 + fbm(vec2(ang * 28.0 + 7.0, log(r) * 2.5 + time * 0.01)) * 0.3;
+          ray = pow(smoothstep(0.25, 0.9, ray), 1.2);
+          float equatorial = 0.45 + 0.55 * pow(abs(cos(ang)), 0.8);
+          float streamers = ray * equatorial * pow(1.0 / r, 2.5) * 1.0;
+          // Inner K-corona: smooth, bright, falls off fast.
+          float inner = exp(-(r - 1.0) * 7.0) * 0.6;
+          // Prominences: a few loops of cooler red plasma at the limb.
+          float prom = 0.0;
+          for (int k = 0; k < 4; k++) {
+            float a0 = float(k) * 1.7 + 0.4;
+            float da = abs(mod(ang - a0 + PI, 2.0 * PI) - PI);
+            float loop = exp(-pow((r - (1.04 + 0.05 * sin(float(k) * 2.0 + time * 0.05))) / 0.035, 2.0)) * smoothstep(0.22, 0.0, da);
+            loop *= 0.6 + 0.6 * noise(vec2(ang * 40.0, r * 30.0 + time * 0.1));
+            prom += loop;
+          }
+          vec3 col = vec3(1.0, 0.92, 0.78) * (streamers + inner) + vec3(1.0, 0.3, 0.2) * prom * 1.8;
+          float a = clamp(streamers + inner + prom, 0.0, 1.0);
+          gl_FragColor = vec4(col * fade, a * fade);
+        }`,
+    })
+  );
+  coronaPlane.scale.setScalar(0.6 * 16);
+  scene.add(coronaPlane);
+  // Soft wide glow so the Sun still reads from far out (no lens cross).
+  const corona = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffe3b8, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.8 }));
   scene.add(corona);
 
   const sunLight = new THREE.PointLight(0xfff2dc, 3.2, 0, 0);
@@ -178,17 +273,24 @@ export const createSolar = async (THREE, { tier, small }) => {
     sky.setTime(time);
     planets.forEach((p) => (p.mesh.rotation.y = time * 0.2));
     // From a dot of Earth to the whole system seen from above the ecliptic.
-    const d = track([[0, 10], [0.3, 60], [0.6, 300], [1, 1000]], t, { log: true });
-    const dv = track([[0, [0.15, 0.2, 1]], [0.5, [0.3, 0.75, 0.7]], [1, [0.1, 0.9, 0.45]]], t);
+    // From Earth, fall in for a close pass of the Sun, then pull back to the
+    // whole system seen from above the ecliptic.
+    const d = track([[0, 10], [0.14, 4.2], [0.3, 4.8], [0.5, 90], [0.72, 320], [1, 1000]], t, { log: true });
+    const dv = track([[0, [0.15, 0.2, 1]], [0.2, [0.6, 0.12, 0.8]], [0.55, [0.3, 0.75, 0.7]], [1, [0.1, 0.9, 0.45]]], t);
     dir.set(dv[0], dv[1], dv[2]).normalize();
-    target.copy(earthPos).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.08, 0.45, t));
+    target.copy(earthPos).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.03, 0.16, t));
     camera.position.copy(target).addScaledVector(dir, d);
     camera.lookAt(target);
     camera.fov = 40;
     camera.updateProjectionMatrix();
-    // Corona scales with distance so the Sun never shrinks below a glare.
+    // The streamer corona faces the camera and fades out when the Sun is
+    // only a dot; the soft glow scales with distance so it never vanishes.
     const cd = camera.position.length();
-    corona.scale.setScalar(Math.max(3, cd * 0.05));
+    coronaPlane.quaternion.copy(camera.quaternion);
+    coronaUniforms.time.value = time;
+    coronaUniforms.fade.value = 1 - smoothstep(120, 400, cd);
+    corona.scale.setScalar(Math.max(2.4, cd * 0.045));
+    corona.material.opacity = lerp(0.12, 0.9, smoothstep(8, 300, cd));
     asteroids.material.uniforms.scale.value = 300;
     kuiper.material.uniforms.scale.value = 300;
     sky.setScale(600);
