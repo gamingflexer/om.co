@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why do businesses exist?</title>
+<meta name="description" content="Book of Clarity, episode 2: every business fulfils a human desire that never changes. The winners just meet it better, faster or cheaper.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/why-do-businesses-exist/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="Why do businesses exist?">
+<meta property="og:description" content="Book of Clarity, episode 2: every business fulfils a human desire that never changes. The winners just meet it better, faster or cheaper.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/why-do-businesses-exist/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/why-do-businesses-exist/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="A caveman 1,00,000 years ago and a person today, thinking the same thought: ice cream, not broccoli.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why do businesses exist?">
+<meta name="twitter:description" content="Book of Clarity, episode 2: every business fulfils a human desire that never changes. The winners just meet it better, faster or cheaper.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/why-do-businesses-exist/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column on grid paper, like a page torn from a notebook; each idea is a doodle you can poke. */
+:root {
+  --paper: #f6f1e7;
+  --grid: #e6dccb;
+  --ink: #24222a;
+  --ink-soft: #5b5562;
+  --coral: #e2513a;
+  --card: #fffdf8;
+  --line: #d8cdb9;
+  --hand: "Gaegu", "Comic Sans MS", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 80px; }
+h1, h2, .hand { font-family: var(--hand); font-weight: 700; line-height: 1.05; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); margin: 0; }
+h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 .4rem; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+section { display: flex; flex-direction: column; gap: 1rem; margin-top: 3.2rem; }
+.kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.lede { font-family: var(--hand); font-weight: 700; font-size: clamp(1.45rem, 5vw, 1.8rem); line-height: 1.15; }
+.coral { color: var(--coral); }
+mark { background: none; color: inherit; background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--coral) 35%, transparent) 62%); padding: 0 .1em; }
+.byline { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.note { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+a { color: var(--coral); }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn:hover { transform: translate(-1px, -1px); }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip { font-family: var(--mono); font-size: .8rem; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: .3rem .7rem; }
+.chip[aria-pressed=true] { background: var(--ink); color: var(--paper); }
+.reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
+.card { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .7rem; }
+
+/* ---------- hero: split twin ---------- */
+.twin { position: relative; margin-top: 1.2rem; }
+.twin-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(.8rem, 4vw, 2.4rem); }
+.panel { background: var(--card); border: 2px solid var(--ink); border-radius: 18px 14px 20px 12px; padding: .8rem .6rem .4rem; display: flex; flex-direction: column; align-items: center; gap: .3rem; min-width: 0; }
+.panel .when { font-family: var(--mono); font-size: clamp(.68rem, 2.6vw, .85rem); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); text-align: center; min-height: 2.6em; display: flex; flex-direction: column; justify-content: center; line-height: 1.25; }
+.panel .when b { font-family: var(--hand); font-size: clamp(1.5rem, 6.4vw, 2.3rem); letter-spacing: 0; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1; }
+.panel.today .when b { color: var(--coral); }
+.panel svg { width: 100%; height: auto; display: block; }
+.eq { position: absolute; left: 50%; top: 58%; translate: -50% -50%; width: clamp(44px, 12vw, 72px); aspect-ratio: 1; border-radius: 50%; background: var(--card); border: 3px solid var(--ink); display: grid; place-items: center; z-index: 2; }
+.eq svg { width: 62%; height: auto; display: block; }
+.twin-controls { display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem; }
+.twin-controls input[type=range] { width: 100%; accent-color: var(--coral); }
+.twin-msg { font-family: var(--hand); font-weight: 700; font-size: 1.4rem; line-height: 1.15; min-height: 1.6em; text-align: center; }
+.bubble-label { font-family: var(--hand); font-weight: 700; }
+
+/* ---------- pyramid sorter ---------- */
+.pyr { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.tier { position: relative; border: 0; background: var(--ink); color: var(--paper); font-family: var(--hand); font-weight: 700; font-size: clamp(1.05rem, 4vw, 1.3rem); line-height: 1.05; padding: .55rem 1.6rem .6rem; clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%); transition: background .2s, transform .15s; display: flex; justify-content: center; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.tier:first-child { clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%); padding-top: 1rem; }
+.tier:nth-child(1) { width: 50%; } .tier:nth-child(2) { width: 60%; } .tier:nth-child(3) { width: 74%; } .tier:nth-child(4) { width: 87%; } .tier:nth-child(5) { width: 100%; }
+.tier:hover { transform: translateY(-1px); }
+.tier .n { font-family: var(--mono); font-size: .7rem; font-weight: 500; background: var(--paper); color: var(--ink); border-radius: 999px; padding: 0 .4rem; }
+.tier.hit { background: var(--coral); }
+.tier.miss { background: var(--ink-soft); }
+.tray { display: flex; flex-direction: column; gap: .5rem; align-items: flex-start; }
+.product { font-family: var(--hand); font-weight: 700; font-size: 1.6rem; line-height: 1.1; border: 2px dashed var(--ink); border-radius: 12px; padding: .4rem .8rem; background: var(--paper); animation: drop .4s cubic-bezier(.2,1.4,.4,1); }
+@keyframes drop { from { transform: translateY(-12px) rotate(-2deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.arrows { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); text-align: center; }
+.sorted { display: flex; flex-wrap: wrap; gap: .35rem; }
+.sorted span { font-family: var(--mono); font-size: .72rem; border: 1.5px solid var(--line); border-radius: 999px; padding: .15rem .55rem; }
+.sorted span.ok { border-color: var(--coral); }
+
+/* ---------- Bezos two columns ---------- */
+.ask { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .8rem; }
+@media (max-width: 460px) { .ask { grid-template-columns: 1fr; } }
+.ask .col { background: var(--card); border: 2px solid var(--ink); border-radius: 14px 18px 12px 16px; padding: .8rem .9rem; display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
+.ask .col.nobody { border-color: var(--coral); }
+.ask .who { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.ask .q { font-family: var(--hand); font-weight: 700; font-size: 1.45rem; line-height: 1.1; }
+.ask .tally { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+.ticks li { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; display: flex; gap: .5rem; align-items: center; opacity: 0; transform: translateX(-8px); transition: opacity .3s, transform .3s; }
+.ticks.on li { opacity: 1; transform: none; }
+.ticks.on li:nth-child(2) { transition-delay: .25s; }
+.ticks li::before { content: "✓"; color: var(--coral); }
+
+/* ---------- happy customer ---------- */
+.mind { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 1rem; align-items: center; }
+@media (max-width: 460px) { .mind { grid-template-columns: 160px minmax(0, 1fr); } }
+.mind svg { width: 100%; height: auto; }
+.thought { opacity: 0; transition: opacity .35s; }
+.mind.open .thought { opacity: 1; }
+
+/* ---------- self check ---------- */
+.card label { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; }
+.card input[type=text] { font: inherit; font-size: 1.05rem; padding: .55rem .7rem; border: 2px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); width: 100%; }
+.verdict { background: var(--paper); border: 2px dashed var(--ink); border-radius: 12px; padding: .8rem 1rem; font-family: var(--hand); font-weight: 700; font-size: 1.4rem; line-height: 1.2; }
+.verdict small { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.05rem; margin-top: .4rem; line-height: 1.45; }
+
+/* ---------- reel + series ---------- */
+.reel { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 1.1rem; align-items: center; }
+@media (max-width: 560px) { .reel { grid-template-columns: 1fr; } .reel .cover { max-width: 280px; } }
+.cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
+.cover img { display: block; width: 100%; height: auto; }
+.cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+.eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
+.eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.eps .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; }
+.eps li.now .t { color: var(--coral); }
+.sources { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: .3rem; border-top: 1.5px dashed var(--line); padding-top: 1rem; margin-top: 3rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-icecream" viewBox="0 0 40 60"><circle cx="20" cy="17" r="13" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/><path d="M8 24 L20 56 L32 24" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M12 32 L27 30 M15 41 L24 39" stroke="var(--ink)" stroke-width="2"/></symbol>
+    <symbol id="i-broccoli" viewBox="0 0 40 60"><path d="M14 30 L12 56 L28 56 L26 30" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M20 34 L20 50" stroke="var(--ink)" stroke-width="2"/><path d="M8 32 C1 30 1 20 7 18 C6 10 14 6 19 9 C23 3 33 5 33 13 C39 15 40 26 33 30 C28 35 13 35 8 32 Z" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M13 22 q3 -3 6 0 M22 17 q3 -3 6 0 M24 26 q3 -3 6 0" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 40 60"><path d="M20 50 C4 38 2 26 8 20 C13 15 19 18 20 24 C21 18 27 15 32 20 C38 26 36 38 20 50 Z" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-home" viewBox="0 0 40 60"><path d="M4 30 L20 14 L36 30" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 27 L9 52 L31 52 L31 27" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M17 52 L17 40 L23 40 L23 52" fill="none" stroke="var(--ink)" stroke-width="3"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 40 60"><path d="M5 44 L5 22 L13 32 L20 16 L27 32 L35 22 L35 44 Z" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/><path d="M5 50 L35 50" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-health" viewBox="0 0 40 60"><circle cx="20" cy="32" r="16" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/><path d="M20 23 L20 41 M11 32 L29 32" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<main class="wrap">
+  <div class="stack">
+    <div class="kicker">Book of Clarity · Episode 2</div>
+    <h1>Why do businesses exist?</h1>
+    <p class="lede">A human from one lakh years ago would pick ice cream over broccoli. <span class="coral">So would you.</span></p>
+    <div class="byline"><span>Om Surve</span><span>·</span><span>Founder, Ayu</span><span>·</span><span>4 min read</span></div>
+  </div>
+
+  <div class="twin" id="twin">
+    <div class="twin-grid">
+      <div class="panel then">
+        <div class="when"><b id="yearsAgo">1,00,000</b><span id="yearsWord">years ago</span></div>
+        <svg viewBox="0 0 200 290" role="img" aria-label="A caveman thinking about ice cream, not broccoli">
+          <g class="bubble"></g>
+          <circle cx="94" cy="126" r="6" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="100" cy="141" r="3.5" fill="none" stroke="var(--ink)" stroke-width="3"/>
+          <!-- caveman -->
+          <g stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M74 170 L80 158 L88 166 L96 154 L104 165 L112 155 L118 168" />
+            <circle cx="98" cy="182" r="22" fill="var(--card)"/>
+            <circle cx="91" cy="180" r="1.8" fill="var(--ink)"/><circle cx="105" cy="180" r="1.8" fill="var(--ink)"/>
+            <path d="M91 191 Q98 197 105 191"/>
+            <path d="M84 204 L70 262 L82 254 L92 264 L102 254 L114 264 L126 254 L112 204 Z" fill="var(--card)"/>
+            <circle cx="88" cy="226" r="3"/><circle cx="104" cy="240" r="3"/><circle cx="92" cy="250" r="3"/>
+            <path d="M84 262 L84 284 M108 262 L108 284"/>
+            <path d="M86 212 L56 196"/><path d="M110 212 L132 236"/>
+            <path d="M58 200 L44 158" stroke-width="9"/>
+            <path d="M30 286 L170 286"/>
+          </g>
+        </svg>
+      </div>
+      <div class="panel today">
+        <div class="when"><b>TODAY</b><span>me, 2026</span></div>
+        <svg viewBox="0 0 200 290" role="img" aria-label="A person today thinking about the same thing">
+          <g class="bubble"></g>
+          <circle cx="94" cy="126" r="6" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="100" cy="141" r="3.5" fill="none" stroke="var(--ink)" stroke-width="3"/>
+          <!-- person today -->
+          <g stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <circle cx="98" cy="182" r="22" fill="var(--card)"/>
+            <path d="M77 176 Q80 156 98 158 Q118 158 120 176 Q110 166 98 168 Q86 166 77 176 Z" fill="var(--ink)"/>
+            <circle cx="91" cy="183" r="1.8" fill="var(--ink)"/><circle cx="105" cy="183" r="1.8" fill="var(--ink)"/>
+            <path d="M91 193 Q98 199 105 193"/>
+            <path d="M80 206 L116 206 L120 258 L76 258 Z" fill="var(--card)"/>
+            <path d="M84 258 L84 284 M110 258 L110 284"/>
+            <path d="M80 212 L62 236 L76 244"/><path d="M116 212 L134 232"/>
+            <rect x="126" y="220" width="16" height="26" rx="3" fill="var(--card)" transform="rotate(-18 134 233)"/>
+            <path d="M30 286 L170 286"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="eq" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 15 L30 15 M10 26 L30 26" stroke="var(--coral)" stroke-width="5.5" stroke-linecap="round"/></svg></div>
+  </div>
+  <div class="twin-controls">
+    <p class="twin-msg" id="twinMsg" aria-live="polite">One lakh years apart. Same bubble.</p>
+    <label class="note" for="yearSlider">Drag him through time: <b id="yearOut">1,00,000 years ago</b></label>
+    <input type="range" id="yearSlider" min="0" max="100" value="0" aria-describedby="twinMsg">
+    <div class="chips" id="desireChips" role="group" aria-label="Change the desire in both bubbles">
+      <button type="button" class="chip" data-d="food" aria-pressed="true">food</button>
+      <button type="button" class="chip" data-d="health" aria-pressed="false">health</button>
+      <button type="button" class="chip" data-d="security" aria-pressed="false">security</button>
+      <button type="button" class="chip" data-d="love" aria-pressed="false">love</button>
+      <button type="button" class="chip" data-d="status" aria-pressed="false">status</button>
+    </div>
+    <p class="note">Change the year or the desire. The two bubbles never come apart.</p>
+  </div>
+
+  <section>
+    <p>Our desires have not changed. Food, sex, health, security. The caveman wanted them. You want them.</p>
+    <p><mark>Businesses exist to fulfil them.</mark> That's the second idea in <i>The Book of Clarity</i> by <a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra</a>, the founder of <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a>, and I'm reading it one idea at a time.</p>
+    <p>The desire stays. Only the way we meet it changes.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Play with it</div>
+    <h2>The real Maslow's pyramid</h2>
+    <p>You've seen <a href="https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs" target="_blank" rel="noopener">Maslow's pyramid</a>: food and sleep at the bottom, then safety, love, esteem, and becoming who you want to be at the top. He redraws it with time running left to right. The tiers stay where they are. What moves is how each one gets met: better, faster, cheaper.</p>
+    <p>Sort these products. Tap the tier each one serves.</p>
+    <div class="card">
+      <div class="tray">
+        <span class="note" id="sortCount">1 of 7</span>
+        <div class="product" id="product">YouTube live streaming</div>
+      </div>
+      <div class="pyr" id="pyr" role="group" aria-label="Pyramid tiers">
+        <button class="tier" data-t="self">Self-actualisation <span class="n">0</span></button>
+        <button class="tier" data-t="esteem">Esteem <span class="n">0</span></button>
+        <button class="tier" data-t="love">Love / belonging <span class="n">0</span></button>
+        <button class="tier" data-t="safety">Safety <span class="n">0</span></button>
+        <button class="tier" data-t="body">Food, sleep, the body <span class="n">0</span></button>
+      </div>
+      <p class="arrows">every tier → better, faster, cheaper →</p>
+      <p class="reply" id="sortReply" aria-live="polite" style="font-style:italic">Where does it go?</p>
+      <div class="sorted" id="sorted"></div>
+      <div><button class="btn ghost" id="sortReset" hidden>Sort again</button></div>
+    </div>
+    <p class="note">Products are my examples. The tier names follow the book's drawing.</p>
+  </section>
+
+  <section>
+    <h2>Even <a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a> live is an old desire</h2>
+    <p>Think about live streaming. What's the oldest desire it satisfies? <b>Status.</b> He writes that people go live to entertain, or to look desirable, and the real aim is status and prestige.</p>
+    <p>New screen. Same caveman, wanting the tribe to look at him.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The other question</div>
+    <h2>What will not change in ten years?</h2>
+    <p>Jeff Bezos says people ask him all the time what will change in the next ten years. Almost nobody asks what will not.</p>
+    <div class="ask">
+      <div class="col">
+        <span class="who">Everyone asks</span>
+        <span class="q">What will change in the next 10 years?</span>
+        <span class="tally">Asked all the time</span>
+      </div>
+      <div class="col nobody">
+        <span class="who">Nobody asks</span>
+        <span class="q">What will <span class="coral">not</span> change?</span>
+        <ul class="ticks" id="ticks"><li>Low prices</li><li>Fast delivery</li></ul>
+        <div><button class="btn" id="askBtn">Ask it</button></div>
+      </div>
+    </div>
+    <p>For <a href="https://www.amazon.com/" target="_blank" rel="noopener">Amazon</a> the answer was easy. Nobody will ever want higher prices or slower delivery. So <mark>build on what stays the same.</mark></p>
+  </section>
+
+  <section>
+    <h2>Happy is never enough</h2>
+    <div class="mind" id="mind">
+      <svg viewBox="0 0 160 170" role="img" aria-label="A customer who says I'm happy and thinks but I want better">
+        <g stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <circle cx="62" cy="112" r="20" fill="var(--card)"/>
+          <circle cx="55" cy="110" r="1.8" fill="var(--ink)"/><circle cx="69" cy="110" r="1.8" fill="var(--ink)"/>
+          <path d="M54 119 Q62 126 70 119"/>
+          <path d="M44 134 L80 134 L84 168 L40 168 Z" fill="var(--card)"/>
+        </g>
+        <g class="thought">
+          <circle cx="86" cy="84" r="4" fill="none" stroke="var(--coral)" stroke-width="3"/>
+          <circle cx="96" cy="68" r="6" fill="none" stroke="var(--coral)" stroke-width="3"/>
+          <ellipse cx="112" cy="34" rx="46" ry="30" fill="var(--card)" stroke="var(--coral)" stroke-width="3"/>
+          <text x="112" y="31" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="var(--coral)">but I want</text>
+          <text x="112" y="48" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="16" fill="var(--coral)">better</text>
+        </g>
+      </svg>
+      <div class="stack">
+        <p class="hand" style="font-size:1.6rem">"I'm happy!"</p>
+        <div><button class="btn ghost" id="mindBtn">Read their mind</button></div>
+      </div>
+    </div>
+    <p>Customers are always dissatisfied, even when they say they are happy. In his <a href="https://www.aboutamazon.com/news/company-news/2016-letter-to-shareholders" target="_blank" rel="noopener">2016 letter to shareholders</a>, Bezos calls them "beautifully, wonderfully dissatisfied".</p>
+    <p>That's why startups beat old companies. People keep looking for a better way to get the same old thing.</p>
+    <p class="reveal">What fuels capitalism isn't the shiny new thing. <b>It's the old thing, made better.</b></p>
+  </section>
+
+  <section>
+    <div class="kicker">Your turn</div>
+    <h2>Which desire does your idea serve?</h2>
+    <p>The book ends this part with one question for founders. Run your own idea through it.</p>
+    <form class="card" id="checkForm" autocomplete="off">
+      <label for="ideaInput">Your idea, in a few words</label>
+      <input type="text" id="ideaInput" maxlength="60" placeholder="e.g. a tiffin service for my office">
+      <span class="note">The desire it serves</span>
+      <div class="chips" id="checkDesire" role="group" aria-label="The desire it serves">
+        <button type="button" class="chip" data-d="food" aria-pressed="false">food</button>
+        <button type="button" class="chip" data-d="health" aria-pressed="false">health</button>
+        <button type="button" class="chip" data-d="security" aria-pressed="false">security</button>
+        <button type="button" class="chip" data-d="love" aria-pressed="false">love</button>
+        <button type="button" class="chip" data-d="status" aria-pressed="false">status</button>
+        <button type="button" class="chip" data-d="growth" aria-pressed="false">becoming better</button>
+      </div>
+      <span class="note">Compared with what people use now, it is…</span>
+      <div class="chips" id="checkHow" role="group" aria-label="Better, faster or cheaper">
+        <button type="button" class="chip" data-h="better" aria-pressed="false">better</button>
+        <button type="button" class="chip" data-h="faster" aria-pressed="false">faster</button>
+        <button type="button" class="chip" data-h="cheaper" aria-pressed="false">cheaper</button>
+      </div>
+      <div><button class="btn" type="submit">Check it</button></div>
+      <div class="verdict" id="verdict" aria-live="polite" hidden></div>
+      <p class="note">Stays in your browser. Nothing is sent anywhere.</p>
+    </form>
+  </section>
+
+  <section>
+    <div class="kicker">Next episode</div>
+    <p class="hand" style="font-size:1.6rem">"Can you add this feature?" <span class="coral">No, no, no.</span></p>
+    <p>Next: why you should never believe what customers say.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Why I'm reading this out loud</div>
+    <h2>One idea a day, on camera</h2>
+    <div class="reel">
+      <a class="cover" href="https://www.youtube.com/shorts/1HOWZAflSYw" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Short cover: Why do businesses exist? A caveman and a person today, the same thought bubble"><span class="play">▶ Watch the Short</span></a>
+      <div class="stack">
+        <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn.</p>
+        <p>I build <a href="https://www.ayuapp.com/" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. The desire under it is older than any app: knowing your family is okay. We're just trying to meet it a little better.</p>
+        <ul class="eps">
+          <li><span class="d">8 Oct</span><span class="t"><a href="/blog/why-most-startups-fail/">Why do most startups fail?</a></span></li>
+          <li><span class="d">10 Oct</span><span class="t"><a href="/blog/when-should-you-start-a-startup/">When should you start a startup?</a></span></li>
+          <li class="now"><span class="d">11 Oct</span><span class="t">Why do businesses exist?</span></li>
+        </ul>
+        <p><a href="https://www.instagram.com/om_cosmos/" target="_blank" rel="noopener">Follow along on Instagram, @om_cosmos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Do this today</h2>
+    <p>Write one line: "My idea serves ____, and it's better, faster or cheaper than ____." If you can't fill both blanks, that's your homework, not the code.</p>
+  </section>
+
+  <div class="sources">
+    <span>Sources: Paras Chopra, <i>The Book of Clarity</i>, Part 1, "Businesses exist to fulfil human desires" (pp. 14–16), for the ice cream line, food, sex, health and security, the real Maslow's pyramid, YouTube and status, Bezos on what won't change, the old thing made better, and the closing question.</span>
+    <span>Jeff Bezos, <a href="https://www.aboutamazon.com/news/company-news/2016-letter-to-shareholders" target="_blank" rel="noopener">2016 letter to Amazon shareholders</a>, for "beautifully, wonderfully dissatisfied". <a href="https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs" target="_blank" rel="noopener">Wikipedia</a> on Maslow's hierarchy of needs.</span>
+    <span>Drawings are mine. Sorter products are my examples; the year counter is a toy, not a timeline.</span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS = 'http://www.w3.org/2000/svg';
+  const fmt = n => n.toLocaleString('en-IN');
+
+  /* ---------- split twin: same bubble, any year ---------- */
+  const bubbles = {
+    food: { icons: [['i-icecream', 'yes'], ['i-broccoli', 'no']], text: 'ice cream, not broccoli' },
+    health: { icons: [['i-health', 'yes']], text: 'not falling sick' },
+    security: { icons: [['i-home', 'yes']], text: 'safe at night' },
+    love: { icons: [['i-heart', 'yes']], text: 'being loved' },
+    status: { icons: [['i-crown', 'yes']], text: 'looked up to' }
+  };
+  function drawBubble(g, d) {
+    g.innerHTML = '';
+    const mk = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); g.appendChild(e); return e; };
+    mk('ellipse', { cx: 100, cy: 62, rx: 86, ry: 54, fill: 'var(--card)', stroke: 'var(--ink)', 'stroke-width': 3.5 });
+    const b = bubbles[d], n = b.icons.length;
+    b.icons.forEach(([id, v], k) => {
+      const x = n === 1 ? 78 : 46 + k * 72;
+      mk('use', { href: '#' + id, x, y: n === 1 ? 10 : 18, width: n === 1 ? 44 : 36, height: 54 });
+      if (v === 'yes') { if (n > 1) mk('path', { d: `M${x + 6} 80 l7 8 l14 -16`, fill: 'none', stroke: 'var(--coral)', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }); }
+      else mk('path', { d: `M${x - 2} 26 L${x + 38} 66 M${x + 38} 26 L${x - 2} 66`, stroke: 'var(--coral)', 'stroke-width': 5, 'stroke-linecap': 'round' });
+    });
+    if (n === 1) { const t = mk('text', { x: 100, y: 86, 'text-anchor': 'middle', 'font-family': 'Gaegu, cursive', 'font-weight': 700, 'font-size': 21, fill: 'var(--ink)' }); t.textContent = b.text; }
+  }
+  let desire = 'food';
+  const bubbleGs = document.querySelectorAll('#twin .bubble');
+  const paint = () => bubbleGs.forEach(g => drawBubble(g, desire));
+  paint();
+
+  const slider = document.getElementById('yearSlider'), agoEl = document.getElementById('yearsAgo'), wordEl = document.getElementById('yearsWord'), outEl = document.getElementById('yearOut'), msg = document.getElementById('twinMsg');
+  const yearsFor = v => Math.round(100000 * Math.pow(1 - v / 100, 2.2) / (v > 90 ? 1 : 100)) * (v > 90 ? 1 : 100);
+  function setYears(y) {
+    agoEl.textContent = y ? fmt(y) : 'TODAY'; wordEl.textContent = y ? 'years ago' : 'him, 2026';
+    outEl.textContent = y ? fmt(y) + ' years ago' : 'today';
+    msg.textContent = y >= 100000 ? 'One lakh years apart. Same bubble.' : y > 10000 ? fmt(y) + ' years ago. Still the same bubble.' : y > 0 ? 'Only ' + fmt(y) + ' years ago. Same bubble.' : 'Same day. Same bubble. It never changed.';
+  }
+  slider.addEventListener('input', () => setYears(yearsFor(+slider.value)));
+  document.getElementById('desireChips').addEventListener('click', e => {
+    const c = e.target.closest('.chip'); if (!c) return; desire = c.dataset.d;
+    e.currentTarget.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c ? 'true' : 'false')); paint();
+  });
+  /* count-up to 1,00,000 when the page opens */
+  function countUp() { if (reduce) { setYears(100000); return; } const t0 = performance.now(); (function f(t) { const p = Math.min(1, (t - t0) / 1600), v = Math.round(100000 * (1 - Math.pow(1 - p, 3)) / 1000) * 1000; agoEl.textContent = fmt(v); if (p < 1) requestAnimationFrame(f); else setYears(100000); })(t0); }
+  setYears(100000); countUp();
+
+  /* ---------- pyramid sorter ---------- */
+  const items = [
+    { p: 'YouTube live streaming', a: ['esteem'], why: 'The book\'s own example. Being seen, for status.' },
+    { p: 'A food delivery app', a: ['body'], why: 'The caveman\'s hunger, just faster.' },
+    { p: 'Health insurance', a: ['safety'], why: 'The old fear of getting sick, paid for monthly.' },
+    { p: 'A dating app', a: ['love'], why: 'One of the oldest desires there is.' },
+    { p: 'A designer handbag', a: ['esteem'], why: 'Nobody needs it to carry things. It\'s status.' },
+    { p: 'A smart door lock', a: ['safety'], why: 'A safe cave, with an app.' },
+    { p: 'An online course', a: ['self', 'esteem'], why: 'Becoming who you want to be. Some put it in esteem; both are fair.' }
+  ];
+  const names = { self: 'self-actualisation', esteem: 'esteem', love: 'love / belonging', safety: 'safety', body: 'food, sleep, the body' };
+  let idx = 0, score = 0;
+  const prod = document.getElementById('product'), cnt = document.getElementById('sortCount'), rep = document.getElementById('sortReply'), sorted = document.getElementById('sorted'), resetBtn = document.getElementById('sortReset'), pyr = document.getElementById('pyr');
+  function showItem() { if (idx >= items.length) { prod.textContent = 'All sorted'; cnt.textContent = score + ' of 7 matched the usual answer'; rep.textContent = 'Seven products. Not one of them invented a new desire.'; resetBtn.hidden = false; return; } prod.textContent = items[idx].p; prod.style.animation = 'none'; prod.offsetWidth; prod.style.animation = ''; cnt.textContent = (idx + 1) + ' of 7'; }
+  pyr.addEventListener('click', e => {
+    const t = e.target.closest('.tier'); if (!t || idx >= items.length) return;
+    const it = items[idx], ok = it.a.includes(t.dataset.t);
+    pyr.querySelectorAll('.tier').forEach(x => x.classList.remove('hit', 'miss'));
+    const right = pyr.querySelector('.tier[data-t="' + (ok ? t.dataset.t : it.a[0]) + '"]');
+    right.classList.add('hit'); if (!ok) t.classList.add('miss');
+    const n = right.querySelector('.n'); n.textContent = +n.textContent + 1;
+    if (ok) score++;
+    rep.textContent = (ok ? 'Yes. ' : 'Most would say ' + names[it.a[0]] + '. ') + it.why;
+    const s = document.createElement('span'); s.textContent = it.p + ' → ' + names[ok ? t.dataset.t : it.a[0]]; if (ok) s.className = 'ok'; sorted.appendChild(s);
+    idx++; setTimeout(showItem, reduce ? 0 : 350);
+  });
+  resetBtn.addEventListener('click', () => { idx = 0; score = 0; sorted.innerHTML = ''; resetBtn.hidden = true; rep.textContent = 'Where does it go?'; pyr.querySelectorAll('.tier').forEach(x => { x.classList.remove('hit', 'miss'); x.querySelector('.n').textContent = 0; }); showItem(); });
+
+  /* ---------- Bezos: ask the other question ---------- */
+  const askBtn = document.getElementById('askBtn'), ticks = document.getElementById('ticks');
+  askBtn.addEventListener('click', () => { const on = ticks.classList.toggle('on'); askBtn.textContent = on ? 'Hide' : 'Ask it'; });
+
+  /* ---------- read the customer's mind ---------- */
+  const mind = document.getElementById('mind'), mindBtn = document.getElementById('mindBtn');
+  mindBtn.addEventListener('click', () => { const on = mind.classList.toggle('open'); mindBtn.textContent = on ? 'Okay, I get it' : 'Read their mind'; });
+
+  /* ---------- self check ---------- */
+  const words = { food: 'food', health: 'health', security: 'security', love: 'love', status: 'status', growth: 'becoming better' };
+  let cDesire = null; const hows = new Set();
+  document.getElementById('checkDesire').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; cDesire = cDesire === c.dataset.d ? null : c.dataset.d; e.currentTarget.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x.dataset.d === cDesire ? 'true' : 'false')); });
+  document.getElementById('checkHow').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; const h = c.dataset.h; hows.has(h) ? hows.delete(h) : hows.add(h); c.setAttribute('aria-pressed', hows.has(h) ? 'true' : 'false'); });
+  document.getElementById('checkForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const idea = document.getElementById('ideaInput').value.trim() || 'Your idea', v = document.getElementById('verdict'); v.hidden = false; v.innerHTML = '';
+    const head = document.createElement('span'), sm = document.createElement('small'); v.append(head, sm);
+    if (!cDesire) { head.textContent = 'Pick a desire first.'; sm.textContent = 'If none fits, that is the answer worth sitting with. Every business that lasts serves one.'; return; }
+    const list = [...hows];
+    head.textContent = idea + ' serves ' + words[cDesire] + (list.length ? ', and does it ' + list.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.' : '.');
+    sm.textContent = list.length === 0 ? 'Same desire, same way as today. Why would anyone switch? Pick one thing you do better, faster or cheaper.'
+      : list.length === 3 ? 'All three is a big promise. Which one would a customer notice in the first week? Lead with that.'
+      : 'Good. Now name what people use today for this, and say it to one of them.';
+  });
+})();
+</script>
+</body>
+</html>

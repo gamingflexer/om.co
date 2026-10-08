@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When should you start a startup? Not when you get an idea.</title>
+<meta name="description" content="Book of Clarity, episode 1: start when you can do something people want and nobody else does it well. Paras Chopra's three circles and a self-check.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/when-should-you-start-a-startup/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="When should you start a startup? Not when you get an idea.">
+<meta property="og:description" content="Book of Clarity, episode 1: start when you can do something people want and nobody else does it well. Paras Chopra's three circles and a self-check.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/when-should-you-start-a-startup/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/when-should-you-start-a-startup/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="A tear-off calendar on its last page: TODAY.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When should you start a startup? Not when you get an idea.">
+<meta name="twitter:description" content="Book of Clarity, episode 1: start when you can do something people want and nobody else does it well. Paras Chopra's three circles and a self-check.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/when-should-you-start-a-startup/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column on grid paper; each idea is a doodle you can poke. Same Book Doodle kit as episode 0. */
+:root {
+  --paper: #f6f1e7;
+  --grid: #e6dccb;
+  --ink: #24222a;
+  --ink-soft: #5b5562;
+  --coral: #e2513a;
+  --on-coral: #fffdf8;
+  --card: #fffdf8;
+  --line: #d8cdb9;
+  --hand: "Gaegu", "Comic Sans MS", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --on-coral: #1d1b1f; --card: #252228; --line: #3a363e; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --on-coral: #1d1b1f; --card: #252228; --line: #3a363e; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 80px; overflow-x: clip; }
+h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; line-height: 1.05; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); margin: 0; }
+h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 .4rem; }
+h3 { font-size: 1.6rem; margin: 0; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+section { display: flex; flex-direction: column; gap: 1rem; margin-top: 3.2rem; }
+.kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.hook { font-family: var(--hand); font-weight: 700; font-size: clamp(1.5rem, 5.4vw, 2.1rem); line-height: 1.1; color: var(--ink-soft); }
+mark { background: none; color: inherit; background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--coral) 35%, transparent) 62%); padding: 0 .1em; }
+.byline { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.note { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+a { color: var(--coral); }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn:hover { transform: translate(-1px, -1px); }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+.reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
+
+/* ---------- hero: tear-off calendar ---------- */
+.hero { display: flex; flex-direction: column; gap: 1.4rem; }
+.hero-cal { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.cal { position: relative; width: min(330px, 100%); aspect-ratio: 5 / 6; perspective: 900px; cursor: pointer; }
+.cal .back { position: absolute; inset: 34px 0 0; background: var(--card); border: 2px solid var(--ink); border-radius: 6px 6px 14px 12px; }
+.cal .back.b1 { translate: 6px 6px; } .cal .back.b2 { translate: 11px 11px; opacity: .7; }
+.cal .bar { position: absolute; inset: 0 0 auto; height: 46px; background: var(--ink); border-radius: 10px 10px 4px 4px; z-index: 20; display: flex; justify-content: space-around; align-items: flex-start; padding-inline: 18%; }
+.cal .bar i { width: 12px; height: 26px; margin-top: -10px; border: 3px solid var(--ink-soft); border-radius: 8px; background: var(--paper); }
+.page { position: absolute; inset: 34px 0 0; background: var(--card); border: 2px solid var(--ink); border-radius: 4px 4px 14px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .5rem; padding: 2.4rem 1rem 1rem; transform-origin: 50% 0; transition: transform .55s cubic-bezier(.5,0,.75,0), opacity .5s .1s; }
+.page .top { position: absolute; top: 18px; left: 0; right: 0; font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.page .day { font-family: var(--hand); font-weight: 700; font-size: clamp(4rem, 22vw, 6.2rem); line-height: .9; }
+.page .say { font-family: var(--hand); font-weight: 700; font-size: clamp(1.8rem, 8vw, 2.4rem); line-height: 1.05; }
+.page .tick { font-family: var(--hand); font-weight: 700; font-size: 3.4rem; line-height: 1; }
+.page .stamp { font-family: var(--mono); font-weight: 500; font-size: 1.3rem; letter-spacing: .12em; border: 3px double var(--ink); border-radius: 6px; padding: .15rem .6rem; rotate: -9deg; color: var(--ink); opacity: 0; scale: 2.2; transition: opacity .2s .35s, scale .3s .35s cubic-bezier(.2,1.5,.4,1); }
+.page.on .stamp { opacity: 1; scale: 1; }
+.page.today { background: var(--coral); color: var(--on-coral); border-color: var(--coral); }
+.page.today .top { color: var(--on-coral); opacity: .8; }
+.page.torn { transform: rotateX(-82deg) translateY(-30px) rotate(-6deg); opacity: 0; pointer-events: none; }
+.cal-ctl { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; justify-content: center; }
+.dots { display: flex; gap: .35rem; } .dots i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink); }
+.dots i.done { background: var(--ink); } .dots i.last.done { background: var(--coral); border-color: var(--coral); }
+.pile { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; min-height: 2.4rem; max-width: 100%; }
+.mini { font-family: var(--hand); font-weight: 700; font-size: 1.05rem; line-height: 1.1; background: var(--card); border: 1.5px solid var(--ink); border-radius: 4px 4px 8px 6px; padding: .25rem .6rem; animation: drop .45s cubic-bezier(.2,1.4,.4,1); }
+.mini:nth-child(odd) { rotate: -3deg; } .mini:nth-child(even) { rotate: 2.5deg; }
+.mini s { text-decoration-thickness: 2px; }
+@keyframes drop { from { transform: translateY(-40px) rotate(-14deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- venn ---------- */
+.venn-box { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: .8rem; display: flex; flex-direction: column; gap: .7rem; }
+.venn-box svg { width: 100%; height: auto; display: block; cursor: crosshair; touch-action: manipulation; }
+.venn-box .lbl { font-family: var(--hand); font-weight: 700; font-size: 29px; fill: var(--ink); pointer-events: none; }
+.venn-box .mk { font-family: var(--hand); font-weight: 700; pointer-events: none; }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip { font-family: var(--mono); font-size: .8rem; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: .3rem .7rem; }
+.chip[aria-pressed=true] { background: var(--ink); color: var(--paper); }
+.venn-msg { font-family: var(--hand); font-weight: 700; font-size: 1.4rem; line-height: 1.15; min-height: 3.2rem; }
+
+/* ---------- mix + switch doodles ---------- */
+.mix { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-family: var(--hand); font-weight: 700; font-size: 1.3rem; }
+.tag { border: 2px solid var(--ink); border-radius: 8px 12px 9px 11px; padding: .1rem .6rem; background: var(--card); }
+.tag.you { border-color: var(--coral); color: var(--coral); }
+.mistake { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1.5px dashed var(--line); }
+.mistake .n { font-family: var(--hand); font-weight: 700; font-size: 2.6rem; line-height: 1; color: var(--ink-soft); }
+.mistake .what { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.switch { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; font-family: var(--hand); font-weight: 700; font-size: 1.25rem; }
+.switch .box { border: 2px solid var(--ink); border-radius: 10px; padding: .2rem .7rem; background: var(--card); }
+.switch .box.dash { border-style: dashed; color: var(--ink-soft); }
+.switch .arrow { position: relative; font-family: var(--mono); font-size: 1.3rem; }
+.switch .arrow::after { content: ""; position: absolute; left: -4px; right: -4px; top: 50%; height: 3px; background: var(--ink); rotate: -30deg; }
+blockquote { margin: 0; font-style: italic; font-size: 1.3rem; border-left: 4px solid var(--ink); padding-left: 1rem; }
+
+/* ---------- self-check ---------- */
+.check { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .9rem; }
+.q { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem 1rem; align-items: center; padding-bottom: .8rem; border-bottom: 1.5px dashed var(--line); }
+.q p { font-size: 1.08rem; line-height: 1.35; }
+.q .axis { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.yn { display: flex; border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.yn button { font-family: var(--hand); font-weight: 700; font-size: 1.15rem; background: transparent; color: var(--ink); border: 0; padding: .15rem .8rem; min-width: 3.2rem; }
+.yn button + button { border-left: 2px solid var(--ink); }
+.yn button[aria-pressed=true] { background: var(--ink); color: var(--paper); }
+@media (max-width: 460px) { .q { grid-template-columns: 1fr; } .yn { justify-self: start; } }
+.result { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 1rem; align-items: center; margin-top: 1.2rem; padding-bottom: 1.2rem; }
+@media (max-width: 460px) { .result { grid-template-columns: 1fr; justify-items: start; } }
+.grid2 { position: relative; width: 170px; height: 170px; border-left: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); background-image: linear-gradient(var(--line) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--line) 1.5px, transparent 1.5px); background-size: 50% 50%; background-position: 0 -1px, -1px 0; }
+.grid2 .q4 { position: absolute; right: 0; top: 0; width: 50%; height: 50%; background: color-mix(in srgb, var(--coral) 18%, transparent); }
+.grid2 .ax { position: absolute; font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; color: var(--ink-soft); }
+.grid2 .ax.x { bottom: -1.4rem; right: 0; } .grid2 .ax.y { left: -.2rem; top: -1.3rem; }
+.grid2 .dot { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: var(--ink); border: 3px solid var(--card); transition: left .45s cubic-bezier(.2,1.3,.4,1), top .45s cubic-bezier(.2,1.3,.4,1), background .2s; }
+.grid2 .dot.win { background: var(--coral); }
+.verdict { display: flex; flex-direction: column; gap: .3rem; }
+.verdict .big { font-family: var(--hand); font-weight: 700; font-size: 2rem; line-height: 1; }
+.verdict .big.win { color: var(--coral); }
+
+/* ---------- three things ---------- */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
+@media (max-width: 520px) { .three { grid-template-columns: 1fr; } }
+.three div { background: var(--card); border: 2px solid var(--ink); border-radius: 12px 16px 11px 15px; padding: .8rem; display: flex; flex-direction: column; gap: .3rem; }
+.three b { font-family: var(--hand); font-size: 1.6rem; line-height: 1; }
+.three b.first { color: var(--coral); }
+.three span { font-size: 1rem; line-height: 1.35; }
+.three em { font-family: var(--mono); font-style: normal; font-size: .7rem; color: var(--ink-soft); }
+
+/* ---------- reel + series ---------- */
+.reel { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 1.2rem; align-items: center; }
+@media (max-width: 520px) { .reel { grid-template-columns: 1fr; } }
+.short { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; aspect-ratio: 9 / 16; width: 100%; max-width: 190px; border: 2px solid var(--ink); border-radius: 18px; background: var(--card); box-shadow: 5px 5px 0 var(--coral); text-decoration: none; color: var(--ink); padding: 1rem .6rem; text-align: center; }
+.short .mc { width: 92px; border: 2px solid var(--ink); border-radius: 4px 4px 9px 9px; overflow: hidden; }
+.short .mc i { display: block; height: 14px; background: var(--ink); }
+.short .mc b { display: block; background: var(--coral); color: var(--on-coral); font-family: var(--hand); font-size: 1.5rem; padding: .5rem 0; }
+.short .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.05; }
+.short .p { font-family: var(--mono); font-size: .72rem; color: var(--ink-soft); }
+.eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
+.eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.eps .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; }
+.eps li.now .t { color: var(--coral); }
+.eps li.now .t::after { content: " ← you are here"; font-family: var(--mono); font-weight: 400; font-size: .7rem; color: var(--ink-soft); }
+.sources { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: .3rem; border-top: 1.5px dashed var(--line); padding-top: 1rem; margin-top: 3rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <div class="hero" id="hero">
+    <div class="stack hero-text">
+      <div class="kicker">Book of Clarity · Episode 1</div>
+      <h1>When should you start a startup?</h1>
+      <p class="hook">Not when you get an idea.</p>
+      <div class="byline"><span>Om Surve</span><span>·</span><span>Founder, Ayu</span><span>·</span><span>4 min read</span></div>
+    </div>
+
+    <div class="hero-cal">
+      <div class="cal" id="cal" role="button" tabindex="0" aria-label="Tear-off calendar. Tap to tear a page.">
+        <div class="back b2"></div><div class="back b1"></div>
+        <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="page today" data-mini="TODAY"><span class="top">Start date</span><span class="day">TODAY</span><span class="say" style="font-size:1.3rem">Rare and valuable.</span></div>
+        <div class="page" data-mini="✓ Nobody does it well"><span class="top">Day ?</span><span class="tick">✓</span><span class="say">Nobody does it well</span></div>
+        <div class="page" data-mini="✓ People want it"><span class="top">Day ?</span><span class="tick">✓</span><span class="say">People want it</span></div>
+        <div class="page" data-mini="<s>I got an idea!</s> NOT YET"><span class="top">Day ?</span><span class="say">“I got an idea!”</span><span class="stamp">NOT YET</span></div>
+        <div class="page" data-mini="Day ?"><span class="top">When do I start?</span><span class="day">DAY ?</span></div>
+      </div>
+      <div class="pile" id="pile" aria-live="polite"></div>
+      <div class="cal-ctl">
+        <button class="btn" id="tearBtn">Tear a page</button>
+        <span class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="last"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <p>Most of us start the day the idea shows up. We buy the domain, tell two friends, and start building.</p>
+    <p>That day is the <b>NOT YET</b> page. You start when two other things are true: <mark>you can do something people want, and nobody else does it well.</mark></p>
+    <p>That's chapter one of <i>The Book of Clarity</i> by <a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra</a>, the founder of <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a>. The chapter is called "Capitalism rewards rare and valuable". Here's what I took from it.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Tap the drawing</div>
+    <h2>Three circles. Where's the value?</h2>
+    <p>He draws three circles. What you're good at. What people desire. What competitors are good at.</p>
+    <p>Tap the spot where you think the value is.</p>
+    <div class="venn-box">
+      <svg viewBox="0 0 600 500" id="venn" role="img" aria-labelledby="vennTitle">
+        <title id="vennTitle">Three overlapping circles: what you are good at, what people desire, what competitors are good at</title>
+        <defs id="vdefs"></defs>
+        <g id="vfill"></g>
+        <g id="vcirc"></g>
+        <g id="vmark"></g>
+        <text class="lbl" x="152" y="150" text-anchor="middle">You're</text>
+        <text class="lbl" x="152" y="180" text-anchor="middle">good at</text>
+        <text class="lbl" x="448" y="150" text-anchor="middle">People</text>
+        <text class="lbl" x="448" y="180" text-anchor="middle">desire</text>
+        <text class="lbl" x="300" y="412" text-anchor="middle">Competitors</text>
+        <text class="lbl" x="300" y="444" text-anchor="middle">are good at</text>
+      </svg>
+      <div class="chips" id="vchips" role="group" aria-label="Pick a spot">
+        <button type="button" class="chip" data-r="111" aria-pressed="false">the middle</button>
+        <button type="button" class="chip" data-r="110" aria-pressed="false">you + people</button>
+        <button type="button" class="chip" data-r="011" aria-pressed="false">people + competitors</button>
+        <button type="button" class="chip" data-r="100" aria-pressed="false">just you</button>
+      </div>
+      <p class="venn-msg" id="vmsg" aria-live="polite">Tap anywhere inside the circles.</p>
+    </div>
+    <p>When I first read this, I said the value is in the middle, where all three meet. Wrong. The middle is where everyone already is, and in his drawing it gets a sad face.</p>
+    <p>The value sits where <mark>what you're good at meets what people want, and competitors are missing.</mark> He calls it the diamond.</p>
+  </section>
+
+  <section>
+    <h2>Your mix is the rare part</h2>
+    <p>He borrows a piece of career advice from <a href="https://en.wikipedia.org/wiki/Scott_Adams" target="_blank" rel="noopener">Scott Adams</a>, the <a href="https://dilbert.com/" target="_blank" rel="noopener">Dilbert</a> cartoonist: get good at several skills until nobody else has your exact mix.</p>
+    <div class="mix" aria-label="Skill plus skill plus skill equals your mix"><span class="tag">skill</span>+<span class="tag">skill</span>+<span class="tag">skill</span>=<span class="tag you">your mix</span></div>
+    <p>Startups work the same way. Lots of people have one skill. Very few have your mix. That's where rare comes from.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Why it's hard</div>
+    <h2>Two mistakes we all make</h2>
+    <div class="mistake"><div class="n">1</div><div class="what">
+      <h3>We build what we want.</h3>
+      <p>He writes that a common, fatal mistake is misjudging what makes something valuable. Founders scratch their own itch and assume everyone has it.</p>
+      <p>Most people are not founders like us. What they want from life is very different.</p>
+    </div></div>
+    <div class="mistake"><div class="n">2</div><div class="what">
+      <h3>We forget people are lazy.</h3>
+      <p>Why would anyone leave something that already works for something they've never heard of?</p>
+      <div class="switch" aria-label="Nobody switches from what already works to you"><span class="box">what already works</span><span class="arrow">→</span><span class="box dash">you</span></div>
+      <blockquote>"People—you, me, everyone else—are lazy." <span class="note">Paras Chopra</span></blockquote>
+      <p>So "a bit better" isn't enough. It has to be worth getting off the sofa for.</p>
+    </div></div>
+  </section>
+
+  <section>
+    <div class="kicker">Your turn</div>
+    <h2>Is your idea rare and valuable?</h2>
+    <p>Think of the idea you keep coming back to. Answer four questions honestly. Watch where the dot lands.</p>
+    <div class="check" id="check">
+      <div class="q"><p><span class="axis">Valuable</span>People who aren't like me want this. I heard it from them, not just my own head.</p>
+        <div class="yn" data-q="v1"><button type="button" data-a="1" aria-pressed="false">Yes</button><button type="button" data-a="0" aria-pressed="false">No</button></div></div>
+      <div class="q"><p><span class="axis">Valuable</span>It's clearly better than what they use now. Enough to make a lazy person switch.</p>
+        <div class="yn" data-q="v2"><button type="button" data-a="1" aria-pressed="false">Yes</button><button type="button" data-a="0" aria-pressed="false">No</button></div></div>
+      <div class="q"><p><span class="axis">Rare</span>Nobody does it well today.</p>
+        <div class="yn" data-q="r1"><button type="button" data-a="1" aria-pressed="false">Yes</button><button type="button" data-a="0" aria-pressed="false">No</button></div></div>
+      <div class="q"><p><span class="axis">Rare</span>I have a mix of skills for this that few others have.</p>
+        <div class="yn" data-q="r2"><button type="button" data-a="1" aria-pressed="false">Yes</button><button type="button" data-a="0" aria-pressed="false">No</button></div></div>
+      <div class="result">
+        <div class="grid2" aria-hidden="true"><span class="q4"></span><span class="ax y">VALUABLE ↑</span><span class="ax x">RARE →</span><span class="dot" id="dot" style="left:0%;top:100%"></span></div>
+        <div class="verdict" aria-live="polite"><span class="big" id="vbig">DAY ?</span><p id="vtxt">Answer the four questions.</p></div>
+      </div>
+    </div>
+    <p class="note">A gut check, not a verdict. Nothing is sent anywhere.</p>
+  </section>
+
+  <section>
+    <h2>The word we never learned</h2>
+    <p>So it has to be both, rare and valuable. For that you need one word we never learned in our tier-3 colleges: <b>insight</b>. Our mentor taught us what it means.</p>
+    <p>The book is honest about how hard this is. Finding an idea that's both rare and valuable takes three things, he writes:</p>
+    <div class="three">
+      <div><em>1</em><b class="first">Insight</b><span>Spotting what people want that others haven't figured out yet.</span></div>
+      <div><em>2</em><b>Iterations</b><span>Trying, getting it wrong, and trying again.</span></div>
+      <div><em>3</em><b>Luck</b><span>The part you don't control.</span></div>
+    </div>
+    <p>And that, he adds, is why the startups that make it are rare and valuable too.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Why I'm reading this out loud</div>
+    <h2>One idea a day, on camera</h2>
+    <div class="reel">
+      <a class="short" href="https://www.youtube.com/shorts/ALlaHarks-w" target="_blank" rel="noopener"><span class="mc" aria-hidden="true"><i></i><b>TODAY</b></span><span class="t">▶ Watch the Short</span><span class="p">YouTube Short · out 10 Oct</span></a>
+      <div class="stack">
+        <p>I'm opening Paras's book one idea at a time, one short video each, and writing up what I learn.</p>
+        <p>I build <a href="https://www.ayuapp.com/" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. These three circles are the test I want every Ayu feature to pass.</p>
+        <ul class="eps">
+          <li><span class="d">8 Oct</span><span class="t"><a href="/blog/why-most-startups-fail/">Why do most startups fail?</a></span></li>
+          <li class="now"><span class="d">10 Oct</span><span class="t">When should you start a startup?</span></li>
+          <li><span class="d">11 Oct</span><span class="t"><a href="/blog/why-do-businesses-exist/">Why do businesses exist?</a></span></li>
+        </ul>
+        <p><a href="https://www.instagram.com/om_cosmos/" target="_blank" rel="noopener">Follow along on Instagram, @om_cosmos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Do this today</h2>
+    <p>Write your idea in one line. Under it, write who does it today, and why a lazy person would switch to you. If the second line stays blank, tear the page. It's not time yet.</p>
+  </section>
+
+  <div class="sources">
+    <span>Sources: Paras Chopra, <i>The Book of Clarity</i>, Part 1 "Know your playground", chapter 1 "Capitalism rewards rare and valuable" (pp. 11–13), for the three circles, the diamond, the two mistakes, the "lazy" line, and insight, iterations and luck. Scott Adams's advice on mixing skills, as cited in the same chapter.</span>
+    <span>Links: <a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra's site</a> · <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a> · <a href="https://en.wikipedia.org/wiki/Scott_Adams" target="_blank" rel="noopener">Scott Adams (Wikipedia)</a> · <a href="https://dilbert.com/" target="_blank" rel="noopener">Dilbert</a> · <a href="https://www.youtube.com/shorts/ALlaHarks-w" target="_blank" rel="noopener">Episode 1 on YouTube</a>.</span>
+    <span>The circle drawing and the self-check are my own sketches of the chapter's idea, not figures from the book.</span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- tear-off calendar ---------- */
+  const cal = document.getElementById('cal'), pile = document.getElementById('pile'), tearBtn = document.getElementById('tearBtn');
+  const pages = [...cal.querySelectorAll('.page')].reverse();   /* top page first */
+  const dots = [...document.querySelectorAll('#dots i')];
+  pages.forEach((p, i) => p.style.zIndex = 10 - i);
+  let at = 0;
+  function show() {
+    pages.forEach((p, i) => { p.classList.toggle('torn', i < at); p.classList.toggle('on', i === at); });
+    dots.forEach((d, i) => d.classList.toggle('done', i <= at));
+    tearBtn.textContent = at >= pages.length - 1 ? 'Start over' : 'Tear a page';
+  }
+  function tear() {
+    if (at >= pages.length - 1) { at = 0; pile.innerHTML = ''; show(); return; }
+    const m = document.createElement('span'); m.className = 'mini'; m.innerHTML = pages[at].dataset.mini; pile.appendChild(m);
+    at++; show();
+  }
+  cal.addEventListener('click', tear);
+  cal.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tear(); } });
+  tearBtn.addEventListener('click', tear);
+  window.__calTo = n => { at = 0; pile.innerHTML = ''; show(); for (let i = 0; i < n; i++) tear(); };
+  show();
+
+  /* ---------- venn: tap where the value is ---------- */
+  const NS = 'http://www.w3.org/2000/svg', svg = document.getElementById('venn');
+  const C = [{ x: 230, y: 200 }, { x: 370, y: 200 }, { x: 300, y: 320 }], R = 150;
+  const mk = (tag, a, parent) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (parent) parent.appendChild(e); return e; };
+  const defs = document.getElementById('vdefs'), vfill = document.getElementById('vfill'), vcirc = document.getElementById('vcirc'), vmark = document.getElementById('vmark');
+  C.forEach((c, i) => { const cp = mk('clipPath', { id: 'vc' + i }, defs); mk('circle', { cx: c.x, cy: c.y, r: R }, cp);
+    mk('circle', { cx: c.x, cy: c.y, r: R, fill: 'none', style: 'stroke:var(--ink)', 'stroke-width': 3, 'stroke-dasharray': i === 2 ? '10 7' : '' }, vcirc); });
+  const spots = {
+    '100': { x: 150, y: 230, face: '', msg: "Just you. You're good at it, nobody wants it. That's a hobby." },
+    '010': { x: 450, y: 230, face: '', msg: "People want it, but you're not good at it. Not yours. Yet." },
+    '001': { x: 300, y: 385, face: '', msg: 'Competitors are good at something nobody asked for. Not your fight.' },
+    '110': { x: 300, y: 118, face: '◆', msg: "The diamond. You're good at it, people want it, competitors are missing. Start here." },
+    '111': { x: 300, y: 245, face: '☹', msg: 'The middle. Everyone is already here, so you are one more. The book gives this spot a sad face.' },
+    '101': { x: 210, y: 300, face: '☹', msg: 'You and competitors are good at it. Nobody wants it.' },
+    '011': { x: 390, y: 300, face: '☹', msg: "People want it and competitors already deliver it. Why would anyone switch to you?" }
+  };
+  function region(key) {
+    vfill.innerHTML = ''; vmark.innerHTML = '';
+    const inn = [...key].map((b, i) => b === '1' ? i : -1).filter(i => i >= 0), out = [...key].map((b, i) => b === '0' ? i : -1).filter(i => i >= 0);
+    let g = vfill; inn.forEach(i => { g = mk('g', { 'clip-path': 'url(#vc' + i + ')' }, g); });
+    let mask = document.getElementById('vm' + key);
+    if (!mask) { mask = mk('mask', { id: 'vm' + key }, defs); mk('rect', { x: 0, y: 0, width: 600, height: 500, fill: '#fff' }, mask); out.forEach(i => mk('circle', { cx: C[i].x, cy: C[i].y, r: R + 1.5, fill: '#000' }, mask)); }
+    const win = key === '110';
+    mk('rect', { x: 0, y: 0, width: 600, height: 500, mask: 'url(#vm' + key + ')', style: win ? 'fill:var(--coral);opacity:.85' : 'fill:var(--ink);opacity:.14' }, g);
+    const s = spots[key];
+    if (s.face) { const t = mk('text', { x: s.x, y: s.y + 16, 'text-anchor': 'middle', class: 'mk', 'font-size': win ? 54 : 46, style: win ? 'fill:var(--on-coral)' : 'fill:var(--ink)' }, vmark); t.textContent = s.face; }
+    document.getElementById('vmsg').textContent = s.msg;
+    document.querySelectorAll('#vchips .chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.r === key ? 'true' : 'false'));
+  }
+  svg.addEventListener('click', e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    const key = C.map(c => Math.hypot(p.x - c.x, p.y - c.y) <= R ? '1' : '0').join('');
+    if (key === '000') { document.getElementById('vmsg').textContent = 'Outside every circle. Nobody wants it, nobody is good at it. Try inside.'; vfill.innerHTML = ''; vmark.innerHTML = ''; return; }
+    region(key);
+  });
+  document.getElementById('vchips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) region(c.dataset.r); });
+
+  /* ---------- self-check ---------- */
+  const ans = {};
+  const dot = document.getElementById('dot'), vbig = document.getElementById('vbig'), vtxt = document.getElementById('vtxt');
+  document.getElementById('check').addEventListener('click', e => {
+    const b = e.target.closest('.yn button'); if (!b) return;
+    const yn = b.parentElement; yn.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    ans[yn.dataset.q] = +b.dataset.a; score();
+  });
+  function score() {
+    const n = Object.keys(ans).length, v = (ans.v1 || 0) + (ans.v2 || 0), r = (ans.r1 || 0) + (ans.r2 || 0);
+    dot.style.left = (8 + r * 42) + '%'; dot.style.top = (92 - v * 42) + '%';
+    const win = v === 2 && r === 2; dot.classList.toggle('win', win); vbig.classList.toggle('win', win);
+    if (n < 4) { vbig.textContent = 'DAY ?'; vtxt.textContent = (4 - n) + ' more to go.'; return; }
+    if (win) { vbig.textContent = 'TODAY'; vtxt.textContent = 'Rare and valuable. Stop reading, start.'; }
+    else if (v === 2) { vbig.textContent = 'NOT YET'; vtxt.textContent = 'Valuable, not rare. Someone already does it well. Find what they miss.'; }
+    else if (r === 2) { vbig.textContent = 'NOT YET'; vtxt.textContent = "Rare, not valuable. Maybe only you want it. Go ask ten people who aren't like you."; }
+    else if (v + r === 0) { vbig.textContent = 'NOT YET'; vtxt.textContent = "That's an idea, not a startup. Keep it in the notebook."; }
+    else { vbig.textContent = 'ALMOST'; vtxt.textContent = 'One or two answers short. The No is your homework.'; }
+  }
+})();
+</script>
+</body>
+</html>
