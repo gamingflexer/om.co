@@ -467,7 +467,7 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps }) =>
     const wide = [shift, 1.25, wideDist];
     const chest = [0, 1.42, 2.3];
     const faceCam = [face.x, face.y + 0.01, face.z + 0.5];
-    const eyeCam = [eye.x, eye.y, eye.z + 0.06];
+    const eyeCam = [eye.x, eye.y, eye.z + 0.07];
     // The last stretch holds on the eye so the iris cross-fade lands on it.
     const p = track([[0, wide], [0.38, chest], [0.7, faceCam], [0.9, eyeCam], [1, eyeCam]], t);
     const wt = [wideTarget.x + shift, wideTarget.y, wideTarget.z];

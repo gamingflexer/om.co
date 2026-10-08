@@ -8,20 +8,23 @@ import { clamp, smoothstep } from "./util";
 // composite pass cross-fades neighbours and does tone mapping, vignette and
 // grain. Scroll position maps to one global progress value.
 
-export const PAGES = 15; // page height in viewports
+export const PAGES = 21; // page height in viewports
 
 // Stage windows in global progress. Overlaps are the cross-fades.
 const STAGES = [
-  { id: "meadow", a: 0.0, b: 0.125 },
-  { id: "iris", a: 0.105, b: 0.185 },
-  { id: "earth", a: 0.148, b: 0.335 },
-  { id: "solar", a: 0.32, b: 0.46 },
-  { id: "stars", a: 0.445, b: 0.555 },
-  { id: "galaxy", a: 0.54, b: 0.69 },
-  { id: "local", a: 0.675, b: 0.785 },
-  { id: "web", a: 0.77, b: 0.915 },
-  { id: "iris", a: 0.878, b: 0.945, reverse: true },
-  { id: "meadow", a: 0.93, b: 1.0, reverse: true },
+  { id: "meadow", a: 0.0, b: 0.09 },
+  { id: "iris", a: 0.075, b: 0.132 },
+  { id: "earth", a: 0.106, b: 0.24 },
+  { id: "solar", a: 0.228, b: 0.33 },
+  { id: "stars", a: 0.318, b: 0.4 },
+  { id: "galaxy", a: 0.388, b: 0.49 },
+  { id: "blackhole", a: 0.478, b: 0.585 },
+  { id: "supernova", a: 0.573, b: 0.665 },
+  { id: "pulsar", a: 0.653, b: 0.735 },
+  { id: "local", a: 0.723, b: 0.8 },
+  { id: "web", a: 0.79, b: 0.9 },
+  { id: "iris", a: 0.872, b: 0.935, reverse: true },
+  { id: "meadow", a: 0.922, b: 1.0, reverse: true },
 ];
 
 const Journey = ({ className = "", spacerRef, sound }) => {
@@ -57,9 +60,12 @@ const Journey = ({ className = "", spacerRef, sound }) => {
         import("./scenes/galaxy"),
         import("./scenes/local"),
         import("./scenes/web"),
+        import("./scenes/blackhole"),
+        import("./scenes/supernova"),
+        import("./scenes/pulsar"),
       ]);
       if (disposed) return;
-      const [meadowM, irisM, earthM, solarM, starsM, galaxyM, localM, webM] = scenesMod;
+      const [meadowM, irisM, earthM, solarM, starsM, galaxyM, localM, webM, blackholeM, supernovaM, pulsarM] = scenesMod;
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const small = Math.min(window.innerWidth, window.innerHeight) < 700 || /Mobi|Android/i.test(navigator.userAgent);
@@ -74,7 +80,7 @@ const Journey = ({ className = "", spacerRef, sound }) => {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       const canvas = renderer.domElement;
       canvas.setAttribute("role", "img");
-      canvas.setAttribute("aria-label", "Scroll journey from Om on a meadow, into his eye, out past Earth, the solar system and the Milky Way to the observable universe");
+      canvas.setAttribute("aria-label", "Scroll journey from Om on a meadow, into his eye, out past Earth, the solar system, the Milky Way, a black hole, a supernova and a pulsar to the observable universe");
       canvas.style.display = "block";
       canvas.style.width = "100%";
       canvas.style.height = "100%";
@@ -135,6 +141,9 @@ const Journey = ({ className = "", spacerRef, sound }) => {
         galaxy: galaxyM.createGalaxy(THREE, { small, reducedMotion }),
         local: localM.createLocal(THREE, { small, reducedMotion }),
         web: webM.createWeb(THREE, { small }),
+        blackhole: blackholeM.createBlackHole(THREE, { renderer, small, tier, reducedMotion }),
+        supernova: supernovaM.createSupernova(THREE, { tier, small, reducedMotion }),
+        pulsar: pulsarM.createPulsar(THREE, { tier, small, reducedMotion }),
       };
       let W = 1;
       let H = 1;

@@ -148,7 +148,7 @@ export const createSound = () => {
     // Called every frame with the journey progress.
     update: (s) => {
       if (!enabled) return;
-      const space = s < 0.14 ? 0 : s > 0.93 ? 0 : Math.min(1, (s - 0.14) / 0.06) * Math.min(1, (0.93 - s) / 0.06);
+      const space = s < 0.1 ? 0 : s > 0.935 ? 0 : Math.min(1, (s - 0.1) / 0.06) * Math.min(1, (0.935 - s) / 0.06);
       setSpace(Math.max(0, Math.min(1, space)));
     },
     // Scroll tick, rate-limited; pitch rises with speed.
