@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /edit/
+
+Sitemap: https://om.ayuapp.com/sitemap.xml

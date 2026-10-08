@@ -3,7 +3,8 @@ import { getPostBySlug, getAllPosts } from "../../utils/api";
 import Header from "../../components/Header";
 import ContentSection from "../../components/ContentSection";
 import Footer from "../../components/Footer";
-import Head from "next/head";
+import Seo from "../../components/Seo";
+import data from "../../data/portfolio.json";
 import { useIsomorphicLayoutEffect } from "../../utils";
 import { stagger } from "../../animations";
 import Button from "../../components/Button";
@@ -23,10 +24,13 @@ const BlogPost = ({ post }) => {
 
   return (
     <>
-      <Head>
-        <title>{"Blog - " + post.title}</title>
-        <meta name="description" content={post.preview} />
-      </Head>
+      <Seo
+        title={`${post.title} | ${data.name}`}
+        description={post.preview}
+        path={`/blog/${post.slug}/`}
+        type="article"
+        noindex={!data.showBlog}
+      />
       <Cursor />
       <div className="container mx-auto mt-10">
         <Header isBlog={true} />

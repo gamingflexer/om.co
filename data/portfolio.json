@@ -2,9 +2,9 @@
     "name": "Om Surve",
     "headerTaglineOne": "Hello 👋",
     "headerTaglineTwo": "I'm Om Surve",
-    "headerTaglineThree": "VP of AI @FusionCyber",
-    "headerTaglineFour": "Building AI LMS scaled to $3M+ | AI Engineer & Backend Dev",
-    "currentRole": "VP of Artificial Intelligence @ Fusion Cyber",
+    "headerTaglineThree": "Founder & CEO @Ayu Health · VP of AI @FusionCyber",
+    "headerTaglineFour": "Backend, Cloud & AI Engineer | Building AI for Indian healthcare",
+    "currentRole": "Founder & CEO @ Ayu Health",
     "showBlog": false,
     "darkMode": false,
     "showResume": true,
@@ -24,8 +24,8 @@
         },
         {
             "id": "2",
-            "title": "Website",
-            "link": "https://asach.netlify.app/"
+            "title": "Ayu Health",
+            "link": "https://www.ayuapp.com/"
         },
         {
             "id": "3",
@@ -46,11 +46,6 @@
             "id": "6",
             "title": "Email",
             "link": "mailto:omsurve.work@gmail.com"
-        },
-        {
-            "id": "7",
-            "title": "Phone",
-            "link": "tel:+917588339211"
         }
     ],
     "projects": [
@@ -58,52 +53,87 @@
             "id": "1",
             "title": "Beacon AI - AI LMS Platform",
             "description": "$1M strategic deal for AI-powered Learning Management System. Partnered with VetCOMM (F3), Cisco, FIU, USC, Kentucky, Denmark & Lincoln university.",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/3.png?alt=media&token=338bdf20-4c1d-4575-932a-0af7c4d2e8ab",
+            "imageSrc": "/images/projects/beacon-ai.svg",
             "url": "https://beaconai.fusioncyber.co",
-            "tech": ["AI Agents", "LLM", "AWS", "Python"]
+            "tech": [
+                "AI Agents",
+                "LLM",
+                "AWS",
+                "Python"
+            ]
         },
         {
             "id": "2",
             "title": "Rangsphera - AI Cyber Range",
             "description": "Next-gen AI-powered cyber simulation platform (Better than RangeForce). Saved $500K in development costs with adaptive learning.",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
+            "imageSrc": "/images/projects/rangsphera.svg",
             "url": "https://fusioncyber.co",
-            "tech": ["AI", "Cyber Security", "Docker", "K8s"]
+            "tech": [
+                "AI",
+                "Cyber Security",
+                "Docker",
+                "K8s"
+            ]
         },
         {
             "id": "3",
             "title": "Alice AI Calling Agents",
             "description": "Internal AI calling system that optimized admissions workflow, boosting lead generation by 30% and operational efficiency.",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
+            "imageSrc": "/images/projects/alice-ai-calling-agents.svg",
             "url": "https://fusioncyber.co",
-            "tech": ["Voice AI", "TTS", "STT", "Agent"]
+            "tech": [
+                "Voice AI",
+                "TTS",
+                "STT",
+                "Agent"
+            ]
         },
         {
             "id": "4",
             "title": "GPOD AI & Freelance Projects",
             "description": "Built AI systems for edgeof.xyz (largest web3 podcast), schooltube.com, proto-geo.xyz, realorfake.co, gyanbot.ai, travhub.ai & Daply.co",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/1.png?alt=media&token=88e6d19a-cea8-4256-888a-2b2cd628b718",
+            "imageSrc": "/images/projects/gpod-ai-freelance-projects.svg",
             "url": "https://gpodai.fusioncyber.co",
-            "tech": ["GPT-4", "Stable Diffusion", "Vector DB"]
+            "tech": [
+                "GPT-4",
+                "Stable Diffusion",
+                "Vector DB"
+            ]
         },
         {
             "id": "5",
             "title": "Smart India Hackathon Winner | NDRF",
             "description": "Extraction and classification of data from social media during natural disasters. Deep Learning Pipelines | Django | NextJs",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/2.png?alt=media&token=eae77f22-8c05-4b45-a03c-b3438fccec45",
+            "imageSrc": "/images/projects/smart-india-hackathon-winner.svg",
             "url": "https://homebrew-covgx6dtr-hiteshmeta85.vercel.app/",
-            "tech": ["Deep Learning", "Django", "Next.js"]
+            "tech": [
+                "Deep Learning",
+                "Django",
+                "Next.js"
+            ]
         },
         {
             "id": "6",
             "title": "Formula Racing Telemetry System",
             "description": "Driver Assist System for formula cars. Won First Price in Formula Imperial 2023. Real-time data acquisition and dashboards.",
-            "imageSrc": "https://firebasestorage.googleapis.com/v0/b/hackmanthan-lostminds.appspot.com/o/4.png?alt=media&token=ad62d33d-4b3e-44b0-99f6-3650a5ee7459",
+            "imageSrc": "/images/projects/formula-racing-telemetry-system.svg",
             "url": "https://sparkracingteam.com/",
-            "tech": ["IoT", "Real-time", "Data Pipeline"]
+            "tech": [
+                "IoT",
+                "Real-time",
+                "Data Pipeline"
+            ]
         }
     ],
     "services": [
+        {
+            "id": "0",
+            "title": "Ayu Health | Founder & CEO",
+            "description": "Building an EHR-agnostic AI clinical intelligence layer for Indian doctors: vernacular voice capture and handwriting OCR in 10 Indian languages turn consultations into structured records. Live doctor pilots and a patient app with 7,000+ installs.",
+            "dates": "2024 - Present",
+            "location": "Bengaluru, India",
+            "logo": "🩺"
+        },
         {
             "id": "1",
             "title": "Fusion Cyber | VP of AI",
@@ -169,11 +199,18 @@
             "logo": "🎓"
         }
     ],
-    "aboutpara": "VP of AI at Fusion Cyber, working with VetCOMM (F3), Cisco, FIU, USC, Kentucky, Denmark & Lincoln university building AI LMS that scaled to $3M+ in revenue. Built Beacon AI, Rangsphera (AI Cyber Range), and Alice AI agents. Also working on Health AI products in India as side hustle. Led teams at IIT Bombay, won Smart India Hackathon 2022, and passionate about building end-to-end AI products that solve real problems.",
+    "aboutpara": "Founder and CEO of Ayu Health, an EHR-agnostic AI clinical intelligence layer for Indian doctors: vernacular voice capture and handwriting OCR turn a consultation into a structured medical record without the doctor typing or switching software. Ayu started with my mother's diabetes records, a bag of loose papers no specialist could read. Also VP of AI at Fusion Cyber, where I built Beacon AI, Rangsphera (AI cyber range) and Alice AI agents with VetCOMM (F3), Cisco, FIU, USC, Kentucky, Denmark & Lincoln university, scaling to $3M+ in revenue. Before that, ~2 years of ML research at IIT Bombay on OCR for Indian-language manuscripts. Smart India Hackathon 2022 winner; IITM Pravartak incubated; IIM Bangalore NSRCEL Healthcare & AI cohort; Google AI for Impact APAC Special Mention.",
     "resume": {
-        "tagline": "VP of AI | AI Engineer & Backend Dev",
-        "description": "Leading AI development at Fusion Cyber. Built AI LMS scaled to $3M+ revenue. Expert in LLMs, AI Agents, ML pipelines, and production deployments.",
+        "tagline": "Founder & CEO, Ayu Health | VP of AI, Fusion Cyber",
+        "description": "Founder of Ayu Health (AI for Indian healthcare) and VP of AI at Fusion Cyber. Backend, cloud and AI engineer: LLMs, AI agents, OCR and speech pipelines, production deployments on GCP and AWS.",
         "experiences": [
+            {
+                "id": "0",
+                "dates": "2024 - Present",
+                "type": "Founder",
+                "position": "Ayu Health - Founder & CEO",
+                "bullets": "Founded Ayu Health (Ayuapp Health Pvt Ltd): an AI clinical intelligence layer that sits on top of any EMR , Built the backend and AI stack: Django on GCP Kubernetes; LangGraph agents; Gemini and Claude OCR for handwritten prescriptions in 10 Indian languages; vernacular speech-to-text , Live doctor pilots and channel partnerships with ophthalmology device and EMR companies; patient app with 7000+ installs , IITM Pravartak incubated · IIM Bangalore NSRCEL Healthcare & AI cohort · Ginserv Gincelerator 3.0"
+            },
             {
                 "id": "1",
                 "dates": "April 2025 - Present",
@@ -252,7 +289,9 @@
             "c": "Hack-O-Pitch IIT Madras 2022 | 3rd Price",
             "d": "Pillai Alegria Hackathon 2021 | Winner ",
             "e": "IIIT Manthan Hackathon Finalist | Team Lead | IIIT Chattisgarh",
-            "f": "HACKOVERFLOW 1.0 PAN-INDIA HACKATHON | Team Lead | 3RD"
+            "f": "HACKOVERFLOW 1.0 PAN-INDIA HACKATHON | Team Lead | 3RD",
+            "g": "Google AI for Impact APAC | Special Mention",
+            "h": "Accel × Anthropic Dev Day | 3rd Place (AI Agents for Doctors)"
         },
         "languages": [
             "Python",
@@ -277,5 +316,7 @@
             "Adobe Premier Pro",
             "Adobe PhotoShop"
         ]
-    }
+    },
+    "siteUrl": "https://om.ayuapp.com",
+    "siteDescription": "Om Surve is the founder and CEO of Ayu Health, an AI clinical intelligence layer for Indian doctors, and VP of AI at FusionCyber. Backend, cloud and AI engineer; ex-IIT Bombay ML research."
 }

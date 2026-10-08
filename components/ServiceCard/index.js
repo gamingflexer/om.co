@@ -39,14 +39,14 @@ const ServiceCard = ({ name, description, dates, location, logo }) => {
 
           <div className="flex-1">
             {/* Company name with terminal prompt */}
-            <h1
+            <h3
               className="text-2xl laptop:text-3xl font-bold transition-all duration-300 text-slate-900 group-hover:text-cyan-600"
               style={{
                 fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace",
               }}
             >
               {name ? `$ ${name}` : "$ Company"}
-            </h1>
+            </h3>
 
             {/* Date and location */}
             {(dates || location) && (

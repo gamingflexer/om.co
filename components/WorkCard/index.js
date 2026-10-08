@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
-const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
+const WorkCard = ({ img, name, description, href, tech = [] }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className="group relative overflow-hidden rounded-2xl p-1 laptop:p-1 first:ml-0 link cursor-pointer"
-      onClick={onClick}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener"
+      className="group relative block overflow-hidden rounded-2xl p-1 laptop:p-1 first:ml-0 link cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -32,6 +34,7 @@ const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
         >
           <img
             alt={name}
+            loading="lazy"
             className="h-full w-full object-cover group-hover:scale-110 transition-all ease-out duration-700"
             src={img}
           />
@@ -44,7 +47,7 @@ const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
               {tech.map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 rounded-full text-xs font-mono backdrop-blur-md bg-cyan-500/30 text-cyan-700 border border-cyan-500/50"
+                  className="px-3 py-1 rounded-full text-xs font-mono backdrop-blur-md bg-black/30 text-white border border-white/40"
                 >
                   {t}
                 </span>
@@ -64,14 +67,14 @@ const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
 
         {/* Content */}
         <div className="p-6">
-          <h1
+          <h3
             className="text-2xl laptop:text-3xl font-bold mb-3 transition-all duration-300 text-slate-900 group-hover:text-cyan-600"
             style={{
               fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace",
             }}
           >
             {name ? `> ${name}` : "> Project Name"}
-          </h1>
+          </h3>
 
           <p
             className="text-base laptop:text-lg leading-relaxed text-slate-600 group-hover:text-slate-700 transition-colors duration-300"
@@ -95,7 +98,7 @@ const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
           className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10"
         />
       </div>
-    </div>
+    </a>
   );
 };
 

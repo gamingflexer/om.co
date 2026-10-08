@@ -1,0 +1,19 @@
+# Om Surve
+
+> Founder and CEO of Ayu Health, an EHR-agnostic AI clinical intelligence layer for Indian doctors, and VP of AI at FusionCyber. Backend, cloud and AI engineer; previously ML research on OCR for Indian-language manuscripts at IIT Bombay.
+
+## Pages
+
+- [Home](https://om.ayuapp.com/): work, experience and background
+- [Resume](https://om.ayuapp.com/resume/): full experience, education, achievements and skills
+
+## Writing
+
+- [Why do most startups fail? It's you.](https://om.ayuapp.com/blog/why-most-startups-fail/): Book of Clarity, episode 0
+
+## Elsewhere
+
+- [Ayu Health](https://www.ayuapp.com/)
+- [FusionCyber](https://www.fusioncyber.co/)
+- [LinkedIn](https://www.linkedin.com/in/om0/)
+- [GitHub](https://github.com/gamingflexer)

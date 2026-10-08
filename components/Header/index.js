@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Popover } from "@headlessui/react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
@@ -23,12 +24,12 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         {({ open }) => (
           <>
             <div className="flex items-center justify-between p-2 laptop:p-0">
-              <h1
-                onClick={() => router.push("/")}
+              <Link
+                href="/"
                 className="font-medium p-2 laptop:p-0 link"
               >
                 {name}.
-              </h1>
+              </Link>
 
               <div className="flex items-center">
                 {data.darkMode && (
@@ -117,12 +118,12 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
       <div
         className="mt-10 hidden flex-row items-center justify-between sticky bg-black/95 backdrop-blur-md text-white top-0 z-10 tablet:flex px-4 py-3 shadow-lg rounded-full mx-4"
       >
-        <h1
-          onClick={() => router.push("/")}
+        <Link
+          href="/"
           className="font-medium cursor-pointer mob:p-2 laptop:p-0"
         >
           {name}.
-        </h1>
+        </Link>
         {!isBlog ? (
           <div className="flex">
             <Button onClick={handleWorkScroll}>Work</Button>

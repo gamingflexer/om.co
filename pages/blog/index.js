@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Seo from "../../components/Seo";
 import Router, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { stagger } from "../../animations";
@@ -64,9 +64,7 @@ const Blog = ({ posts }) => {
     showBlog.current && (
       <>
         <Cursor />
-        <Head>
-          <title>Blog</title>
-        </Head>
+        <Seo title={`Blog | ${data.name}`} path="/blog/" noindex={!data.showBlog} />
         <div className="container mx-auto mb-10">
           <Header isBlog={true}></Header>
           <div className="mt-10">

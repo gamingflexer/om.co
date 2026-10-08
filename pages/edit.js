@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import Button from "../components/Button";
 import Header from "../components/Header";
@@ -148,6 +149,10 @@ const Edit = () => {
 
   return (
     <div className="container mx-auto">
+      <Head>
+        <title>Edit</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <Header></Header>
       <Cursor />
       <div className="mt-10">
