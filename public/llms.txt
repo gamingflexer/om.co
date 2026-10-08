@@ -4,8 +4,7 @@
 
 ## Pages
 
-- [Home](https://om.ayuapp.com/): work, experience and background
-- [Resume](https://om.ayuapp.com/resume/): full experience, education, achievements and skills
+- [Home](https://om.ayuapp.com/): Om as a 3D character standing on a meadow
 
 ## Writing
 
