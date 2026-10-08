@@ -11,6 +11,7 @@ import Button from "../components/Button";
 import Link from "next/link";
 import Cursor from "../components/Cursor";
 import LegoBackground from "../components/LegoBackground";
+import Character3D from "../components/Character3D";
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -144,46 +145,52 @@ export default function Home() {
           handleAboutScroll={handleAboutScroll}
         />
 
-        {/* Hero Section with glitch effect */}
-        <div className="laptop:mt-20 mt-10">
-          <div className="mt-5">
-            <p
-              ref={textOne}
-              className="text-3xl tablet:text-5xl laptop:text-6xl laptopl:text-7xl p-1 tablet:p-2 font-bold w-4/5 mob:w-full laptop:w-4/5 font-mono"
-            >
-              {data.headerTaglineOne}
-            </p>
-            <h1
-              ref={textTwo}
-              className="text-3xl tablet:text-5xl laptop:text-6xl laptopl:text-7xl p-1 tablet:p-2 font-bold w-full laptop:w-4/5 font-mono bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-            >
-              {data.headerTaglineTwo}
-            </h1>
-            <p
-              ref={textThree}
-              className="text-2xl tablet:text-4xl laptop:text-5xl laptopl:text-6xl p-1 tablet:p-2 font-bold w-full laptop:w-4/5 font-mono text-cyan-400"
-            >
-              {data.headerTaglineThree}
-            </p>
-            <p
-              ref={textFour}
-              className="text-lg tablet:text-2xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 w-full laptop:w-4/5 text-slate-600"
-            >
-              {data.headerTaglineFour}
-            </p>
+        {/* Hero: the 3D character beside the taglines (above them on mobile) */}
+        <div className="laptop:mt-20 mt-10 laptop:grid laptop:grid-cols-5 laptop:items-center laptop:gap-8">
+          <Character3D
+            start={bootComplete}
+            className="h-[60vh] min-h-[420px] laptop:h-[80vh] laptop:col-span-2 laptop:order-2 rounded-3xl bg-white"
+          />
+          <div className="laptop:col-span-3 laptop:order-1">
+            <div className="mt-5">
+              <p
+                ref={textOne}
+                className="text-3xl tablet:text-5xl laptop:text-6xl laptopl:text-7xl p-1 tablet:p-2 font-bold w-4/5 mob:w-full laptop:w-4/5 font-mono"
+              >
+                {data.headerTaglineOne}
+              </p>
+              <h1
+                ref={textTwo}
+                className="text-3xl tablet:text-5xl laptop:text-6xl laptopl:text-7xl p-1 tablet:p-2 font-bold w-full laptop:w-4/5 font-mono bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+              >
+                {data.headerTaglineTwo}
+              </h1>
+              <p
+                ref={textThree}
+                className="text-2xl tablet:text-4xl laptop:text-5xl laptopl:text-6xl p-1 tablet:p-2 font-bold w-full laptop:w-4/5 font-mono text-cyan-400"
+              >
+                {data.headerTaglineThree}
+              </p>
+              <p
+                ref={textFour}
+                className="text-lg tablet:text-2xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 w-full laptop:w-4/5 text-slate-600"
+              >
+                {data.headerTaglineFour}
+              </p>
 
-            {/* Current role badge */}
-            {data.currentRole && (
-              <div className="mt-8 inline-block">
-                <div className="px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-md border border-cyan-500/50 font-mono text-slate-900 font-bold">
-                  <span className="text-green-600">&gt;</span> {data.currentRole}
-                  <span className="ml-2 animate-pulse">_</span>
+              {/* Current role badge */}
+              {data.currentRole && (
+                <div className="mt-8 inline-block">
+                  <div className="px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 backdrop-blur-md border border-cyan-500/50 font-mono text-slate-900 font-bold">
+                    <span className="text-green-600">&gt;</span> {data.currentRole}
+                    <span className="ml-2 animate-pulse">_</span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
-          <Socials className="mt-8 laptop:mt-10" />
+            <Socials className="mt-8 laptop:mt-10" />
+          </div>
         </div>
 
         {/* Work Section */}
