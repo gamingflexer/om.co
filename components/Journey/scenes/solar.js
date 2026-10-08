@@ -79,8 +79,8 @@ export const createSolar = async (THREE, { tier, small }) => {
         float fac = smoothstep(0.55, 0.8, fbm(q * 14.0 + 21.0)) * pow(1.0 - mu, 1.5) * 0.35;
         // Limb darkening (visible light): I/I0 = 0.3 + 0.93mu - 0.23mu^2.
         float ld = 0.3 + 0.93 * mu - 0.23 * mu * mu;
-        vec3 centre = vec3(1.0, 0.9, 0.7);
-        vec3 edge = vec3(1.0, 0.6, 0.25);
+        vec3 centre = vec3(1.0, 0.8, 0.5);
+        vec3 edge = vec3(1.0, 0.45, 0.12);
         vec3 col = mix(edge, centre, smoothstep(0.0, 0.7, mu));
         col *= gran * spot + fac;
         col *= ld;
@@ -149,7 +149,7 @@ export const createSolar = async (THREE, { tier, small }) => {
             loop *= 0.6 + 0.6 * noise(vec2(ang * 40.0, r * 30.0 + time * 0.1));
             prom += loop;
           }
-          vec3 col = vec3(1.0, 0.92, 0.78) * (streamers + inner) + vec3(1.0, 0.3, 0.2) * prom * 1.8;
+          vec3 col = vec3(1.0, 0.82, 0.58) * (streamers + inner) + vec3(1.0, 0.3, 0.2) * prom * 1.8;
           float a = clamp(streamers + inner + prom, 0.0, 1.0);
           gl_FragColor = vec4(col * fade, a * fade);
         }`,
@@ -158,10 +158,10 @@ export const createSolar = async (THREE, { tier, small }) => {
   coronaPlane.scale.setScalar(0.6 * 16);
   scene.add(coronaPlane);
   // Soft wide glow so the Sun still reads from far out (no lens cross).
-  const corona = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffe3b8, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.8 }));
+  const corona = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffc27a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.8 }));
   scene.add(corona);
 
-  const sunLight = new THREE.PointLight(0xfff2dc, 3.2, 0, 0);
+  const sunLight = new THREE.PointLight(0xffe0b0, 3.2, 0, 0);
   scene.add(sunLight, new THREE.AmbientLight(0xffffff, 0.015));
 
   // Planets.

@@ -63,20 +63,51 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
         float inside = smoothstep(0.0, 0.08, duv.x) * smoothstep(1.0, 0.92, duv.x) * smoothstep(0.0, 0.08, duv.y) * smoothstep(1.0, 0.92, duv.y);
         day = mix(day, texture2D(detailMap, duv).rgb, inside);
         float NdL = dot(N, L);
-        float dayAmt = smoothstep(-0.1, 0.3, NdL);
-        float cloud = texture2D(cloudMap, vec2(vUv.x + cloudShift, vUv.y)).r;
+        float NdV = max(dot(N, V), 0.0);
+        float dayAmt = smoothstep(-0.12, 0.25, NdL);
+        // Clouds, and the shadows they throw on the ground away from the Sun.
+        vec2 cuv = vec2(vUv.x + cloudShift, vUv.y);
+        float cloud = texture2D(cloudMap, cuv).r;
+        float c = max(cos(radians(lat)), 0.2);
+        vec3 east = normalize(vec3(N.z, 0.0, -N.x));
+        vec3 north = normalize(cross(N, east));
+        vec3 Lt = L - N * NdL;
+        vec2 sh = vec2(dot(Lt, east) / c, dot(Lt, north)) * 0.0045;
+        float cloudShadow = texture2D(cloudMap, cuv + sh).r;
         float ocean = smoothstep(0.01, 0.08, day.b - max(day.r, day.g) * 1.05);
-        vec3 surf = day * (0.02 + 0.98 * max(NdL, 0.0));
-        surf *= 1.0 - 0.5 * cloud * dayAmt;
+        // Sunlit surface: Lambert with a soft terminator and a little
+        // sky-blue ambient from the atmosphere; snow/ice stays bright.
+        vec3 sunCol = vec3(1.0, 0.96, 0.9);
+        float diff = max(NdL, 0.0);
+        vec3 surf = day * (sunCol * diff + vec3(0.02, 0.03, 0.05) * dayAmt);
+        surf *= 1.0 - 0.55 * smoothstep(0.1, 0.8, cloudShadow) * dayAmt * (1.0 - cloud);
+        // Ocean: sharp sun glint plus a wider sheen; land is matte.
         vec3 H = normalize(L + V);
-        float spec = pow(max(dot(N, H), 0.0), 90.0) * ocean * 0.9 * dayAmt;
-        surf += spec * vec3(1.0, 0.93, 0.8);
+        float NdH = max(dot(N, H), 0.0);
+        float fresnel = pow(1.0 - NdV, 4.0);
+        float glint = (pow(NdH, 220.0) * 1.6 + pow(NdH, 24.0) * 0.12) * ocean * dayAmt;
+        surf += glint * vec3(1.0, 0.95, 0.85) * (0.35 + 0.65 * fresnel + 0.3);
+        surf = mix(surf, surf * 0.8 + vec3(0.02, 0.05, 0.1) * fresnel * dayAmt, ocean * 0.3);
+        // The terminator: light reddens as it passes through more air.
+        float twilight = smoothstep(-0.15, 0.05, NdL) * (1.0 - smoothstep(0.05, 0.35, NdL));
+        surf *= mix(vec3(1.0), vec3(1.0, 0.7, 0.5), twilight * 0.35);
+        // City lights on the night side, with warm sodium tint, fading in
+        // through dusk; a faint earthshine/moonlit floor so the dark side
+        // is not pure black.
         vec3 night = texture2D(nightMap, vUv).rgb;
-        float nightAmt = 1.0 - smoothstep(-0.18, 0.06, NdL);
-        surf += night * vec3(1.0, 0.78, 0.5) * 1.5 * nightAmt;
-        // Thin blue rim from inside the atmosphere.
-        float fres = pow(1.0 - max(dot(N, V), 0.0), 3.5);
-        surf += vec3(0.35, 0.55, 1.0) * fres * (0.15 + 0.85 * dayAmt) * 0.9;
+        float nightAmt = 1.0 - smoothstep(-0.2, 0.02, NdL);
+        surf += pow(night, vec3(1.2)) * vec3(1.0, 0.72, 0.42) * 1.9 * nightAmt * (1.0 - 0.7 * cloud);
+        surf += day * vec3(0.05, 0.07, 0.12) * 0.12 * nightAmt;
+        // Atmosphere seen through from inside: blue haze that thickens
+        // toward the limb, orange in the twilight band, and a sunward Mie
+        // brightening.
+        float air = pow(1.0 - NdV, 2.2);
+        vec3 rayleigh = vec3(0.3, 0.52, 1.0);
+        vec3 atm = rayleigh * air * (0.1 + 0.9 * dayAmt) * 0.75;
+        atm += vec3(1.0, 0.5, 0.2) * air * twilight * 0.3;
+        float mie = pow(max(dot(V, -L), 0.0), 8.0) * air * dayAmt;
+        atm += vec3(1.0, 0.9, 0.75) * mie * 0.5;
+        surf = surf * (1.0 - 0.35 * air) + atm;
         gl_FragColor = vec4(surf, 1.0);
       }`,
   });
@@ -99,7 +130,7 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
         vec3 N = normalize(vN); vec3 L = normalize(sunDir); vec3 V = normalize(cameraPosition - vW);
         float c = texture2D(cloudMap, vec2(vUv.x + cloudShift, vUv.y)).r;
         float NdL = dot(N, L);
-        vec3 col = vec3(1.0) * (0.02 + 0.98 * max(NdL, 0.0));
+        vec3 col = vec3(1.0, 0.98, 0.95) * (0.015 + 0.985 * max(NdL, 0.0)) * (0.8 + 0.2 * smoothstep(0.3, 0.9, c));
         col *= mix(vec3(1.0), vec3(1.0, 0.55, 0.3), smoothstep(0.3, 0.0, NdL) * smoothstep(-0.2, 0.0, NdL));
         float a = smoothstep(0.05, 0.9, c) * 0.95;
         // Fade the thin shell at grazing angles so the limb stays clean.
@@ -110,7 +141,8 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
   const cloudShell = new THREE.Mesh(new THREE.SphereGeometry(1.006, 192, 128), cloudMat);
   scene.add(cloudShell);
 
-  // Atmosphere halo just outside the limb.
+  // Atmosphere halo just outside the limb: Rayleigh blue, orange where the
+  // terminator meets the limb, and brighter on the sunward side (Mie).
   const atmMat = new THREE.ShaderMaterial({
     uniforms: { sunDir: { value: sunDir } },
     transparent: true,
@@ -123,15 +155,20 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
       precision highp float;
       uniform vec3 sunDir; varying vec3 vN; varying vec3 vW;
       void main(){
-        vec3 N = normalize(vN); vec3 V = normalize(cameraPosition - vW);
+        vec3 N = normalize(vN); vec3 V = normalize(cameraPosition - vW); vec3 L = normalize(sunDir);
         float a = max(dot(N, V), 0.0);
-        float band = smoothstep(0.0, 0.42, a) * pow(1.0 - a, 1.2);
-        float lit = smoothstep(-0.35, 0.3, dot(N, normalize(sunDir)));
-        vec3 col = mix(vec3(0.9, 0.5, 0.25), vec3(0.35, 0.6, 1.0), smoothstep(-0.1, 0.35, dot(N, normalize(sunDir))));
-        gl_FragColor = vec4(col * band * lit * 1.6, band * lit);
+        // Thin bright band at the limb with a long faint tail outward.
+        float band = smoothstep(0.0, 0.3, a) * (pow(1.0 - a, 1.6) * 0.8 + exp(-a * 9.0) * 0.6);
+        float NdL = dot(N, L);
+        float lit = smoothstep(-0.3, 0.25, NdL);
+        float twilight = smoothstep(-0.3, 0.0, NdL) * (1.0 - smoothstep(0.0, 0.3, NdL));
+        vec3 col = mix(vec3(0.25, 0.5, 1.0), vec3(1.0, 0.55, 0.25), twilight * 0.55);
+        float mie = pow(max(dot(V, -L), 0.0), 6.0) * 0.6;
+        col += vec3(1.0, 0.9, 0.7) * mie * lit;
+        gl_FragColor = vec4(col * band * lit * 1.5, band * lit);
       }`,
   });
-  scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.045, 128, 96), atmMat));
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.06, 128, 96), atmMat));
 
   // Moon (closer than life so it reads in frame).
   const moonLight = new THREE.DirectionalLight(0xffffff, 2.6);
@@ -143,7 +180,7 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
   scene.add(moon);
 
   // Sun glare far away in the light direction.
-  const glare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512), color: 0xfff3dc, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  const glare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffd79a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   glare.position.copy(sunDir).multiplyScalar(2000);
   glare.scale.setScalar(380);
   scene.add(glare);

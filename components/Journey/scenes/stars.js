@@ -115,8 +115,19 @@ export const createStars = async (THREE, { tier, small }) => {
   scene.add(filler);
 
   // The Sun itself.
-  const sunGlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xfff1d0, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  const sunGlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffcf8a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   scene.add(sunGlare);
+
+  // A supernova going off a few hundred light-years out, in the direction
+  // we are heading: a point that out-shines everything near it, with a
+  // soft halo, so the next stage is already in the sky.
+  const snDir = new THREE.Vector3(-0.22, -0.46, -0.84).normalize();
+  const snGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 256, false), color: 0xdfe9ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  snGlow.position.copy(snDir).multiplyScalar(620);
+  scene.add(snGlow);
+  const snHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), color: 0xff9a70, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.1 }));
+  snHalo.position.copy(snGlow.position);
+  scene.add(snHalo);
 
   const dir = new THREE.Vector3(0.35, 0.55, 0.76).normalize();
   const resize = (w, h) => {
@@ -136,6 +147,12 @@ export const createStars = async (THREE, { tier, small }) => {
     // Nearby stars appear once the Sun's glare no longer swamps them.
     starMat.uniforms.fade.value = smoothstep(0.05, 0.3, t);
     fillMat.uniforms.fade.value = smoothstep(0.35, 0.7, t);
+    // The supernova brightens and its halo grows as we approach it.
+    const snA = smoothstep(0.45, 0.8, t);
+    snGlow.material.opacity = snA;
+    snGlow.scale.setScalar(4 + 14 * snA);
+    snHalo.scale.setScalar(20 + 50 * snA);
+    snHalo.material.opacity = 0.1 * snA;
   };
   return { scene, camera, update, resize, ready: Promise.resolve(), dispose: () => {} };
 };

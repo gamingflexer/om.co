@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { clamp, smoothstep } from "./util";
 
 // Scroll-driven journey: Om on the meadow → his eye → Earth from orbit → the
-// solar system → nearby stars → the Milky Way → the Local Group → the cosmic
+// solar system → nearby stars → a black hole, a supernova and a pulsar in
+// the galactic neighbourhood → the Milky Way → the Local Group → the cosmic
 // web and the observable universe → back through the eye to the meadow.
 // Each stage is its own three.js scene rendered to an HDR target; the
 // composite pass cross-fades neighbours and does tone mapping, vignette and
@@ -17,10 +18,12 @@ const STAGES = [
   { id: "earth", a: 0.106, b: 0.24 },
   { id: "solar", a: 0.228, b: 0.33 },
   { id: "stars", a: 0.318, b: 0.4 },
-  { id: "galaxy", a: 0.388, b: 0.49 },
-  { id: "blackhole", a: 0.478, b: 0.585 },
-  { id: "supernova", a: 0.573, b: 0.665 },
-  { id: "pulsar", a: 0.653, b: 0.735 },
+  // Inside the galaxy first: a black hole, a supernova and the pulsar it
+  // leaves behind, then out of the disc to see the whole Milky Way.
+  { id: "blackhole", a: 0.388, b: 0.49 },
+  { id: "supernova", a: 0.478, b: 0.585 },
+  { id: "pulsar", a: 0.573, b: 0.665 },
+  { id: "galaxy", a: 0.653, b: 0.735 },
   { id: "local", a: 0.723, b: 0.8 },
   { id: "web", a: 0.79, b: 0.9 },
   { id: "iris", a: 0.872, b: 0.935, reverse: true },
@@ -80,7 +83,7 @@ const Journey = ({ className = "", spacerRef, sound }) => {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       const canvas = renderer.domElement;
       canvas.setAttribute("role", "img");
-      canvas.setAttribute("aria-label", "Scroll journey from Om on a meadow, into his eye, out past Earth, the solar system, the Milky Way, a black hole, a supernova and a pulsar to the observable universe");
+      canvas.setAttribute("aria-label", "Scroll journey from Om on a meadow, into his eye, out past Earth, the solar system, nearby stars, a black hole, a supernova and a pulsar, then the Milky Way and on to the observable universe");
       canvas.style.display = "block";
       canvas.style.width = "100%";
       canvas.style.height = "100%";
