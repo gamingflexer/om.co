@@ -6,20 +6,20 @@ import React, { useEffect, useRef } from "react";
 
 const NIGHT = {
   zenith: "#050817", mid: "#0b1430", horizon: "#1a2547", glow: "#8090ff", glowI: 0.12,
-  grass: "#142a1c", light: "#9fb4ff", lightI: 0.5, envI: 0.16, emissive: 0.06, rimI: 0.25,
+  grass: "#142a1c", light: "#b4c4ff", lightI: 0.8, envI: 0.22, emissive: 0.14, rimI: 0.25,
 };
 // Sky/light keyframes over the IST day (hour → palette), blended linearly.
 const PHASES = [
   { h: 0, ...NIGHT },
   { h: 4.8, ...NIGHT },
-  { h: 5.6, zenith: "#101a42", mid: "#3a3f78", horizon: "#d9788a", glow: "#ff9a7a", glowI: 0.5, grass: "#1d3624", light: "#c9b4ff", lightI: 0.6, envI: 0.25, emissive: 0.1, rimI: 0.4 },
+  { h: 5.6, zenith: "#101a42", mid: "#3a3f78", horizon: "#d9788a", glow: "#ff9a7a", glowI: 0.5, grass: "#1d3624", light: "#c9b4ff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
   { h: 6.3, zenith: "#3f63a8", mid: "#e3a27e", horizon: "#ffb56b", glow: "#ffb347", glowI: 1.2, grass: "#355f33", light: "#ffcf9e", lightI: 1.0, envI: 0.45, emissive: 0.18, rimI: 1.2 },
   { h: 7.5, zenith: "#5b9ae0", mid: "#a9cff0", horizon: "#ffe0b5", glow: "#fff0c8", glowI: 0.5, grass: "#4a8a40", light: "#fff0d8", lightI: 1.3, envI: 0.75, emissive: 0.26, rimI: 0.6 },
   { h: 10, zenith: "#3f8be0", mid: "#8fc2f0", horizon: "#d8ecff", glow: "#ffffff", glowI: 0.3, grass: "#4f9443", light: "#fff6e6", lightI: 1.45, envI: 0.85, emissive: 0.3, rimI: 0.3 },
   { h: 15.5, zenith: "#3f8be0", mid: "#8fc2f0", horizon: "#d8ecff", glow: "#ffffff", glowI: 0.3, grass: "#4f9443", light: "#fff6e6", lightI: 1.45, envI: 0.85, emissive: 0.3, rimI: 0.3 },
   { h: 17.3, zenith: "#4a7cc4", mid: "#f0c79a", horizon: "#ffc98a", glow: "#ffc06a", glowI: 0.8, grass: "#4a8238", light: "#ffd9a8", lightI: 1.3, envI: 0.7, emissive: 0.26, rimI: 0.9 },
   { h: 18.3, zenith: "#2e3f86", mid: "#e0726a", horizon: "#ff8a3d", glow: "#ff6a2a", glowI: 1.4, grass: "#345a2c", light: "#ffb07a", lightI: 1.0, envI: 0.45, emissive: 0.18, rimI: 1.4 },
-  { h: 19, zenith: "#161d4a", mid: "#5b3f7a", horizon: "#c8607a", glow: "#ff6a6a", glowI: 0.5, grass: "#1f3a26", light: "#b9a8ff", lightI: 0.65, envI: 0.26, emissive: 0.1, rimI: 0.4 },
+  { h: 19, zenith: "#161d4a", mid: "#5b3f7a", horizon: "#c8607a", glow: "#ff6a6a", glowI: 0.5, grass: "#1f3a26", light: "#b9a8ff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
   { h: 19.8, ...NIGHT },
   { h: 24, ...NIGHT },
 ];
