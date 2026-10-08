@@ -42,7 +42,7 @@ const ServiceCard = ({ name, description, dates, location, logo }) => {
             <h1
               className="text-2xl laptop:text-3xl font-bold transition-all duration-300 text-slate-900 group-hover:text-cyan-600"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace",
               }}
             >
               {name ? `$ ${name}` : "$ Company"}

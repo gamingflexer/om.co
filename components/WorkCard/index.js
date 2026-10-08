@@ -67,7 +67,7 @@ const WorkCard = ({ img, name, description, onClick, tech = [] }) => {
           <h1
             className="text-2xl laptop:text-3xl font-bold mb-3 transition-all duration-300 text-slate-900 group-hover:text-cyan-600"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "var(--font-jetbrains), 'JetBrains Mono', monospace",
             }}
           >
             {name ? `> ${name}` : "> Project Name"}

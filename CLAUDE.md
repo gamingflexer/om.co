@@ -4,25 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal portfolio website for Om Surve built with Next.js 12. The site showcases work projects, experience, blog posts, and a resume. Based on a React portfolio template with custom modifications. Live at https://asach.co/
+Personal portfolio website for Om Surve built with Next.js 16 (Pages Router, static export). The site showcases work projects, experience, blog posts, and a resume. Based on a React portfolio template with custom modifications. Live at https://asach.co/
 
 ## Development Commands
 
 ```bash
-# Start development server
-npm run dev
-# or
-yarn dev
-
-# Build for production (includes export for static deployment)
-npm run build
-npm run export
-
-# Lint code
-npm run lint
-
-# Start production server
-npm start
+pnpm install      # pnpm only (pnpm-lock.yaml); no npm/yarn lockfiles
+pnpm dev          # development server
+pnpm build        # next build with output: 'export' -> static site in out/
+pnpm lint         # eslint . (flat config in eslint.config.mjs)
 ```
 
 ## Architecture
@@ -89,9 +79,9 @@ Several features only work in `NODE_ENV === "development"`:
 ### Deployment
 
 Configured for Netlify deployment:
-- `netlify.toml` specifies build command: `npm run build && npm run export`
-- Publishes from `out` directory (Next.js static export)
-- Environment variable required: `NETLIFY_NEXT_PLUGIN_SKIP=true`
+- `netlify.toml`: build command `pnpm run build`, publish `out/` (Next.js static export), Node 22
+- `out/` is a build artifact and is gitignored
+- Standalone static pages (e.g. interactive blog posts) live in `public/blog/<slug>/index.html` and are copied as-is into `out/`
 
 ## Important Notes
 
