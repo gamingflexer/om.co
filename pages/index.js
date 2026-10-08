@@ -171,6 +171,31 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Writing Section: plain <a> links, since posts are standalone static pages in public/blog/ */}
+        {data.writing && data.writing.length > 0 && (
+          <div className="mt-20 laptop:mt-40 p-2 laptop:p-0">
+            <h1 className="text-4xl laptop:text-5xl font-bold font-mono mb-8 text-slate-900">
+              <span className="text-green-600">&gt;</span> Writing<span className="animate-pulse">_</span>
+            </h1>
+            <div className="mt-10 flex flex-col gap-6">
+              {data.writing.map((post) => (
+                <a
+                  key={post.url}
+                  href={post.url}
+                  className="group block p-6 laptop:p-8 rounded-2xl backdrop-blur-md bg-white/80 border border-cyan-500/30 hover:border-cyan-500 transition-all duration-300"
+                >
+                  <span className="text-sm font-mono text-slate-500">{post.date}</span>
+                  <h2 className="mt-2 text-2xl laptop:text-3xl font-bold text-slate-900 group-hover:text-cyan-600 transition-colors duration-300">
+                    {post.title}
+                  </h2>
+                  <p className="mt-2 text-lg laptop:text-xl text-slate-700">{post.description}</p>
+                  <span className="mt-4 inline-block font-mono text-cyan-600">Read →</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Experience Section with Timeline */}
         <div className="mt-20 laptop:mt-40 p-2 laptop:p-0">
           <h1 className="text-4xl laptop:text-5xl font-bold font-mono mb-12 text-slate-900">

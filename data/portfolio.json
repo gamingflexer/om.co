@@ -8,6 +8,14 @@
     "showBlog": false,
     "darkMode": false,
     "showResume": true,
+    "writing": [
+        {
+            "title": "Why do most startups fail? It's you.",
+            "description": "Book of Clarity, episode 0: why most startups die in the founder's head, and how Paras Chopra went from four dead websites to Wingify.",
+            "date": "October 2026",
+            "url": "/blog/why-most-startups-fail/"
+        }
+    ],
     "socials": [
         {
             "id": "1",

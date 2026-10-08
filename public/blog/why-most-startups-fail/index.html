@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why do most startups fail? It's you.</title>
+<meta name="description" content="Book of Clarity, episode 0: why most startups die in the founder's head, and how Paras Chopra went from four dead websites to Wingify.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/why-most-startups-fail/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="Why do most startups fail? It's you.">
+<meta property="og:description" content="Book of Clarity, episode 0: why most startups die in the founder's head, and how Paras Chopra went from four dead websites to Wingify.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/why-most-startups-fail/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/why-most-startups-fail/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Most startups die.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why do most startups fail? It's you.">
+<meta name="twitter:description" content="Book of Clarity, episode 0: why most startups die in the founder's head, and how Paras Chopra went from four dead websites to Wingify.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/why-most-startups-fail/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column on grid paper, like a page torn from a notebook; each idea is a doodle you can poke. */
+:root {
+  --paper: #f6f1e7;
+  --grid: #e6dccb;
+  --ink: #24222a;
+  --ink-soft: #5b5562;
+  --coral: #e2513a;
+  --card: #fffdf8;
+  --line: #d8cdb9;
+  --hand: "Gaegu", "Comic Sans MS", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 80px; }
+h1, h2, .hand { font-family: var(--hand); font-weight: 700; line-height: 1.05; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); margin: 0; }
+h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 .4rem; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+section { display: flex; flex-direction: column; gap: 1rem; margin-top: 3.2rem; }
+.kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.coral { color: var(--coral); }
+mark { background: none; color: inherit; background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--coral) 35%, transparent) 62%); padding: 0 .1em; }
+.byline { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.note { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+a { color: var(--coral); }
+
+/* hero orbit */
+.orbit { position: relative; width: 100%; max-width: 100%; aspect-ratio: 1 / 1; margin: 1rem auto 0; max-height: 620px; }
+.orbit canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.orbit .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .8rem; padding: 22%; pointer-events: none; }
+.orbit .center > * { pointer-events: auto; }
+.big-you { position: absolute; left: 50%; top: 50%; translate: -50% -62%; pointer-events: none; font-family: var(--hand); font-weight: 700; color: var(--coral); font-size: clamp(5rem, 26vw, 9rem); line-height: .9; transform: scale(.2); opacity: 0; transition: transform .5s cubic-bezier(.2,1.6,.4,1), opacity .2s; }
+.orbit.burst .big-you { transform: scale(1); opacity: 1; }
+.orbit.burst .hook-line { visibility: hidden; }
+.orbit.burst .btn { translate: 0 2.2rem; }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn:hover { transform: translate(-1px, -1px); }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+
+/* quiz */
+.choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 460px) { .choices { grid-template-columns: 1fr; } }
+.choice { text-align: left; background: var(--card); color: var(--ink); border: 2px solid var(--ink); border-radius: 14px 18px 12px 16px; padding: .7rem .9rem; font-family: var(--hand); font-size: 1.35rem; font-weight: 700; line-height: 1.1; position: relative; }
+.choice .bar { display: block; height: 6px; margin-top: .5rem; border-radius: 3px; background: var(--line); overflow: hidden; }
+.choice .bar i { display: block; height: 100%; width: 0; background: var(--ink-soft); transition: width .7s ease; }
+.choice.right { border-color: var(--coral); }
+.choice.right .bar i { background: var(--coral); }
+.choice.picked::after { content: "your pick"; position: absolute; top: -.7rem; right: .6rem; font-family: var(--mono); font-size: .65rem; background: var(--paper); padding: 0 .3rem; letter-spacing: .08em; text-transform: uppercase; }
+.reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
+
+/* graveyard */
+.grave-form { display: flex; flex-direction: column; gap: .7rem; background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; }
+.grave-form label { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; }
+.grave-form input[type=text] { font: inherit; font-size: 1.05rem; padding: .55rem .7rem; border: 2px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); width: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip { font-family: var(--mono); font-size: .8rem; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: .3rem .7rem; }
+.chip[aria-pressed=true] { background: var(--ink); color: var(--paper); }
+.graves { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .8rem; }
+.tomb { background: var(--card); border: 2px solid var(--ink); border-radius: 70px 70px 8px 8px; padding: 1.4rem .8rem .8rem; text-align: center; display: flex; flex-direction: column; gap: .35rem; min-width: 0; animation: rise .45s cubic-bezier(.2,1.4,.4,1); }
+.tomb .rip { font-family: var(--hand); font-weight: 700; font-size: 1.05rem; color: var(--ink-soft); }
+.tomb .idea { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; overflow-wrap: anywhere; }
+.tomb .why { font-family: var(--mono); font-size: .7rem; color: var(--coral); }
+.tomb.example { opacity: .7; }
+@keyframes rise { from { transform: translateY(18px) scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+.reply { font-style: italic; }
+
+/* story timeline */
+.steps { display: flex; flex-direction: column; gap: 0; position: relative; }
+.step { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-top: 1.5px dashed var(--line); align-items: start; }
+.step .when { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 1; color: var(--coral); }
+.step .what { display: flex; flex-direction: column; gap: .35rem; min-width: 0; }
+.step .what b { font-family: var(--hand); font-size: 1.45rem; line-height: 1.1; }
+.xboxes { display: flex; gap: .4rem; }
+.xbox { width: 46px; height: 34px; border: 2px solid var(--ink); border-radius: 6px; position: relative; background: var(--card); }
+.xbox::before, .xbox::after { content: ""; position: absolute; left: 50%; top: 50%; width: 52px; height: 3px; background: var(--coral); border-radius: 2px; transform-origin: center; transform: translate(-50%, -50%) rotate(35deg) scaleX(0); transition: transform .25s; }
+.xbox::after { transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); }
+.xbox.x::before { transform: translate(-50%, -50%) rotate(35deg) scaleX(1); }
+.xbox.x::after { transform: translate(-50%, -50%) rotate(-35deg) scaleX(1); transition-delay: .12s; }
+.shot { border: 2px solid var(--ink); border-radius: 10px; overflow: hidden; background: var(--card); max-width: 100%; }
+.shot img { display: block; width: 100%; height: auto; }
+.shot figcaption { font-family: var(--mono); font-size: .7rem; color: var(--ink-soft); padding: .35rem .6rem; border-top: 1.5px solid var(--line); }
+
+/* receipt */
+.receipt-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: center; }
+@media (max-width: 520px) { .receipt-wrap { grid-template-columns: 1fr; } }
+.receipt { background: var(--card); color: var(--ink); font-family: var(--mono); font-size: .9rem; padding: 1rem 1rem 1.4rem; border: 1.5px solid var(--line); clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),92% 100%,84% calc(100% - 10px),76% 100%,68% calc(100% - 10px),60% 100%,52% calc(100% - 10px),44% 100%,36% calc(100% - 10px),28% 100%,20% calc(100% - 10px),12% 100%,4% calc(100% - 10px),0 100%); transform: rotate(-1.5deg); }
+.receipt .row { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
+.receipt .tot { border-top: 1.5px dashed var(--ink-soft); margin-top: .5rem; padding-top: .5rem; font-weight: 500; }
+.multiplier { display: flex; flex-direction: column; gap: .4rem; }
+.multiplier .num { font-family: var(--hand); font-weight: 700; font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1; color: var(--coral); font-variant-numeric: tabular-nums; }
+
+/* salary chart */
+.chart-box { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .6rem; }
+.chart-box svg { width: 100%; height: auto; display: block; }
+.chart-box input[type=range] { width: 100%; accent-color: var(--coral); }
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); }
+.legend span::before { content: ""; display: inline-block; width: 18px; height: 3px; margin-right: .35rem; vertical-align: middle; background: currentColor; }
+.legend .s { color: var(--ink-soft); } .legend .b { color: var(--coral); }
+
+/* reel + series */
+.reel { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 1.1rem; align-items: center; }
+@media (max-width: 520px) { .reel { grid-template-columns: 1fr; } .reel .cover { max-width: 240px; } }
+.cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
+.cover img { display: block; width: 100%; height: auto; }
+.cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+.eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
+.eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.eps .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; }
+.eps li.now .t { color: var(--coral); }
+.sources { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: .3rem; border-top: 1.5px dashed var(--line); padding-top: 1rem; margin-top: 3rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="stack">
+    <div class="kicker">Book of Clarity · Episode 0</div>
+    <h1>Why do most startups fail?</h1>
+    <div class="byline"><span>Om Surve</span><span>·</span><span>Founder, Ayu</span><span>·</span><span>4 min read</span></div>
+  </div>
+
+  <div class="orbit" id="orbit">
+    <canvas id="orbitCanvas" aria-hidden="true"></canvas>
+    <div class="center">
+      <p class="hand hook-line" style="font-size:clamp(1.6rem,6vw,2.4rem)">Most startups die.</p>
+      <div class="big-you" aria-live="polite">You.</div>
+      <button class="btn" id="whyBtn">Why?</button>
+    </div>
+  </div>
+  <p class="note" style="text-align:center">Orbiting: 28 real startups that shut down. Webvan, Quibi, Juicero, Vine, Theranos, Pebble and more.</p>
+
+  <section>
+    <p>Most startups die. Some never find product-market fit. Some break up over co-founder fights. Some run out of money.</p>
+    <p>Pick the one you think kills the most.</p>
+    <div class="choices" id="quiz">
+      <button class="choice" data-k="pmf" data-v="22">No product-market fit<span class="bar"><i></i></span></button>
+      <button class="choice" data-k="cof" data-v="12">Co-founder fights<span class="bar"><i></i></span></button>
+      <button class="choice" data-k="money" data-v="16">Ran out of money<span class="bar"><i></i></span></button>
+      <button class="choice" data-k="you" data-v="50">The founder's own head<span class="bar"><i></i></span></button>
+    </div>
+    <div class="reveal" id="quizReveal" hidden>
+      <p><b>It's you.</b> That's the first page of <i>The Book of Clarity</i> by Paras Chopra. Most startups never die in the market. They die at the idea stage, inside the founder's head, before anyone else ever sees them.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Your turn</div>
+    <h2>The idea graveyard</h2>
+    <p>Everyone has one. An idea you killed before you told anyone. Bury it here, then read what the book would say back.</p>
+    <form class="grave-form" id="graveForm" autocomplete="off">
+      <label for="ideaInput">One idea you killed in your head</label>
+      <input type="text" id="ideaInput" maxlength="60" placeholder="e.g. a tiffin service for my office">
+      <div class="chips" id="reasonChips" role="group" aria-label="Why you killed it">
+        <button type="button" class="chip" data-r="time" aria-pressed="false">no time</button>
+        <button type="button" class="chip" data-r="exists" aria-pressed="false">someone already did it</button>
+        <button type="button" class="chip" data-r="smart" aria-pressed="false">not smart enough</button>
+        <button type="button" class="chip" data-r="money" aria-pressed="false">no money</button>
+        <button type="button" class="chip" data-r="silly" aria-pressed="false">felt silly</button>
+      </div>
+      <div><button class="btn" type="submit">Bury it</button></div>
+      <p class="reply" id="graveReply" aria-live="polite"></p>
+    </form>
+    <div class="graves" id="graves"></div>
+    <p class="note">Stays in your browser. Nothing is sent anywhere.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The man behind the book</div>
+    <h2>Four failures before the first win</h2>
+    <div class="steps">
+      <div class="step"><div class="when">15</div><div class="what"><b>His first website: NaramCheez.</b><p>Hindi for "soft-ware". It failed. So did the next three.</p>
+        <div class="xboxes" id="xboxes" aria-label="Four failed attempts"><span class="xbox"></span><span class="xbox"></span><span class="xbox"></span><span class="xbox"></span></div></div></div>
+      <div class="step"><div class="when">Day 1</div><div class="what"><b>He takes a job, and tells his boss he'll quit.</b><p>The day his own business earns what the job pays, he's out. His bar was ₹50,000 a month, the same as his salary.</p></div></div>
+      <div class="step"><div class="when">₹700</div><div class="what"><b>A domain and a server. No investors.</b><p>That's the whole starting budget for Wingify.</p></div></div>
+      <div class="step"><div class="when">Month 1</div><div class="what"><b>$4,000 in the first paying month.</b><p>Eighteen months later: a million dollars.</p></div></div>
+      <div class="step"><div class="when">2025</div><div class="what"><b>A majority stake goes to Everstone, at about $200 million.</b>
+        <figure class="shot" style="margin:.3rem 0 0"><img src="img/web_techcrunch.jpg" alt="TechCrunch headline on Everstone buying a majority stake in Wingify" loading="lazy"><figcaption>TechCrunch, January 2025</figcaption></figure></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Play with it</div>
+    <h2>When does the side project beat the salary?</h2>
+    <p>His rule was simple: the startup has to earn what the job pays. Drag the months and watch the coral line catch up.</p>
+    <div class="chart-box">
+      <svg viewBox="0 0 600 300" role="img" aria-labelledby="chartTitle" id="chart">
+        <title id="chartTitle">Salary stays flat at ₹50,000 a month while the startup line climbs from zero</title>
+      </svg>
+      <label class="note" for="monthSlider">Months since launch: <b id="monthOut">0</b></label>
+      <input type="range" id="monthSlider" min="0" max="18" value="0">
+      <div class="legend"><span class="s">Salary, ₹50,000 / month</span><span class="b">Startup revenue</span></div>
+      <p class="hand" id="chartMsg" style="font-size:1.35rem">Month 0. Nothing yet. This is where most ideas get killed.</p>
+    </div>
+    <p class="note">Shape is illustrative. The real points: the target was ₹50,000 a month, and the first paying month brought in $4,000, so Wingify crossed the line in month one.</p>
+  </section>
+
+  <section>
+    <h2>₹700 in. About $200 million out.</h2>
+    <div class="receipt-wrap">
+      <div class="receipt" aria-label="Starting costs">
+        <div class="row"><span>WINGIFY · DAY 0</span></div>
+        <div class="row"><span>Domain + server</span><span>₹700</span></div>
+        <div class="row"><span>Investors</span><span>₹0</span></div>
+        <div class="row tot"><span>TOTAL</span><span>₹700</span></div>
+      </div>
+      <div class="multiplier">
+        <div class="num" id="mult">0×</div>
+        <p>The 2025 deal valued Wingify at about $200 million, roughly ₹1,700 crore. Against the ₹700 he started with, that is about 2.4 crore times.</p>
+        <button class="btn ghost" id="countBtn" style="align-self:flex-start">Count it again</button>
+      </div>
+    </div>
+    <p>The number is fun. It isn't the point. The point is that a 15-year-old with four dead websites didn't stop at the idea stage. He kept shipping small things until one worked.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Why I'm reading this out loud</div>
+    <h2>One idea a day, on camera</h2>
+    <div class="reel">
+      <a class="cover" href="https://www.instagram.com/reel/DeN-014vbWa/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Om holding The Book of Clarity"><span class="play">▶ Watch the reel</span></a>
+      <div class="stack">
+        <p>We met Paras at Lossfunk, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn.</p>
+        <p>I build Ayu, a health records app for Indian families, and these ideas are the ones I keep coming back to while doing it.</p>
+        <ul class="eps">
+          <li class="now"><span class="d">8 Oct</span><span class="t">Why do most startups fail?</span></li>
+          <li><span class="d">10 Oct</span><span class="t">When should you start a startup?</span></li>
+          <li><span class="d">11 Oct</span><span class="t">Why do businesses exist?</span></li>
+        </ul>
+        <p><a href="https://www.instagram.com/om_cosmos/" target="_blank" rel="noopener">Follow along on Instagram, @om_cosmos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>So, the idea you buried above?</h2>
+    <p>Don't build it this week. Just tell three people about it today and see who asks a second question. That's the cheapest test there is, and it's the step most of us skip.</p>
+  </section>
+
+  <div class="sources">
+    <span>Sources: Paras Chopra, <i>The Book of Clarity</i>, Introduction (pp. 1–5), for the first-page argument, NaramCheez, the promise to his boss, the ₹50,000 target, $4,000, ₹700 and the million dollars. TechCrunch, Inc42 and Businesswire, January 2025, for the Everstone majority stake at about $200 million. Rupee figure at about ₹86 to the dollar (Jan 2025).</span>
+    <span>Logos are of companies that shut down, from their Wikipedia articles, shown for illustration.</span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  /* ---------- orbit of dead startups ---------- */
+  const names = ['aereo','anki','better-place','convoy','essential','fab','friendster','hike','homejoy','jabong','jawbone','juicero','katerra','kozmo','lytro','path','pebble','pets-com','quibi','quirky','shyp','solyndra','theranos','veev','vine','webvan','yik-yak','zirtual','zume'];
+  const orbit = document.getElementById('orbit'), cv = document.getElementById('orbitCanvas'), ctx = cv.getContext('2d');
+  const imgs = names.map(n => { const i = new Image(); i.src = 'img/logos/' + n + '.png'; return i; });
+  const per = [8, 10, 11]; let ri = 0, rk = 0; const cards = names.map((n, k) => { if (rk >= per[ri]) { ri++; rk = 0; } const c = { img: imgs[k], ring: ri, a: (rk / per[ri]) * Math.PI * 2 + ri * .45 }; rk++; return c; });
+  const dots = Array.from({ length: 220 }, (_, k) => ({ a: Math.random() * Math.PI * 2, r: .30 + Math.random() * .2, s: .0006 + Math.random() * .0012, z: Math.random() }));
+  let W = 0, H = 0, burst = 0, burstT = 0;
+  function size() { const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1; W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
+  size(); addEventListener('resize', size);
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2, Rx = W / 2, Ry = H / 2, ink = css('--ink'), card = css('--card');
+    const b = burst ? Math.min(1, (t - burstT) / 700) : 0, push = 1 + b * b * .9;
+    ctx.fillStyle = ink;
+    for (const d of dots) { d.a += reduce ? 0 : d.s; const r = d.r * push; ctx.globalAlpha = (.18 + d.z * .25) * (1 - b * .8); ctx.beginPath(); ctx.arc(cx + Math.cos(d.a) * r * Rx, cy + Math.sin(d.a) * r * Ry * .92, 1.2 + d.z * 1.6, 0, 7); ctx.fill(); }
+    ctx.globalAlpha = 1;
+    const radii = [.6, .75, .86], speed = [.00018, -.00012, .00008];
+    for (const c of cards) {
+      const ang = c.a + (reduce ? 0 : t * speed[c.ring]); const r = radii[c.ring] * push;
+      const x = cx + Math.cos(ang) * r * Rx, y = cy + Math.sin(ang) * r * Ry * .9;
+      const w = Math.max(40, R * .18), h = w * .52;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(Math.sin(ang * 2) * .12); ctx.globalAlpha = 1 - b * .85;
+      ctx.fillStyle = card; ctx.strokeStyle = ink; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.roundRect(-w / 2, -h / 2, w, h, 7); ctx.fill(); ctx.stroke();
+      if (c.img.complete && c.img.naturalWidth) { const s = Math.min((w - 10) / c.img.naturalWidth, (h - 8) / c.img.naturalHeight); const iw = c.img.naturalWidth * s, ih = c.img.naturalHeight * s; ctx.drawImage(c.img, -iw / 2, -ih / 2, iw, ih); }
+      ctx.restore();
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+  document.getElementById('whyBtn').addEventListener('click', e => {
+    if (burst) { burst = 0; orbit.classList.remove('burst'); e.target.textContent = 'Why?'; return; }
+    burst = 1; burstT = performance.now(); orbit.classList.add('burst'); e.target.textContent = 'Again';
+  });
+
+  /* ---------- quiz ---------- */
+  const quiz = document.getElementById('quiz');
+  quiz.addEventListener('click', e => {
+    const b = e.target.closest('.choice'); if (!b || quiz.dataset.done) return;
+    quiz.dataset.done = 1; b.classList.add('picked');
+    quiz.querySelectorAll('.choice').forEach(c => { if (c.dataset.k === 'you') c.classList.add('right'); c.querySelector('i').style.width = c.dataset.k === 'you' ? '100%' : '0'; });
+    document.getElementById('quizReveal').hidden = false;
+  });
+
+  /* ---------- graveyard ---------- */
+  const replies = {
+    time: 'Paras built Wingify while holding a full-time job. Time is rarely the real blocker. Fear of wasting it is.',
+    exists: 'Someone always did it already. Competition is proof people want the thing.',
+    smart: 'He failed four times starting at 15. Nobody starts smart enough.',
+    money: 'Wingify started on ₹700. Most first tests cost less than a pizza.',
+    silly: 'NaramCheez sounds silly too. Silly ideas get tested. Serious ones get planned forever.',
+    none: 'You killed it before anyone else could. That is the exact failure the book opens with.'
+  };
+  const labels = { time: 'no time', exists: 'someone did it', smart: 'not smart enough', money: 'no money', silly: 'felt silly', none: 'no reason given' };
+  let reason = null; const chips = document.getElementById('reasonChips');
+  chips.addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; chips.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c && reason !== c.dataset.r ? 'true' : 'false')); reason = reason === c.dataset.r ? null : c.dataset.r; });
+  const graves = document.getElementById('graves'), reply = document.getElementById('graveReply');
+  let saved = []; try { saved = JSON.parse(localStorage.getItem('boc-graves') || '[]'); } catch (e) {}
+  function tomb(g, example) { const d = document.createElement('div'); d.className = 'tomb' + (example ? ' example' : '');
+    d.innerHTML = '<span class="rip">R.I.P.</span><span class="idea"></span><span class="why"></span>'; d.querySelector('.idea').textContent = g.idea; d.querySelector('.why').textContent = example ? 'example' : 'killed: ' + labels[g.r]; return d; }
+  function render() { graves.innerHTML = ''; if (!saved.length) { [{ idea: 'NaramCheez, version 1', r: 'silly' }, { idea: 'a clinic app nobody asked for', r: 'exists' }].forEach(g => graves.appendChild(tomb(g, true))); } saved.forEach(g => graves.appendChild(tomb(g))); }
+  render();
+  document.getElementById('graveForm').addEventListener('submit', e => {
+    e.preventDefault(); const inp = document.getElementById('ideaInput'), idea = inp.value.trim();
+    if (!idea) { reply.textContent = 'Type the idea first. Even one word counts.'; inp.focus(); return; }
+    const g = { idea, r: reason || 'none' }; saved.unshift(g); saved = saved.slice(0, 12);
+    try { localStorage.setItem('boc-graves', JSON.stringify(saved)); } catch (e) {}
+    render(); reply.textContent = replies[g.r]; inp.value = '';
+  });
+
+  /* ---------- crossed boxes on scroll into view (visible at rest, crosses animate) ---------- */
+  const xb = document.getElementById('xboxes');
+  const crossAll = () => xb.querySelectorAll('.xbox').forEach((x, i) => setTimeout(() => x.classList.add('x'), reduce ? 0 : i * 260));
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { crossAll(); io.disconnect(); } }, { threshold: .6 }); io.observe(xb); } else crossAll();
+
+  /* ---------- salary vs startup chart ---------- */
+  const svg = document.getElementById('chart'), NS = 'http://www.w3.org/2000/svg';
+  const X0 = 52, X1 = 580, Y0 = 262, Y1 = 22, MAXM = 18, MAXV = 400000;
+  const xs = m => X0 + (X1 - X0) * m / MAXM, ys = v => Y0 - (Y0 - Y1) * Math.min(v, MAXV) / MAXV;
+  const startup = m => m === 0 ? 0 : 190000 * Math.pow(m, .55);    /* illustrative curve; month 1 ≈ $4,000 at ~₹48/$ (2009) */
+  const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; };
+  [0, 100000, 200000, 300000, 400000].forEach(v => { el('line', { x1: X0, x2: X1, y1: ys(v), y2: ys(v), stroke: 'var(--line)', 'stroke-width': 1 }); const t = el('text', { x: X0 - 8, y: ys(v) + 4, 'text-anchor': 'end', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 11, fill: 'var(--ink-soft)' }); t.textContent = v ? '₹' + v / 1000 + 'k' : '0'; });
+  [0, 6, 12, 18].forEach(m => { const t = el('text', { x: xs(m), y: Y0 + 20, 'text-anchor': 'middle', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 11, fill: 'var(--ink-soft)' }); t.textContent = 'm' + m; });
+  el('line', { x1: X0, x2: X1, y1: ys(50000), y2: ys(50000), stroke: 'var(--ink-soft)', 'stroke-width': 2.5, 'stroke-dasharray': '7 6' });
+  const path = el('path', { d: '', fill: 'none', stroke: 'var(--coral)', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+  const dot = el('circle', { r: 7, fill: 'var(--coral)', stroke: 'var(--card)', 'stroke-width': 2.5, cx: xs(0), cy: ys(0) });
+  const cross = el('circle', { r: 10, fill: 'none', stroke: 'var(--coral)', 'stroke-width': 2.5, cx: xs(1), cy: ys(50000), opacity: 0 });
+  const msgs = m => m === 0 ? 'Month 0. Nothing yet. This is where most ideas get killed.' : m === 1 ? 'Month 1. $4,000 in. The salary line is already behind him.' : m < 12 ? 'Month ' + m + '. The job is now the side project.' : m < 18 ? 'Month ' + m + '. Off the chart soon.' : 'Month 18. A million dollars. The chart can\'t hold it.';
+  const slider = document.getElementById('monthSlider');
+  function plot(m) { let d = ''; for (let i = 0; i <= m * 4; i++) { const mm = i / 4; d += (i ? 'L' : 'M') + xs(mm).toFixed(1) + ' ' + ys(startup(mm)).toFixed(1); } path.setAttribute('d', d || 'M' + xs(0) + ' ' + ys(0));
+    dot.setAttribute('cx', xs(m)); dot.setAttribute('cy', ys(startup(m))); cross.setAttribute('opacity', m >= 1 ? 1 : 0);
+    document.getElementById('monthOut').textContent = m; document.getElementById('chartMsg').textContent = msgs(m); }
+  slider.addEventListener('input', () => plot(+slider.value)); plot(0);
+
+  /* ---------- multiplier count-up ---------- */
+  const multEl = document.getElementById('mult'), target = 24300000;
+  function countUp() { if (reduce) { multEl.textContent = '2.4 crore×'; return; } const t0 = performance.now(); (function f(t) { const p = Math.min(1, (t - t0) / 1800), v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    multEl.textContent = (p < 1 ? v.toLocaleString('en-IN') : '2.4 crore') + '×'; if (p < 1) requestAnimationFrame(f); })(t0); }
+  multEl.textContent = '2.4 crore×';
+  if ('IntersectionObserver' in window) { const io2 = new IntersectionObserver(es => { if (es[0].isIntersecting) { countUp(); io2.disconnect(); } }, { threshold: .7 }); io2.observe(multEl); }
+  document.getElementById('countBtn').addEventListener('click', countUp);
+})();
+</script>
+</body>
+</html>
