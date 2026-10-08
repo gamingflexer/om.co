@@ -1,16 +1,17 @@
-import { Hind, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "../styles/globals.css";
 import "../styles/markdown.css";
 import { ThemeProvider } from "next-themes";
 
-// Self-hosted via next/font. Hind has no variable version, so only the three
-// weights the site uses are loaded; JetBrains Mono is a variable font.
-const hind = Hind({
+// Self-hosted variable fonts via next/font: Fraunces for display text (the
+// closest open alternative to the serif on tengilemalamala.com, which uses
+// the commercial PP Fragment) and Inter for body copy, as that site does.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
   display: "swap",
+  axes: ["opsz", "SOFT", "WONK"],
 });
-const jetbrainsMono = JetBrains_Mono({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
@@ -20,8 +21,10 @@ const App = ({ Component, pageProps }) => {
     <ThemeProvider>
       <style jsx global>{`
         :root {
-          --font-hind: ${hind.style.fontFamily};
-          --font-jetbrains: ${jetbrainsMono.style.fontFamily};
+          --font-display: ${fraunces.style.fontFamily};
+          --font-body: ${inter.style.fontFamily};
+          --font-hind: ${inter.style.fontFamily};
+          --font-jetbrains: ${inter.style.fontFamily};
         }
       `}</style>
       <Component {...pageProps} />

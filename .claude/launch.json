@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev", "--port", "3011"],
+      "port": 3011
+    },
+    {
+      "name": "dev2",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev", "--port", "3012"],
+      "port": 3012
+    }
+  ]
+}

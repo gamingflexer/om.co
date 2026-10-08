@@ -6,11 +6,9 @@ import Footer from "../../components/Footer";
 import Seo from "../../components/Seo";
 import data from "../../data/portfolio.json";
 import { useIsomorphicLayoutEffect } from "../../utils";
-import { stagger } from "../../animations";
 import Button from "../../components/Button";
 import BlogEditor from "../../components/BlogEditor";
 import { useRouter } from "next/router";
-import Cursor from "../../components/Cursor";
 
 const BlogPost = ({ post }) => {
   const [showEditor, setShowEditor] = useState(false);
@@ -18,9 +16,6 @@ const BlogPost = ({ post }) => {
   const textTwo = useRef();
   const router = useRouter();
 
-  useIsomorphicLayoutEffect(() => {
-    stagger([textOne.current, textTwo.current], { y: 30 }, { y: 0 });
-  }, []);
 
   return (
     <>
@@ -31,7 +26,6 @@ const BlogPost = ({ post }) => {
         type="article"
         noindex={!data.showBlog}
       />
-      <Cursor />
       <div className="container mx-auto mt-10">
         <Header isBlog={true} />
         <div className="mt-10 flex flex-col">

@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 * {
-  font-family: var(--font-hind), "Hind", sans-serif;
+  font-family: var(--font-body), "Inter", system-ui, sans-serif;
 }
 
 html{
-  @apply cursor-none;
   scroll-behavior: smooth;
 }
 
@@ -15,150 +14,6 @@ body {
   @apply bg-white text-black;
   position: relative;
   overflow-x: hidden;
-}
-
-/* Terminal-themed background with scan lines */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.05) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(0, 0, 0, 0.05) 3px
-    );
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.3;
-}
-
-/* Animated gradient for borders */
-@keyframes gradient-xy {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-gradient-xy {
-  background-size: 400% 400%;
-  animation: gradient-xy 3s ease infinite;
-}
-
-/* Glitch text effect */
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
-}
-
-.glitch {
-  animation: glitch 0.3s infinite;
-}
-
-/* Terminal cursor blink */
-@keyframes blink {
-  0%, 49% {
-    opacity: 1;
-  }
-  50%, 100% {
-    opacity: 0;
-  }
-}
-
-.cursor-blink {
-  animation: blink 1s infinite;
-}
-
-/* Neon glow effect */
-.neon-glow {
-  text-shadow:
-    0 0 5px rgba(6, 182, 212, 0.5),
-    0 0 10px rgba(6, 182, 212, 0.3),
-    0 0 20px rgba(6, 182, 212, 0.2);
-}
-
-/* Glass morphism utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.glass-dark {
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Hover lift effect */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-/* Terminal prompt styling */
-.terminal-prompt::before {
-  content: "> ";
-  color: #00ff41;
-  font-weight: bold;
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(45deg, #06b6d4, #a855f7, #ec4899);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradient-xy 3s ease infinite;
-}
-
-/* Matrix rain effect (lighter version) */
-@keyframes matrix-rain {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
 }
 
 /* Smooth scroll */
@@ -222,3 +77,66 @@ body::before {
   background: inherit;
   border-radius: inherit;
 }
+
+/* Scroll journey homepage */
+.journey-page { background: #000; }
+@keyframes journey-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.journey-footer {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 30%, rgba(0, 0, 0, 0.88) 100%);
+  margin-top: -40vh;
+  padding-top: 40vh;
+}
+.journey-footer__name {
+  font-family: var(--font-display), Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "WONK" 1;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.journey-footer__about {
+  margin-top: 1.5rem;
+  max-width: 44rem;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+.journey-footer__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.journey-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.8rem 1.4rem; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35); color: #fff;
+  font-size: 0.95rem; letter-spacing: 0.01em; text-decoration: none;
+  backdrop-filter: blur(8px); transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.journey-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.7); transform: translateY(-1px); }
+.journey-btn--primary { background: #fff; color: #000; border-color: #fff; }
+.journey-btn--primary:hover { background: #ececec; }
+.journey-footer__row {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem;
+  margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.8rem; color: rgba(255, 255, 255, 0.6);
+}
+.journey-footer__socials { display: flex; gap: 1.25rem; }
+.journey-footer__socials a { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
+.journey-footer__socials a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.journey-footer__credits { max-width: 34rem; }
+.journey-sound {
+  position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 30;
+  width: 2.6rem; height: 2.6rem; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(0, 0, 0, 0.5);
+  color: #fff; backdrop-filter: blur(8px); cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.journey-sound:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.7); }
+.journey-sound__bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.journey-sound__bars i { display: block; width: 2px; background: #fff; height: 4px; border-radius: 1px; }
+.journey-sound--on .journey-sound__bars i { animation: journey-bars 0.9s ease-in-out infinite; }
+.journey-sound--on .journey-sound__bars i:nth-child(2) { animation-delay: 0.15s; }
+.journey-sound--on .journey-sound__bars i:nth-child(3) { animation-delay: 0.3s; }
+.journey-sound--on .journey-sound__bars i:nth-child(4) { animation-delay: 0.45s; }
+@keyframes journey-bars { 0%, 100% { height: 4px; } 50% { height: 14px; } }

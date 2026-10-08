@@ -1,9 +1,7 @@
 import Seo from "../../components/Seo";
 import Router, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { stagger } from "../../animations";
 import Button from "../../components/Button";
-import Cursor from "../../components/Cursor";
 import Header from "../../components/Header";
 import data from "../../data/portfolio.json";
 import { ISOToDate, useIsomorphicLayoutEffect } from "../../utils";
@@ -15,13 +13,7 @@ const Blog = ({ posts }) => {
   const [mounted, setMounted] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
-    stagger(
-      [text.current],
-      { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-      { y: 0, x: 0, transform: "scale(1)" }
-    );
-    if (showBlog.current) stagger([text.current], { y: 30 }, { y: 0 });
-    else router.push("/");
+    if (!showBlog.current) router.push("/");
   }, []);
 
   useEffect(() => {
@@ -63,7 +55,6 @@ const Blog = ({ posts }) => {
   return (
     showBlog.current && (
       <>
-        <Cursor />
         <Seo title={`Blog | ${data.name}`} path="/blog/" noindex={!data.showBlog} />
         <div className="container mx-auto mb-10">
           <Header isBlog={true}></Header>

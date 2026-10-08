@@ -7,7 +7,6 @@ import { useTheme } from "next-themes";
 
 // Data
 import yourData from "../data/portfolio.json";
-import Cursor from "../components/Cursor";
 
 const Edit = () => {
   // states
@@ -154,7 +153,6 @@ const Edit = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <Header></Header>
-      <Cursor />
       <div className="mt-10">
         <div
           className={`z-10 sticky top-12 ${theme === "dark" ? "bg-transparent" : "bg-white"

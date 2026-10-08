@@ -1,5 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import Seo from "../components/Seo";
-import Meadow from "../components/Meadow";
+import Journey, { PAGES } from "../components/Journey";
+import JourneyFooter from "../components/JourneyFooter";
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -36,9 +38,20 @@ const personJsonLd = {
 };
 
 export default function Home() {
-  // The page is only the scene: fixed to the viewport, no scrolling.
+  // The scene is fixed to the viewport; the tall spacer below gives the
+  // scroll range that drives the journey. The footer follows in normal flow.
+  const spacerRef = useRef(null);
+  const [sound, setSound] = useState(null);
+  useEffect(() => {
+    let api = null;
+    import("../components/Journey/sound").then((m) => {
+      api = m.createSound();
+      setSound(api);
+    });
+    return () => api && api.dispose();
+  }, []);
   return (
-    <div className="fixed inset-0 z-10 overflow-hidden" style={{ cursor: "default" }}>
+    <div className="journey-page" style={{ cursor: "default" }}>
       <Seo
         title={`${data.name} | Founder & CEO, Ayu Health · VP of AI, FusionCyber`}
         path="/"
@@ -48,7 +61,11 @@ export default function Home() {
       <h1 className="sr-only">
         {data.name}, {data.headerTaglineThree}
       </h1>
-      <Meadow className="absolute inset-0" />
+      <div className="fixed inset-0 z-10 overflow-hidden bg-black">
+        <Journey className="absolute inset-0" spacerRef={spacerRef} sound={sound} />
+      </div>
+      <div ref={spacerRef} aria-hidden="true" style={{ height: `${PAGES * 100}vh` }} />
+      <JourneyFooter sound={sound} />
     </div>
   );
 }
