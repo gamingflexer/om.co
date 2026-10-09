@@ -102,7 +102,7 @@ const groundTexture = (THREE) => {
   return t;
 };
 
-export const createMeadow = (THREE, { renderer, small, reducedMotion, deps }) => {
+export const createMeadow = (THREE, { renderer, small, reducedMotion, deps, onProgress }) => {
   const { GLTFLoader, MeshoptDecoder, RoomEnvironment } = deps;
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xffffff, 8, 42);
@@ -352,7 +352,9 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps }) =>
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
   const ready = new Promise((resolve) => {
-    loader.load("/models/om.glb", (gltf) => {
+    loader.load(
+      "/models/om.glb",
+      (gltf) => {
       character = gltf.scene;
       character.traverse((o) => {
         if (o.isMesh) {
@@ -439,7 +441,13 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps }) =>
       }
       applyTime();
       resolve();
-    }, undefined, () => resolve());
+    },
+      (e) => onProgress && onProgress(e.lengthComputable ? e.loaded / e.total : -1),
+      (e) => {
+        console.warn("om.glb", e);
+        resolve();
+      }
+    );
   });
 
   const pointer = new THREE.Vector2(0, 0);

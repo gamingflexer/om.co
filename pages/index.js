@@ -42,6 +42,9 @@ export default function Home() {
   // scroll range that drives the journey. The footer follows in normal flow.
   const spacerRef = useRef(null);
   const [sound, setSound] = useState(null);
+  // If WebGL fails the scene shows a message; collapse the scroll range so
+  // the footer is one swipe away instead of 21 screens down.
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     let api = null;
     import("../components/Journey/sound").then((m) => {
@@ -62,9 +65,9 @@ export default function Home() {
         {data.name}, {data.headerTaglineThree}
       </h1>
       <div className="fixed inset-0 z-10 overflow-hidden bg-black">
-        <Journey className="absolute inset-0" spacerRef={spacerRef} sound={sound} />
+        <Journey className="absolute inset-0" spacerRef={spacerRef} sound={sound} onFail={() => setFailed(true)} />
       </div>
-      <div ref={spacerRef} aria-hidden="true" style={{ height: `${PAGES * 100}vh` }} />
+      <div ref={spacerRef} aria-hidden="true" style={{ height: failed ? "100vh" : `${PAGES * 100}vh` }} />
       <JourneyFooter sound={sound} />
     </div>
   );

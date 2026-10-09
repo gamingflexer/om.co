@@ -30,42 +30,103 @@ const STAGES = [
   { id: "meadow", a: 0.922, b: 1.0, reverse: true },
 ];
 
-const Journey = ({ className = "", spacerRef, sound }) => {
+// Loading phases and their share of the bar. The three.js chunk and the
+// scene modules come first, then Om's model (byte progress from the GLB
+// request), then shader compilation and the first frame.
+const PHASES = { modules: 0.3, model: 0.5, warm: 0.2 };
+const MODULE_COUNT = 15;
+
+const Journey = ({ className = "", spacerRef, sound, onFail }) => {
   const containerRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
-  // The sound API arrives after mount; the render loop reads it via a ref.
+  // Loading overlay: target progress lives in a ref, the eased value shown
+  // to the user is state.
+  const loadTarget = useRef(0);
+  const [shown, setShown] = useState(0);
+  const [overlay, setOverlay] = useState("on"); // on → fading → off
+  const [failed, setFailed] = useState(false);
   const soundRef = useRef(null);
   useEffect(() => {
     soundRef.current = sound;
   }, [sound]);
 
+  // Ease the shown value toward the target so the bar never jumps or
+  // stalls dead; when the engine has not reported yet it still creeps.
+  useEffect(() => {
+    if (overlay !== "on") return undefined;
+    let raf = 0;
+    let v = 0;
+    let last = performance.now();
+    const step = (now) => {
+      raf = requestAnimationFrame(step);
+      const dt = Math.min(0.1, (now - last) / 1000);
+      last = now;
+      const t = loadTarget.current;
+      // Drift a little ahead of the last report, never past the next phase.
+      const ceiling = Math.min(t + 0.06, 0.985);
+      const goal = t >= 1 ? 1 : ceiling;
+      const k = t >= 1 ? 6 : v < t ? 4 : 0.35;
+      v += (goal - v) * (1 - Math.exp(-dt * k));
+      setShown((prev) => (Math.abs(prev - v) > 0.0015 ? v : prev));
+      if (t >= 1 && v > 0.995) {
+        setShown(1);
+        cancelAnimationFrame(raf);
+        setOverlay("fading");
+        setTimeout(() => setOverlay("off"), 900);
+      }
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [overlay]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     let disposed = false;
     let cleanup = () => {};
 
+    // Progress bookkeeping for the overlay.
+    const done = { modules: 0, model: 0, warm: 0 };
+    const report = () => {
+      const p = done.modules * PHASES.modules + done.model * PHASES.model + done.warm * PHASES.warm;
+      loadTarget.current = Math.max(loadTarget.current, Math.min(1, p));
+    };
+    let modulesLoaded = 0;
+    const mod = (promise) =>
+      promise.then((m) => {
+        modulesLoaded += 1;
+        done.modules = modulesLoaded / MODULE_COUNT;
+        report();
+        return m;
+      });
+    let modelFallback = 0;
+    const onModelProgress = (frac) => {
+      // Some hosts gzip the model and omit the length; creep by count then.
+      if (frac < 0) modelFallback = Math.min(0.9, modelFallback + 0.08);
+      done.model = Math.max(done.model, frac < 0 ? modelFallback : frac);
+      report();
+    };
+
     (async () => {
-      const THREE = await import("three");
+      const THREE = await mod(import("three"));
       const [{ GLTFLoader }, { MeshoptDecoder }, { RoomEnvironment }] = await Promise.all([
-        import("three/examples/jsm/loaders/GLTFLoader.js"),
-        import("three/examples/jsm/libs/meshopt_decoder.module.js"),
-        import("three/examples/jsm/environments/RoomEnvironment.js"),
+        mod(import("three/examples/jsm/loaders/GLTFLoader.js")),
+        mod(import("three/examples/jsm/libs/meshopt_decoder.module.js")),
+        mod(import("three/examples/jsm/environments/RoomEnvironment.js")),
       ]);
       const scenesMod = await Promise.all([
-        import("./scenes/meadow"),
-        import("./scenes/iris"),
-        import("./scenes/earth"),
-        import("./scenes/solar"),
-        import("./scenes/stars"),
-        import("./scenes/galaxy"),
-        import("./scenes/local"),
-        import("./scenes/web"),
-        import("./scenes/blackhole"),
-        import("./scenes/supernova"),
-        import("./scenes/pulsar"),
+        mod(import("./scenes/meadow")),
+        mod(import("./scenes/iris")),
+        mod(import("./scenes/earth")),
+        mod(import("./scenes/solar")),
+        mod(import("./scenes/stars")),
+        mod(import("./scenes/galaxy")),
+        mod(import("./scenes/local")),
+        mod(import("./scenes/web")),
+        mod(import("./scenes/blackhole")),
+        mod(import("./scenes/supernova")),
+        mod(import("./scenes/pulsar")),
       ]);
       if (disposed) return;
       const [meadowM, irisM, earthM, solarM, starsM, galaxyM, localM, webM, blackholeM, supernovaM, pulsarM] = scenesMod;
@@ -134,7 +195,7 @@ const Journey = ({ className = "", spacerRef, sound }) => {
       );
 
       // Scenes (shared instances for the two meadow/iris stages).
-      const meadow = meadowM.createMeadow(THREE, { renderer, small, reducedMotion, deps: { GLTFLoader, MeshoptDecoder, RoomEnvironment } });
+      const meadow = meadowM.createMeadow(THREE, { renderer, small, reducedMotion, deps: { GLTFLoader, MeshoptDecoder, RoomEnvironment }, onProgress: onModelProgress });
       const iris = irisM.createIris(THREE);
       const scenes = { meadow, iris };
       const pending = {
@@ -223,8 +284,17 @@ const Journey = ({ className = "", spacerRef, sound }) => {
 
       await meadow.ready;
       if (disposed) return;
+      done.model = 1;
+      report();
+      // Let the overlay paint the new phase before the (blocking) compile.
+      await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 30)));
+      if (disposed) return;
       warm(meadow);
+      done.warm = 0.6;
+      report();
       warm(iris);
+      done.warm = 0.85;
+      report();
       setLoaded(true);
 
       const clock = new THREE.Clock();
@@ -294,6 +364,11 @@ const Journey = ({ className = "", spacerRef, sound }) => {
         renderer.render(compScene, compCam);
       };
       tick();
+      // First frame is on screen: the bar can finish.
+      requestAnimationFrame(() => {
+        done.warm = 1;
+        report();
+      });
 
       if (new URLSearchParams(window.location.search).has("debug")) {
         window.__journey = { scenes, meadow, STAGES, get s() { return s; } };
@@ -310,7 +385,12 @@ const Journey = ({ className = "", spacerRef, sound }) => {
         renderer.dispose();
         canvas.remove();
       };
-    })().catch((e) => console.error(e));
+    })().catch((e) => {
+      console.error(e);
+      if (disposed) return;
+      setFailed(true);
+      if (onFail) onFail(e);
+    });
 
     return () => {
       disposed = true;
@@ -319,9 +399,51 @@ const Journey = ({ className = "", spacerRef, sound }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once; sound is read through soundRef, spacerRef is a stable ref
   }, []);
 
+  const pct = Math.round(shown * 100);
+  // The caption follows the bar, so it never runs ahead of the number.
+  const label =
+    shown < PHASES.modules ? "Loading the engine" : shown < PHASES.modules + PHASES.model ? "Loading Om and the meadow" : shown < 0.995 ? "Preparing the view" : "Scroll to begin";
   return (
     <>
       <div ref={containerRef} className={className} />
+      {/* Loading overlay: a real progress bar fed by chunk, model and shader
+          progress. Fades out over the first frames of the meadow. */}
+      {overlay !== "off" && (
+        <div
+          className={`journey-loader ${overlay === "fading" ? "journey-loader--done" : ""} ${failed ? "journey-loader--failed" : ""}`}
+          role={failed ? "alert" : "progressbar"}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={failed ? undefined : pct}
+          aria-label={failed ? undefined : label}
+        >
+          {failed ? (
+            <div className="journey-loader__box">
+              <p className="journey-loader__eyebrow">Om Surve</p>
+              <p className="journey-loader__msg">
+                The 3D journey could not start in this browser.
+                <br />
+                It needs WebGL; try another browser or device.
+              </p>
+              <a className="journey-btn journey-btn--primary mt-6" href="#end">
+                Skip to the end
+              </a>
+            </div>
+          ) : (
+            <div className="journey-loader__box">
+              <p className="journey-loader__eyebrow">Om Surve</p>
+              <p className="journey-loader__pct">
+                {pct}
+                <span>%</span>
+              </p>
+              <div className="journey-loader__track">
+                <div className="journey-loader__bar" style={{ transform: `scaleX(${shown})` }} />
+              </div>
+              <p className="journey-loader__label">{label}</p>
+            </div>
+          )}
+        </div>
+      )}
       {/* Scroll hint: fades out once the journey starts. */}
       <div
         aria-hidden="true"
