@@ -44,21 +44,23 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
         vec3 V = normalize(cameraPosition - vW);
         float edge = pow(1.0 - abs(dot(normalize(vN), V)), 1.2); // brighter through the thick middle
         float along = vUv.y; // 0 at the pole, 1 at the far end
-        float streak = noise(vec2(vUv.x * 14.0, along * 6.0 - time * 1.6)) * 0.6 + noise(vec2(vUv.x * 40.0 + 3.0, along * 18.0 - time * 3.0)) * 0.4;
-        float a = (1.0 - smoothstep(0.0, 1.0, along)) * (0.35 + 0.65 * edge) * (0.5 + 0.7 * streak);
+        float streak = noise(vec2(vUv.x * 10.0, along * 5.0 - time * 1.2)) * 0.6 + noise(vec2(vUv.x * 30.0 + 3.0, along * 14.0 - time * 2.2)) * 0.4;
+        // Smooth fall-off along the beam and soft edges; the streaks only
+        // modulate gently so the beam reads as a glow, not a striped tube.
+        float a = pow(1.0 - along, 1.6) * (0.2 + 0.8 * edge) * (0.7 + 0.3 * streak);
         a *= smoothstep(0.0, 0.08, along);
-        vec3 col = mix(vec3(0.55, 0.75, 1.0), vec3(0.9, 0.95, 1.0), streak);
-        gl_FragColor = vec4(col * a * 0.7 * fade, a * fade * 0.6);
+        vec3 col = mix(vec3(0.6, 0.78, 1.0), vec3(0.92, 0.96, 1.0), streak);
+        gl_FragColor = vec4(col * a * 0.45 * fade, a * fade * 0.4);
       }`,
   });
-  const beamGeo = new THREE.CylinderGeometry(0.35, 2.4, 60, 48, 1, true);
+  const beamGeo = new THREE.CylinderGeometry(0.3, 1.6, 60, 48, 1, true);
   beamGeo.translate(0, 30, 0);
   const beamUp = new THREE.Mesh(beamGeo, beamMat);
   const beamDown = new THREE.Mesh(beamGeo, beamMat);
   beamDown.rotation.z = Math.PI;
   mag.add(beamUp, beamDown);
   // Core of each beam: a thin bright column.
-  const coreGeo = new THREE.CylinderGeometry(0.1, 0.6, 60, 24, 1, true);
+  const coreGeo = new THREE.CylinderGeometry(0.08, 0.4, 60, 24, 1, true);
   coreGeo.translate(0, 30, 0);
   const coreMat = beamMat.clone();
   coreMat.uniforms = beamUniforms;
@@ -70,26 +72,37 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   // Pulse rings: travel out from the poles along the spin axis, up and down.
   const ringUniforms = { fade: { value: 1 } };
   const ringMat = new THREE.ShaderMaterial({
-    uniforms: { ...ringUniforms, k: { value: 0 } },
+    uniforms: { ...ringUniforms, k: { value: 0 }, seed: { value: 0 }, time: { value: 0 } },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
     side: THREE.DoubleSide,
     vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
     fragmentShader: `
-      precision highp float; uniform float fade, k; varying vec2 vUv;
+      precision highp float; uniform float fade, k, seed, time; varying vec2 vUv;
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float noise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); f = f*f*(3.0-2.0*f);
+        return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
       void main(){
         vec2 q = (vUv - 0.5) * 2.0; float r = length(q);
-        float ring = exp(-pow((r - 0.78) / 0.07, 2.0)) + 0.35 * exp(-pow((r - 0.78) / 0.2, 2.0));
-        vec3 col = mix(vec3(0.5, 0.8, 1.0), vec3(1.0, 0.9, 1.0), k);
-        gl_FragColor = vec4(col * ring * fade * 1.5, ring * fade);
+        float ang = atan(q.y, q.x);
+        // A thin, slightly wobbly filament of plasma whose brightness varies
+        // round the ring, inside a much fainter wide halo.
+        float wob = (noise(vec2(ang * 1.6 + seed * 7.0, time * 0.3)) - 0.5) * 0.04;
+        float r0 = 0.8 + wob;
+        float bright = 0.45 + 0.55 * noise(vec2(ang * 3.0 + seed * 11.0, seed));
+        float core = exp(-pow((r - r0) / 0.018, 2.0)) * bright;
+        float halo = 0.18 * exp(-pow((r - r0) / 0.09, 2.0)) + 0.05 * exp(-pow((r - r0) / 0.25, 2.0));
+        float ring = core + halo;
+        vec3 col = mix(vec3(0.55, 0.78, 1.0), vec3(0.9, 0.94, 1.0), k * 0.6 + core * 0.4);
+        gl_FragColor = vec4(col * ring * fade * 1.3, ring * fade);
       }`,
   });
-  const RINGS = 7;
+  const RINGS = 9;
   const rings = [];
   for (let i = 0; i < RINGS * 2; i++) {
     const m = ringMat.clone();
-    m.uniforms = { fade: { value: 1 }, k: { value: (i % RINGS) / RINGS } };
+    m.uniforms = { fade: { value: 1 }, k: { value: (i % RINGS) / RINGS }, seed: { value: i * 0.37 }, time: { value: 0 } };
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), m);
     mesh.renderOrder = 2;
     mesh.rotation.x = -Math.PI / 2;
@@ -98,7 +111,7 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   }
 
   // Dipole field lines in the magnetic frame: r = L sin²θ.
-  const lineMat = new THREE.LineBasicMaterial({ color: 0x5a86d8, transparent: true, opacity: 0.28, blending: THREE.AdditiveBlending, depthWrite: false });
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x5a86d8, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false });
   for (let L = 2.2; L <= 7; L += 1.6) {
     for (let a = 0; a < 6; a++) {
       const pts = [];
@@ -115,7 +128,7 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
 
   // Pulsar wind nebula: an equatorial torus of faint blue haze plus a soft
   // bubble, as particles.
-  const pn = small ? 5000 : 12000;
+  const pn = small ? 9000 : 24000;
   const ppos = new Float32Array(pn * 3);
   const pcol = new Float32Array(pn * 3);
   const psize = new Float32Array(pn);
@@ -140,7 +153,7 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
     ppos.set([x, y, z], i * 3);
     const b = torus ? 0.5 + 0.5 * Math.random() : 0.2 + 0.3 * Math.random();
     pcol.set([b * 0.45, b * 0.65, b], i * 3);
-    psize[i] = 1.2 + Math.random() * 2.5;
+    psize[i] = 0.4 + Math.random() * 1.2;
     pphase[i] = Math.random() * 6.28;
   }
   const pgeo = new THREE.BufferGeometry();
@@ -148,10 +161,15 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   pgeo.setAttribute("color", new THREE.BufferAttribute(pcol, 3));
   pgeo.setAttribute("size", new THREE.BufferAttribute(psize, 1));
   pgeo.setAttribute("phase", new THREE.BufferAttribute(pphase, 1));
-  const pmat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: 0.16, minPx: 3, maxPx: 30 });
+  const pmat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.6 }), intensity: 0.1, minPx: 1, maxPx: 7 });
   const nebula = new THREE.Points(pgeo, pmat);
   nebula.frustumCulled = false;
   scene.add(nebula);
+  // The diffuse synchrotron glow of the wind nebula: a flattened soft haze
+  // round the equator, in place of the big blue blobs.
+  const haze = new THREE.Sprite(new THREE.SpriteMaterial({ map: spriteTexture(THREE, { core: 0.0, falloff: 1.3, size: 256 }), color: 0x3b5a9a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.16 }));
+  haze.scale.set(22, 11, 1);
+  scene.add(haze);
 
   // Lighthouse flash when a beam points at the camera.
   const flash = new THREE.Sprite(new THREE.SpriteMaterial({ map: spriteTexture(THREE, { core: 1.0, falloff: 1.5 }), color: 0xe8f0ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
@@ -170,12 +188,13 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
     spin.rotation.y = reducedMotion ? 0.5 : time * 3.4; // ~0.54 rev/s
     // Rings: each travels from the pole outward, spreading and fading.
     rings.forEach(({ mesh, i, dirY }) => {
-      const u = reducedMotion ? i / RINGS : (time * 0.55 + i / RINGS) % 1;
+      const u = reducedMotion ? i / RINGS : (time * 0.4 + i / RINGS) % 1;
       const y = dirY * (1.5 + u * u * 34);
       mesh.position.set(0, y, 0);
-      const s = 2.5 + u * 16;
+      const s = 2.5 + u * 14;
       mesh.scale.set(s, s, 1);
-      mesh.material.uniforms.fade.value = smoothstep(0.0, 0.08, u) * (1 - smoothstep(0.55, 1.0, u)) * 0.9;
+      mesh.material.uniforms.time.value = time;
+      mesh.material.uniforms.fade.value = smoothstep(0.0, 0.08, u) * (1 - smoothstep(0.5, 1.0, u)) * 0.7;
     });
     // Camera: start close above the equator, then pull back and rise so the
     // rings are seen stacking up and down the axis.

@@ -275,10 +275,9 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       // Head look follows the pointer in the meadow stages.
       const onPointerMove = (e) => {
         const r = container.getBoundingClientRect();
-        meadow.setPointer(
-          clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1),
-          clamp((e.clientY - (r.top + r.height * 0.3)) / (r.height / 2), -1, 1)
-        );
+        const px = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
+        const py = clamp((e.clientY - (r.top + r.height * 0.3)) / (r.height / 2), -1, 1);
+        Object.values(scenes).forEach((sc) => sc.setPointer && sc.setPointer(px, py));
       };
       window.addEventListener("pointermove", onPointerMove);
 
@@ -444,13 +443,14 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
           )}
         </div>
       )}
-      {/* Scroll hint: fades out once the journey starts. */}
+      {/* Scroll hint: a pill at the bottom that fades out once the journey starts. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center transition-opacity duration-700"
-        style={{ opacity: loaded && progress < 0.01 ? 1 : 0 }}
+        className="journey-hint"
+        style={{ opacity: loaded && overlay === "off" && progress < 0.03 ? 1 : 0 }}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "journey-bob 2.2s ease-in-out infinite" }}>
+        <span>Scroll to begin</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "journey-bob 2.2s ease-in-out infinite" }}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>

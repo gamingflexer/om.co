@@ -229,9 +229,12 @@ export const createSolar = async (THREE, { tier, small }) => {
     const og = new THREE.BufferGeometry();
     og.setAttribute("position", new THREE.BufferAttribute(op, 3));
     scene.add(new THREE.Line(og, orbitMat));
-    planets.push({ ...p, mesh, pos });
+    planets.push({ ...p, mesh, pos, ang });
   });
   const earthPos = planets.find((p) => p.earth).pos.clone();
+  // Orbit lines read as stray straight lines when seen edge-on; fade them
+  // in as the camera climbs above the ecliptic.
+  const setOrbitVisibility = (elev) => (orbitMat.opacity = 0.22 * smoothstep(0.12, 0.5, elev));
 
   // Asteroid belt and Kuiper belt as faint point clouds.
   const belt = (count, r0, r1, spread, seed, bright) => {
@@ -264,20 +267,37 @@ export const createSolar = async (THREE, { tier, small }) => {
 
   const target = new THREE.Vector3();
   const dir = new THREE.Vector3();
+  const pointer = new THREE.Vector2();
+  const look = new THREE.Vector2();
+  const setPointer = (x, y) => pointer.set(x, y);
+  const yAxis = new THREE.Vector3(0, 1, 0);
   const resize = (w, h) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
-  const update = ({ t, time }) => {
+  const update = ({ t, dt, time }) => {
     sunUniforms.time.value = time;
     sky.setTime(time);
-    planets.forEach((p) => (p.mesh.rotation.y = time * 0.2));
+    // Scrolling carries the planets round their orbits (inner ones faster,
+    // per Kepler), on top of a slow drift with time. Earth is pinned until
+    // the camera has left it so the opening shot stays put.
+    const sweep = smoothstep(0.08, 0.3, t) * (t * 2.2 + time * 0.004);
+    planets.forEach((p) => {
+      const a = p.ang + sweep / Math.sqrt(p.a * p.a * p.a);
+      p.pos.set(Math.cos(a) * p.a * AU, 0, -Math.sin(a) * p.a * AU);
+      p.mesh.position.copy(p.pos);
+      p.mesh.rotation.y = time * 0.2;
+    });
+    look.lerp(pointer, 1 - Math.pow(0.01, dt || 0.016));
     // From a dot of Earth to the whole system seen from above the ecliptic.
     // From Earth, fall in for a close pass of the Sun, then pull back to the
     // whole system seen from above the ecliptic.
     const d = track([[0, 10], [0.14, 4.2], [0.3, 4.8], [0.5, 90], [0.72, 320], [1, 1000]], t, { log: true });
     const dv = track([[0, [0.15, 0.2, 1]], [0.2, [0.6, 0.12, 0.8]], [0.55, [0.3, 0.75, 0.7]], [1, [0.1, 0.9, 0.45]]], t);
     dir.set(dv[0], dv[1], dv[2]).normalize();
+    // Moving the pointer left or right swings the viewpoint round the Sun.
+    dir.applyAxisAngle(yAxis, -look.x * 0.35 * smoothstep(0.1, 0.3, t));
+    setOrbitVisibility(dir.y);
     target.copy(earthPos).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.03, 0.16, t));
     camera.position.copy(target).addScaledVector(dir, d);
     camera.lookAt(target);
@@ -295,5 +315,5 @@ export const createSolar = async (THREE, { tier, small }) => {
     kuiper.material.uniforms.scale.value = 300;
     sky.setScale(600);
   };
-  return { scene, camera, update, resize, ready: Promise.resolve(), dispose: () => {} };
+  return { scene, camera, update, resize, setPointer, ready: Promise.resolve(), dispose: () => {} };
 };
