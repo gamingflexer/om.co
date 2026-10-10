@@ -86,6 +86,36 @@ export const loadTexture = (THREE, url, { srgb = true, anisotropy = 8, wrap = fa
     );
   });
 
+// The Milky Way panorama and the star catalogue are used by five scenes;
+// fetch, decode and upload each once.
+const shared = {};
+export const milkyWay = (THREE, tier) => {
+  const url = tier === "h" ? "/space/milkyway_4k.jpg" : "/space/milkyway_2k.jpg";
+  if (!shared[url])
+    shared[url] = loadTexture(THREE, url, { anisotropy: 4 }).then((t) => {
+      t.wrapS = THREE.RepeatWrapping;
+      return t;
+    });
+  return shared[url];
+};
+export const starCatalogue = () => {
+  if (!shared.stars) shared.stars = fetch("/space/stars.bin").then((r) => r.arrayBuffer());
+  return shared.stars;
+};
+
+// Every `stride`-th point of a Points geometry, sharing its attributes. Soft
+// haze layers draw large overlapping sprites, so a subset (brightened by the
+// stride) looks the same at a fraction of the fill cost.
+export const strided = (THREE, geo, stride) => {
+  const g = new THREE.BufferGeometry();
+  Object.entries(geo.attributes).forEach(([k, a]) => g.setAttribute(k, a));
+  const n = Math.ceil(geo.attributes.position.count / stride);
+  const idx = new Uint32Array(n);
+  for (let i = 0; i < n; i++) idx[i] = i * stride;
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
+  return g;
+};
+
 // Soft round particle sprite.
 export const spriteTexture = (THREE, { core = 0.1, falloff = 2.2, size = 128 } = {}) => {
   const c = document.createElement("canvas");

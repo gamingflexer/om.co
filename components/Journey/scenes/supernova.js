@@ -1,4 +1,4 @@
-import { glareTexture, lerp, pointsMaterial, rng, smoothstep, spriteTexture, track } from "../util";
+import { glareTexture, lerp, pointsMaterial, rng, smoothstep, spriteTexture, strided, track } from "../util";
 import { createSky } from "./sky";
 
 // A core-collapse supernova. A blue supergiant brightens, the core gives way in
@@ -48,7 +48,7 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
   scene.add(flash);
 
   const r = rng(42);
-  const ejecta = makeEjecta(THREE, { count: small ? 30000 : 90000 });
+  const ejecta = makeEjecta(THREE, { count: small ? 30000 : 90000, hazeStride: small ? 4 : 1 });
   const shellUniforms = ejecta.uniforms;
   scene.add(ejecta.group);
   // Fireball: a hot core that fills the young shell and cools away.
@@ -185,7 +185,8 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
 // radius and age runs 0 (young, white-hot) → 1 (old remnant: Hα red and
 // O III teal filaments). Shared with the pulsar stage, which sits inside
 // the same remnant.
-export const makeEjecta = (THREE, { count, rngSeed = 42 }) => {
+// hazeStride > 1 draws the soft haze from every n-th particle (phones).
+export const makeEjecta = (THREE, { count, rngSeed = 42, hazeStride = 1 }) => {
   const r = rng(rngSeed);
   const dirs = new Float32Array(count * 3);
   const speed = new Float32Array(count);
@@ -212,7 +213,7 @@ export const makeEjecta = (THREE, { count, rngSeed = 42 }) => {
     fade: { value: 0 },
     scale: { value: 500 },
     time: { value: 0 },
-    haze: { value: 0 },
+    haze: { value: 0 }, // 0 for the dots; the haze copy sets its point stride
   };
   const shellMat = new THREE.ShaderMaterial({
     uniforms: shellUniforms,
@@ -252,7 +253,7 @@ export const makeEjecta = (THREE, { count, rngSeed = 42 }) => {
         vColor = mix(young, old, smoothstep(0.45, 0.9, age)) * (0.5 + 0.8 * seed) * (layer > 0.5 ? 0.6 : 1.0);
         // Dimmer as the shell thins; knots survive longest.
         vA = (1.0 - 0.6 * age) * (0.4 + 0.6 * n1) * clamp(px / 1.0, 0.2, 1.0);
-        if (haze > 0.5) vA *= 0.05 * (1.0 - 0.5 * age);
+        if (haze > 0.5) vA *= 0.05 * haze * (1.0 - 0.5 * age);
       }`,
     fragmentShader: `
       uniform sampler2D map; uniform float fade;
@@ -268,8 +269,8 @@ export const makeEjecta = (THREE, { count, rngSeed = 42 }) => {
   group.add(shell);
   // The same ejecta as a soft haze so the shell glows as gas rather than dots.
   const hazeMat = shellMat.clone();
-  hazeMat.uniforms = { ...shellUniforms, haze: { value: 1 }, map: { value: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }) } };
-  const shellHaze = new THREE.Points(shellGeo, hazeMat);
+  hazeMat.uniforms = { ...shellUniforms, haze: { value: hazeStride }, map: { value: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }) } };
+  const shellHaze = new THREE.Points(hazeStride > 1 ? strided(THREE, shellGeo, hazeStride) : shellGeo, hazeMat);
   shellHaze.frustumCulled = false;
   group.add(shellHaze);
   return { group, uniforms: shellUniforms };

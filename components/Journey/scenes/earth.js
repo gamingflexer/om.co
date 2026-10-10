@@ -22,7 +22,7 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
 
   const high = tier === "h" && maxTex >= 8192;
   const [day, night, clouds, detail, moonTex, sky] = await Promise.all([
-    loadTexture(THREE, high ? "/space/earth_day_8k.jpg" : "/space/earth_day_4k.jpg", { anisotropy: 16 }),
+    loadTexture(THREE, high ? "/space/earth_day_8k.jpg" : tier === "h" ? "/space/earth_day_4k.jpg" : "/space/earth_day_2k.jpg", { anisotropy: 16 }),
     loadTexture(THREE, tier === "h" ? "/space/earth_night_4k.jpg" : "/space/earth_night_2k.jpg"),
     loadTexture(THREE, tier === "h" ? "/space/earth_clouds_4k.jpg" : "/space/earth_clouds_2k.jpg", { srgb: false, wrap: true }),
     loadTexture(THREE, "/space/earth_india_3k.jpg", { anisotropy: 16 }),

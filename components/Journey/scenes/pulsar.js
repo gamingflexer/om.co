@@ -91,7 +91,7 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   // The supernova remnant around it, matching the end of the previous stage
   // (shell radius 46 seen from 150 there; ×8.7 here).
   const REM = 400;
-  const remnant = makeEjecta(THREE, { count: small ? 20000 : 60000 });
+  const remnant = makeEjecta(THREE, { count: small ? 20000 : 60000, hazeStride: small ? 4 : 1 });
   remnant.uniforms.R.value = REM;
   remnant.uniforms.age.value = 1;
   remnant.uniforms.fade.value = 1;

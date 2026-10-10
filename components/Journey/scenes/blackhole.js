@@ -1,4 +1,4 @@
-import { lerp, loadTexture, smoothstep, track } from "../util";
+import { lerp, milkyWay, smoothstep, track } from "../util";
 
 // A Schwarzschild black hole with a thin accretion disc, in the spirit of the
 // Interstellar renders: light is bent around the hole, so the far side of the
@@ -10,8 +10,7 @@ import { lerp, loadTexture, smoothstep, track } from "../util";
 export const createBlackHole = async (THREE, { renderer, small, tier, reducedMotion }) => {
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const sky = await loadTexture(THREE, tier === "h" ? "/space/milkyway_4k.jpg" : "/space/milkyway_2k.jpg", { anisotropy: 4 });
-  sky.wrapS = THREE.RepeatWrapping;
+  const sky = await milkyWay(THREE, tier);
 
   const STEPS = small ? 110 : 170;
   const uniforms = {
@@ -115,7 +114,10 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
           u += h / 6.0 * (k1u + 2.0 * k2u + 2.0 * k3u + k4u);
           du += h / 6.0 * (k1v + 2.0 * k2v + 2.0 * k3v + k4v);
           phi += h;
-          if (u > 1.0) { captured = true; break; }
+          // Inside the photon sphere (r < 1.5) and still falling, a ray can
+          // only end at the horizon, and the disc starts outside it at rIn:
+          // stop here rather than march the last, smallest steps.
+          if (u > 1.0 || (u > 0.6667 && du > 0.0)) { captured = true; break; }
           if (u < 1.0 / escR && du < 0.0) { escaped = true; break; }
           r = 1.0 / u;
           Pp = P;

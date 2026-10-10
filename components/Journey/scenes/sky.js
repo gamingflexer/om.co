@@ -1,14 +1,10 @@
-import { bvColor, loadTexture, pointsMaterial, spriteTexture } from "../util";
+import { bvColor, milkyWay, pointsMaterial, spriteTexture, starCatalogue } from "../util";
 
 // Shared deep-sky background: ESO Milky Way panorama on a backside sphere plus
 // the Yale Bright Star Catalogue as points, both in galactic coordinates.
 export const createSky = async (THREE, { radius = 1000, tier, intensity = 0.55 }) => {
   const group = new THREE.Group();
-  const texUrl = tier === "h" ? "/space/milkyway_4k.jpg" : "/space/milkyway_2k.jpg";
-  const [tex, buf] = await Promise.all([
-    loadTexture(THREE, texUrl, { anisotropy: 4 }),
-    fetch("/space/stars.bin").then((r) => r.arrayBuffer()),
-  ]);
+  const [tex, buf] = await Promise.all([milkyWay(THREE, tier), starCatalogue()]);
   const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false, depthWrite: false });
   mat.color.setScalar(intensity);
   const dome = new THREE.Mesh(new THREE.SphereGeometry(radius, 64, 32), mat);

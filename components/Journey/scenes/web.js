@@ -1,4 +1,4 @@
-import { galToScene, gauss, lerp, pointsMaterial, rng, smoothstep, spriteTexture, track } from "../util";
+import { galToScene, gauss, lerp, pointsMaterial, rng, smoothstep, spriteTexture, strided, track } from "../util";
 
 // Large-scale structure. Units: 1 Mpc = 1. Local Group at the origin, Virgo
 // and the Laniakea filaments around it, then the whole observable universe as
@@ -87,11 +87,16 @@ export const createWeb = async (THREE, { small }) => {
   geo.setAttribute("phase", new THREE.BufferAttribute(phase, 1));
   const webMat = pointsMaterial(THREE, { map: sprite, intensity: 1.7, minPx: 1, maxPx: 4 });
   const web = new THREE.Points(geo, webMat);
+  // Pulled far back, the whole web lands on a few hundred pixels and every
+  // point blends into the same ones; on phones a quarter of them reads the same.
+  const FAR_STRIDE = small ? 4 : 1;
+  const geoFar = FAR_STRIDE > 1 ? strided(THREE, geo, FAR_STRIDE) : geo;
   web.frustumCulled = false;
   scene.add(web);
   // Soft haze over the same structure so the filaments read as gas, not dots.
-  const hazeMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: 0.22, minPx: 6, maxPx: 70 });
-  const haze = new THREE.Points(geo, hazeMat);
+  const HAZE_STRIDE = small ? 6 : 1;
+  const hazeMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: 0.22 * HAZE_STRIDE, minPx: 6, maxPx: 70 });
+  const haze = new THREE.Points(HAZE_STRIDE > 1 ? strided(THREE, geo, HAZE_STRIDE) : geo, hazeMat);
   haze.frustumCulled = false;
   scene.add(haze);
 
@@ -178,6 +183,14 @@ export const createWeb = async (THREE, { small }) => {
     uniMat.uniforms.scale.value = 700;
     uniMat.uniforms.fade.value = smoothstep(0.5, 0.75, t);
     cmb.material.uniforms.fade.value = smoothstep(0.7, 0.95, t);
+    // Skip layers that are fully faded out.
+    web.visible = webMat.uniforms.fade.value > 0;
+    const far = t > 0.68;
+    web.geometry = far ? geoFar : geo;
+    webMat.uniforms.intensity.value = far ? 1.7 * FAR_STRIDE : 1.7;
+    haze.visible = hazeMat.uniforms.fade.value > 0;
+    universe.visible = uniMat.uniforms.fade.value > 0;
+    cmb.visible = cmb.material.uniforms.fade.value > 0;
     lgMat.opacity = 1 - smoothstep(0.1, 0.3, t);
   };
   return { scene, camera, update, resize, ready: Promise.resolve(), dispose: () => {} };
