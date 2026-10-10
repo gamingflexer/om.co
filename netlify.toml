@@ -4,3 +4,10 @@
 
 [build.environment]
     NODE_VERSION = "24"
+
+# The site lives at om.ayuapp.com; send the Netlify subdomain there (old links in posts keep working).
+[[redirects]]
+    from = "https://asach.netlify.app/*"
+    to = "https://om.ayuapp.com/:splat"
+    status = 301
+    force = true
