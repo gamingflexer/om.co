@@ -26,6 +26,10 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
     rOut: { value: 11.0 },
     time: { value: 0 },
     glow: { value: 1 },
+    // The blue supergiant we turn to at the end (the next stage's star), a
+    // point in the sky that is lensed like everything else.
+    pDir: { value: new THREE.Vector3(1, 0, 0) },
+    beacon: { value: 1 },
   };
   const rt = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: false });
   const rtScene = new THREE.Scene();
@@ -38,6 +42,7 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
       precision highp float;
       uniform vec2 res; uniform vec3 camPos; uniform mat3 camRot; uniform float tanH;
       uniform sampler2D sky; uniform mat3 skyRot; uniform vec3 discN; uniform float rIn, rOut, time, glow;
+      uniform vec3 pDir; uniform float beacon;
       #define PI 3.14159265
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){
@@ -48,7 +53,11 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
       vec3 skyColor(vec3 d){
         vec3 g = skyRot * d;
         vec2 uv = vec2(atan(g.z, g.x) / (2.0 * PI) + 0.5, asin(clamp(g.y, -1.0, 1.0)) / PI + 0.5);
-        return texture2D(sky, uv).rgb * 0.55;
+        vec3 c = texture2D(sky, uv).rgb * 0.55;
+        // The supergiant: a hot point with a soft halo (angles in radians).
+        float th2 = max(2.0 * (1.0 - dot(d, pDir)), 0.0);
+        c += vec3(0.72, 0.84, 1.0) * beacon * (7.0 * exp(-th2 / 1.4e-5) + 0.35 * exp(-th2 / 2.0e-4));
+        return c;
       }
       // Black-body-ish ramp from a normalised temperature.
       vec3 bb(float t){
@@ -171,19 +180,40 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
   const camM = new THREE.Matrix4();
   const up = new THREE.Vector3(0, 1, 0);
   const look = new THREE.Vector3();
+  const fwd = new THREE.Vector3();
+  const toHole = new THREE.Vector3();
+  // Camera path: zoom from a speck to the close-up (t 0 → 0.56), hold, then
+  // back away and turn left (t 0.62 → 0.86, done before the next stage
+  // fades in) until the hole has slid off to the
+  // right and a blue supergiant sits in the middle of the frame: the star
+  // that goes supernova in the next stage.
+  const HOLD = 0.62;
+  const TURNED = 0.86;
+  const camAt = (t, out) => {
+    const d = track([[0, 530], [0.08, 470], [0.28, 60], [0.44, 16], [0.56, 11.5], [HOLD, 11.5], [TURNED, 70]], t, { log: true });
+    const o = Math.min(1, t / HOLD);
+    const az = lerp(0.2, 1.4, o) + 0.15 * smoothstep(HOLD, TURNED, t);
+    const el = track([[0, 0.05], [0.26, 0.14], [HOLD, 0.26]], t);
+    return out.set(Math.cos(el) * Math.sin(az) * d, Math.sin(el) * d, Math.cos(el) * Math.cos(az) * d);
+  };
+  {
+    const end = camAt(1, new THREE.Vector3());
+    const f = end.clone().negate().normalize();
+    const left = new THREE.Vector3().crossVectors(up, f).normalize();
+    uniforms.pDir.value.copy(f).multiplyScalar(Math.cos(1.2)).addScaledVector(left, Math.sin(1.2)).addScaledVector(up, -0.08).normalize();
+  }
   const update = ({ t, time }) => {
     uniforms.time.value = reducedMotion ? 0 : time;
     // Start where the stars stage left it, a speck far off (disc radius ~6%
     // of the half-height), then zoom all the way in, swinging a third of the
     // way round and climbing a little above the disc so its far side shows
     // over the top.
-    const d = track([[0, 530], [0.12, 470], [0.45, 60], [0.7, 18], [0.88, 12.5], [1, 11]], t, { log: true });
-    const az = lerp(0.2, 1.4, t);
-    const el = track([[0, 0.05], [0.4, 0.14], [1, 0.26]], t);
-    const pos = uniforms.camPos.value;
-    pos.set(Math.cos(el) * Math.sin(az) * d, Math.sin(el) * d, Math.cos(el) * Math.cos(az) * d);
-    // Look slightly past the hole so it sits a touch off centre.
-    look.set(0, lerp(0.4, 0.0, t), 0);
+    const pos = camAt(t, uniforms.camPos.value);
+    // Look slightly past the hole so it sits a touch off centre, then turn
+    // to the supergiant.
+    toHole.set(0, lerp(0.4, 0.0, Math.min(1, t / HOLD)), 0).sub(pos).normalize();
+    fwd.copy(toHole).lerp(uniforms.pDir.value, smoothstep(HOLD, TURNED, t)).normalize();
+    look.copy(pos).add(fwd);
     camM.lookAt(pos, look, up);
     uniforms.camRot.value.setFromMatrix4(camM);
     uniforms.glow.value = smoothstep(0.0, 0.08, t);

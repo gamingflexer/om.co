@@ -1,16 +1,24 @@
 import { glareTexture, lerp, pointsMaterial, smoothstep, spriteTexture, track } from "../util";
 import { createSky } from "./sky";
+import { makeEjecta } from "./supernova";
 
-// A pulsar: the neutron star left by the supernova. Two radio beams along a
-// tilted magnetic axis sweep round as the star spins, so the beam flashes
-// across the camera like a lighthouse, and rings of plasma pulse away from
-// the poles up and down the spin axis. A faint wind nebula and dipole field
-// lines sit around it. Units: star radius = 1.
+// A pulsar: the neutron star left by the supernova, at the centre of its
+// remnant (like the Crab). The stage opens where the supernova stage ends,
+// outside the remnant's filaments, flies through them to the star, then
+// backs far away until the remnant is a smudge with a blinking point in it,
+// ready for the Milky Way.
+// Physics, slowed down to be watchable (a young pulsar like the Crab spins
+// 30 times a second): two beams along a magnetic axis tilted from the spin
+// axis sweep round like a lighthouse, so we see a flash each time one
+// crosses us; the dipole field co-rotates; the pulsar wind blows an
+// equatorial torus whose wisps ripple outward, and two jets run along the
+// spin axis. Units: star radius = 1 (the remnant is not to scale).
 export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.05, 20000);
   const sky = await createSky(THREE, { radius: 9000, tier, intensity: 0.45 });
-  sky.group.rotation.set(1.4, 0.6, 0.9);
+  // Same patch of sky as the supernova stage: it is the same place.
+  sky.group.rotation.set(0.7, 1.9, 0.2);
   scene.add(sky.group);
 
   const spin = new THREE.Group(); // rotates about Y
@@ -19,8 +27,8 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   mag.rotation.z = 0.62;
   spin.add(mag);
 
-  // Neutron star: tiny, blazing blue-white.
-  const star = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 32), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 2.6, 3.2) }));
+  // Neutron star: tiny, blazing blue-white, mostly seen as its glare.
+  const star = new THREE.Mesh(new THREE.SphereGeometry(0.45, 48, 32), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 2.6, 3.2) }));
   scene.add(star);
   const glare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512), color: 0xcfe0ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   glare.scale.setScalar(6);
@@ -69,7 +77,28 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   coreDown.rotation.z = Math.PI;
   mag.add(coreUp, coreDown);
 
-  // Pulse rings: travel out from the poles along the spin axis, up and down.
+  // Polar jets along the spin axis (fixed, not spinning with the beams).
+  const jetUniforms = { time: beamUniforms.time, fade: { value: 0.55 } };
+  const jetMat = beamMat.clone();
+  jetMat.uniforms = jetUniforms;
+  const jetGeo = new THREE.CylinderGeometry(0.12, 0.9, 26, 24, 1, true);
+  jetGeo.translate(0, 13, 0);
+  const jetUp = new THREE.Mesh(jetGeo, jetMat);
+  const jetDown = new THREE.Mesh(jetGeo, jetMat);
+  jetDown.rotation.z = Math.PI;
+  scene.add(jetUp, jetDown);
+
+  // The supernova remnant around it, matching the end of the previous stage
+  // (shell radius 46 seen from 150 there; ×8.7 here).
+  const REM = 400;
+  const remnant = makeEjecta(THREE, { count: small ? 20000 : 60000 });
+  remnant.uniforms.R.value = REM;
+  remnant.uniforms.age.value = 1;
+  remnant.uniforms.fade.value = 1;
+  scene.add(remnant.group);
+
+  // Wisps: rings of the pulsar wind that ripple outward in the equatorial
+  // plane, through the torus.
   const ringUniforms = { fade: { value: 1 } };
   const ringMat = new THREE.ShaderMaterial({
     uniforms: { ...ringUniforms, k: { value: 0 }, seed: { value: 0 }, time: { value: 0 } },
@@ -98,16 +127,16 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
         gl_FragColor = vec4(col * ring * fade * 1.3, ring * fade);
       }`,
   });
-  const RINGS = 9;
+  const RINGS = 8;
   const rings = [];
-  for (let i = 0; i < RINGS * 2; i++) {
+  for (let i = 0; i < RINGS; i++) {
     const m = ringMat.clone();
     m.uniforms = { fade: { value: 1 }, k: { value: (i % RINGS) / RINGS }, seed: { value: i * 0.37 }, time: { value: 0 } };
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), m);
     mesh.renderOrder = 2;
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
-    rings.push({ mesh, i: i % RINGS, dirY: i < RINGS ? 1 : -1 });
+    rings.push({ mesh, i });
   }
 
   // Dipole field lines in the magnetic frame: r = L sin²θ.
@@ -186,33 +215,39 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
     sky.setTime(time);
     beamUniforms.time.value = time;
     spin.rotation.y = reducedMotion ? 0.5 : time * 3.4; // ~0.54 rev/s
-    // Rings: each travels from the pole outward, spreading and fading.
-    rings.forEach(({ mesh, i, dirY }) => {
-      const u = reducedMotion ? i / RINGS : (time * 0.4 + i / RINGS) % 1;
-      const y = dirY * (1.5 + u * u * 34);
-      mesh.position.set(0, y, 0);
-      const s = 2.5 + u * 14;
+    // Wisps: each grows from just outside the star to past the torus,
+    // fading as it goes (the ring's radius is 0.4 of the plane's size).
+    rings.forEach(({ mesh, i }) => {
+      const u = reducedMotion ? i / RINGS : (time * 0.25 + i / RINGS) % 1;
+      const s = 7 + u * 60;
       mesh.scale.set(s, s, 1);
       mesh.material.uniforms.time.value = time;
-      mesh.material.uniforms.fade.value = smoothstep(0.0, 0.08, u) * (1 - smoothstep(0.5, 1.0, u)) * 0.7;
+      // Faint: the Crab's wisps are ripples in the wind, not solid rings.
+      mesh.material.uniforms.fade.value = smoothstep(0.0, 0.08, u) * (1 - smoothstep(0.35, 1.0, u)) * 0.22;
     });
-    // Camera: start close above the equator, then pull back and rise so the
-    // rings are seen stacking up and down the axis.
-    const d = track([[0, 15], [0.5, 30], [1, 60]], t, { log: true });
-    const az = lerp(0.4, 1.9, t);
-    const el = track([[0, 0.12], [0.5, 0.2], [1, 0.38]], t);
+    // Camera: from outside the remnant (where the supernova stage left us),
+    // through its filaments to the star, a slow pass round it while the
+    // beams sweep, then far back out until the remnant is a smudge.
+    const d = track([[0, 1300], [0.1, 1100], [0.4, 26], [0.52, 16], [0.66, 18], [0.8, 400], [1, 7000]], t, { log: true });
+    const az = lerp(1.1, 2.6, t);
+    const el = track([[0, 0.42], [0.4, 0.14], [0.66, 0.2], [1, 0.5]], t);
     dir.set(Math.cos(el) * Math.sin(az), Math.sin(el), Math.cos(el) * Math.cos(az));
     camera.position.copy(dir).multiplyScalar(d);
-    camera.lookAt(0, lerp(0, 2, t), 0);
+    camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
+    sky.group.position.copy(camera.position);
+    remnant.uniforms.time.value = time;
+    remnant.uniforms.scale.value = 500;
     // Flash: how directly either beam points at us.
     beamDir.set(0, 1, 0).applyQuaternion(mag.getWorldQuaternion(new THREE.Quaternion()));
     toCam.copy(camera.position).normalize();
     const align = Math.abs(beamDir.dot(toCam));
     const pulse = Math.pow(smoothstep(0.86, 0.995, align), 2.0);
     flash.material.opacity = pulse * 0.9;
-    flash.scale.setScalar(lerp(10, 50, pulse) * (d / 20));
-    glare.scale.setScalar(6 + 10 * pulse);
+    // Close in the flash fills the view; from far off it stays a blink.
+    flash.scale.setScalar(lerp(10, 50, pulse) * Math.min(d / 20, 1 + d * 0.0015));
+    // Far off the star is a point that blinks: keep the glare a few pixels.
+    glare.scale.setScalar(Math.max(6, d * 0.012) + (10 + d * 0.03) * pulse);
     beamUniforms.fade.value = 1;
     pmat.uniforms.scale.value = 500;
     pmat.uniforms.time.value = time;
