@@ -414,16 +414,18 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
           }}
         />
       )}
-      {/* Scroll hint: a pill at the bottom that fades out once the journey starts. */}
+      {/* Scroll cue (after about.senbuzy.com): a pulsing "Scroll" label over
+          a hairline with a glowing dot sliding down it. Fades out once the
+          journey starts. */}
       <div
         aria-hidden="true"
         className="journey-hint"
         style={{ opacity: loaded && overlay === "off" && progress < 0.03 ? 1 : 0 }}
       >
-        <span>Scroll to begin</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "journey-bob 2.2s ease-in-out infinite" }}>
-          <path d="M6 9l6 6 6-6" />
-        </svg>
+        <span className="journey-hint__label">Scroll</span>
+        <span className="journey-hint__track">
+          <span className="journey-hint__dot" />
+        </span>
       </div>
       {/* Sound toggle (synthesised ambience, off until tapped). */}
       {sound && (
