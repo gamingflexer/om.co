@@ -32,9 +32,11 @@ const STAGES = [
 ];
 
 // Loading phases and their share of the bar. The three.js chunk and the
-// scene modules come first, then Om is built from primitives, then shader
-// compilation and the first frame.
-const PHASES = { modules: 0.55, model: 0.15, warm: 0.3 };
+// scene modules come first, then Om's avatar downloads (the largest file,
+// reported by bytes), then shader compilation and the first frame.
+const PHASES = { modules: 0.3, model: 0.5, warm: 0.2 };
+// After this long, the loader adds an estimate of the time left.
+const SLOW_AFTER = 35;
 const MODULE_COUNT = 13;
 
 // How far the hero copy stays on screen (global progress) before it fades.
@@ -52,6 +54,9 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
   // on → settling (bar full, dot animation plays to its hold pose) → fading → off
   const [overlay, setOverlay] = useState("on");
   const [failed, setFailed] = useState(false);
+  // Seconds left on a slow load (null until SLOW_AFTER, Infinity when the
+  // rate is too low to estimate).
+  const [eta, setEta] = useState(null);
   const soundRef = useRef(null);
   useEffect(() => {
     soundRef.current = sound;
@@ -64,11 +69,36 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
     let raf = 0;
     let v = 0;
     let last = performance.now();
+    // Recent (time, progress) samples for the rate, and the countdown shown.
+    const samples = [];
+    let countdown = null;
+    let lastSec = null;
     const step = (now) => {
       raf = requestAnimationFrame(step);
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
       const t = loadTarget.current;
+      // performance.now() counts from navigation start, so this is the
+      // whole wait the visitor has seen.
+      const secs = now / 1000;
+      if (!samples.length || secs - samples[samples.length - 1][0] > 0.5) samples.push([secs, t]);
+      while (samples.length > 2 && secs - samples[0][0] > 10) samples.shift();
+      if (secs > SLOW_AFTER && t < 1) {
+        const [s0, t0] = samples[0];
+        const rate = (t - t0) / Math.max(secs - s0, 0.001);
+        const estimate = rate > 0.002 ? (1 - t) / rate : Infinity;
+        // Count down steadily; re-sync only when the estimate drifts far.
+        if (countdown === null || !Number.isFinite(countdown)) countdown = estimate;
+        else {
+          countdown = Math.max(0, countdown - dt);
+          if (estimate > countdown * 1.5 + 5 || estimate < countdown * 0.5) countdown = estimate;
+        }
+        const sec = Number.isFinite(countdown) ? Math.ceil(countdown) : Infinity;
+        if (sec !== lastSec) {
+          lastSec = sec;
+          setEta(sec);
+        }
+      }
       // Drift a little ahead of the last report, never past the next phase.
       const ceiling = Math.min(t + 0.06, 0.985);
       const goal = t >= 1 ? 1 : ceiling;
@@ -77,6 +107,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       setShown((prev) => (Math.abs(prev - v) > 0.0015 ? v : prev));
       if (t >= 1 && v > 0.995) {
         setShown(1);
+        setEta(null);
         cancelAnimationFrame(raf);
         setOverlay("settling");
       }
@@ -188,12 +219,22 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       );
 
       // Scenes (shared instances for the two hero/iris stages).
-      const hero = heroM.createHero(THREE, { renderer, small, reducedMotion, deps: { RoomEnvironment } });
-      done.model = 1;
-      report();
+      const hero = heroM.createHero(THREE, {
+        renderer,
+        small,
+        reducedMotion,
+        deps: { RoomEnvironment },
+        onModelProgress: (loaded, total) => {
+          // Without a length, assume the ~3 MB file so the bar still moves.
+          done.model = Math.min(0.99, loaded / (total || 3.2e6));
+          report();
+        },
+      });
       const iris = irisM.createIris(THREE);
       const scenes = { hero, iris };
-      const pending = {
+      // The other stages are built only once Om is in, so on a slow link
+      // their textures do not compete with the avatar download.
+      const startScenes = () => ({
         earth: earthM.createEarth(THREE, { tier, maxTex }),
         solar: solarM.createSolar(THREE, { tier, small }),
         stars: starsM.createStars(THREE, { tier, small }),
@@ -203,7 +244,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         blackhole: blackholeM.createBlackHole(THREE, { renderer, small, tier, reducedMotion }),
         supernova: supernovaM.createSupernova(THREE, { tier, small, reducedMotion }),
         pulsar: pulsarM.createPulsar(THREE, { tier, small, reducedMotion }),
-      };
+      });
       let W = 1;
       let H = 1;
       // Compile shaders and upload textures as each scene arrives so the
@@ -225,14 +266,17 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       };
       // Warm one scene per frame so the load does not freeze the page.
       const warmQueue = [];
-      Object.entries(pending).forEach(([id, p]) =>
-        p.then((s) => {
-          if (disposed) return;
-          scenes[id] = s;
-          s.resize(W, H, renderer.getPixelRatio());
-          warmQueue.push(s);
-        }).catch((e) => console.error("scene", id, e))
-      );
+      hero.ready.then(() => {
+        if (disposed) return;
+        Object.entries(startScenes()).forEach(([id, p]) =>
+          p.then((s) => {
+            if (disposed) return;
+            scenes[id] = s;
+            s.resize(W, H, renderer.getPixelRatio());
+            warmQueue.push(s);
+          }).catch((e) => console.error("scene", id, e))
+        );
+      });
 
       const resize = () => {
         W = container.clientWidth;
@@ -271,6 +315,8 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
 
       await hero.ready;
       if (disposed) return;
+      done.model = 1;
+      report();
       // Let the overlay paint the new phase before the (blocking) compile.
       await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 30)));
       if (disposed) return;
@@ -378,7 +424,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
   const pct = Math.round(shown * 100);
   // The caption follows the bar, so it never runs ahead of the number.
   const label =
-    shown < PHASES.modules ? "Loading the engine" : shown < PHASES.modules + PHASES.model ? "Building Om" : shown < 0.995 ? "Preparing the view" : "Scroll to begin";
+    shown < PHASES.modules ? "Loading the engine" : shown < PHASES.modules + PHASES.model ? "Bringing Om in" : shown < 0.995 ? "Preparing the view" : "Scroll to begin";
   return (
     <>
       <div ref={containerRef} className={className} />
@@ -404,6 +450,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
           shown={shown}
           pct={pct}
           label={label}
+          eta={eta}
           overlay={overlay}
           failed={failed}
           onSettled={() => {

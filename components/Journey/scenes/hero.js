@@ -237,7 +237,49 @@ const loadModelAvatar = (THREE, gltf, { reducedMotion }) => {
   };
 };
 
-export const createHero = (THREE, { renderer, small, reducedMotion, deps }) => {
+// Download the avatar with byte progress. Phones on a weak link can stall
+// mid-file: if no bytes arrive for STALL_MS the request is aborted.
+const STALL_MS = 20000;
+const fetchModel = async (url, onProgress) => {
+  const ctrl = new AbortController();
+  let timer = setTimeout(() => ctrl.abort(), STALL_MS);
+  const poke = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => ctrl.abort(), STALL_MS);
+  };
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    if (!res.ok) return null;
+    const total = Number(res.headers.get("content-length")) || 0;
+    if (!res.body || !res.body.getReader) {
+      const buf = await res.arrayBuffer();
+      onProgress(buf.byteLength, buf.byteLength);
+      return buf;
+    }
+    const reader = res.body.getReader();
+    const chunks = [];
+    let loaded = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      poke();
+      chunks.push(value);
+      loaded += value.byteLength;
+      onProgress(loaded, total);
+    }
+    const out = new Uint8Array(loaded);
+    let o = 0;
+    chunks.forEach((c) => {
+      out.set(c, o);
+      o += c.byteLength;
+    });
+    return out.buffer;
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
+export const createHero = (THREE, { renderer, small, reducedMotion, deps, onModelProgress = () => {} }) => {
   const { RoomEnvironment } = deps;
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xffffff, 8, 42);
@@ -402,10 +444,21 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps }) => {
   scene.add(om.group);
   const ready = (async () => {
     try {
-      const head = await fetch("/models/om.glb", { method: "HEAD" });
-      if (!head.ok) return;
-      const { GLTFLoader } = await import("three/examples/jsm/loaders/GLTFLoader.js");
-      const gltf = await new GLTFLoader().loadAsync("/models/om.glb");
+      const loaderMod = import("three/examples/jsm/loaders/GLTFLoader.js");
+      // One retry after a stall; if that stalls too, the placeholder stays
+      // so the page still opens.
+      let buf = null;
+      for (let attempt = 0; attempt < 2 && !buf; attempt++) {
+        try {
+          buf = await fetchModel("/models/om.glb", onModelProgress);
+          if (!buf) return;
+        } catch (e) {
+          if (attempt === 1) throw e;
+          console.warn("om.glb retry", e);
+        }
+      }
+      const { GLTFLoader } = await loaderMod;
+      const gltf = await new GLTFLoader().parseAsync(buf, "/models/");
       const model = loadModelAvatar(THREE, gltf, { reducedMotion });
       if (!model) return;
       scene.remove(om.group);

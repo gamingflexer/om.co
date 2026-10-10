@@ -201,6 +201,12 @@ body {
 .journey-loader__label {
   margin-top: 0.9rem; font-size: 0.8rem; color: rgba(250, 247, 245, 0.55); min-height: 1.2em;
 }
+.journey-loader__eta {
+  margin-top: 1.1rem; display: flex; flex-direction: column; gap: 0.3rem;
+  font-size: 0.75rem; color: rgba(250, 247, 245, 0.45); animation: journey-fade-in 0.6s ease both;
+}
+.journey-loader__eta-time { font-size: 0.85rem; color: rgba(250, 247, 245, 0.85); font-variant-numeric: tabular-nums; }
+@keyframes journey-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .journey-loader__msg { margin-top: 1rem; font-size: 0.95rem; line-height: 1.5; color: rgba(250, 247, 245, 0.8); }
 
 /* Top bar over the journey */

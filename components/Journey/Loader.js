@@ -367,7 +367,15 @@ function DotAperture({ done, onSettled }) {
   return <canvas ref={canvasRef} className="journey-loader__anim" aria-hidden="true" />;
 }
 
-export default function JourneyLoader({ shown, pct, label, overlay, failed, onSettled }) {
+// "0:42" for a countdown; past two minutes (or no estimate) stay vague.
+const etaText = (s) => {
+  if (!Number.isFinite(s) || s > 120) return "More than a minute or so";
+  if (s <= 0) return "Almost there";
+  if (s > 30) return `More than 30 seconds or so · ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+  return `About ${s} second${s === 1 ? "" : "s"} left`;
+};
+
+export default function JourneyLoader({ shown, pct, label, overlay, failed, eta = null, onSettled }) {
   return (
     <div
       className={`journey-loader ${overlay === "fading" ? "journey-loader--done" : ""} ${failed ? "journey-loader--failed" : ""}`}
@@ -401,6 +409,13 @@ export default function JourneyLoader({ shown, pct, label, overlay, failed, onSe
             <div className="journey-loader__bar" style={{ transform: `scaleX(${shown})` }} />
           </div>
           <p className="journey-loader__label">{label}</p>
+          {/* Slow connection: say so and count down rather than sit still. */}
+          {eta !== null && (
+            <p className="journey-loader__eta">
+              <span role="status">Taking longer than usual</span>
+              <span className="journey-loader__eta-time">{etaText(eta)}</span>
+            </p>
+          )}
         </div>
       )}
     </div>
