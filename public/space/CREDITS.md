@@ -6,3 +6,4 @@
 - `moon_2k.jpg`: NASA Scientific Visualization Studio, CGI Moon Kit (LRO LROC colour). Public domain. https://svs.gsfc.nasa.gov/4720
 - `milkyway_*.jpg`: ESO/S. Brunier, "The Milky Way panorama" (eso0932a), CC BY 4.0. https://www.eso.org/public/images/eso0932a/
 - `stars.bin`: Yale Bright Star Catalogue (BSC5), public domain, converted to galactic directions.
+- `mercury_1k.jpg`, `venus_1k.jpg` (Venus atmosphere), `mars_1k.jpg`, `jupiter_1k.jpg`, `saturn_1k.jpg`, `saturn_ring.png`, `uranus_1k.jpg`, `neptune_1k.jpg`: Solar System Scope textures (INOVE), based on NASA mission imagery, CC BY 4.0. https://www.solarsystemscope.com/textures/ — downscaled to 1024 px (the ring strip to 1024x1) and recompressed.

@@ -118,18 +118,28 @@ export const createStars = async (THREE, { tier, small }) => {
   const sunGlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 512, false), color: 0xffcf8a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   scene.add(sunGlare);
 
-  // A supernova going off a few hundred light-years out, in the direction
-  // we are heading: a point that out-shines everything near it, with a
-  // soft halo, so the next stage is already in the sky.
-  const snDir = new THREE.Vector3(-0.22, -0.46, -0.84).normalize();
-  const snGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTexture(THREE, 256, false), color: 0xdfe9ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-  snGlow.position.copy(snDir).multiplyScalar(620);
-  scene.add(snGlow);
-  const snHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), color: 0xff9a70, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.1 }));
-  snHalo.position.copy(snGlow.position);
-  scene.add(snHalo);
+  // The black hole we head for next, far off to the left: a small sprite
+  // drawn to match the raymarched hole as the next stage first sees it
+  // (nearly edge-on, disc radius ~6% of the half-height), so the cross-fade
+  // lands on it.
+  const bh = new THREE.Sprite(new THREE.SpriteMaterial({ map: blackHoleTexture(THREE), color: new THREE.Color(1.6, 1.45, 1.3), transparent: true, depthWrite: false, depthTest: false }));
+  bh.renderOrder = 10;
+  scene.add(bh);
 
   const dir = new THREE.Vector3(0.35, 0.55, 0.76).normalize();
+  // While we pull back the view turns left, off the Sun (which slides out to
+  // the right) towards the black hole.
+  const toSun = dir.clone().negate();
+  const left = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), toSun).normalize();
+  const TURN = 0.8;
+  const bhDir = toSun.clone().multiplyScalar(Math.cos(TURN)).addScaledVector(left, Math.sin(TURN)).normalize();
+  const BH_D = 6000;
+  // Sprite size for disc radius = BH_FRAC of the half-height (fov 42°, disc
+  // drawn at 0.94 of the sprite's half-size).
+  const BH_FRAC = 0.06;
+  const BH_S = (BH_FRAC * BH_D * Math.tan((21 * Math.PI) / 180) * 2) / 0.94;
+  const fwd = new THREE.Vector3();
+  const look = new THREE.Vector3();
   const resize = (w, h) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -138,7 +148,9 @@ export const createStars = async (THREE, { tier, small }) => {
     sky.setTime(time);
     const d = track([[0, 0.02], [0.5, 12], [1, 320]], t, { log: true });
     camera.position.copy(dir).multiplyScalar(d);
-    camera.lookAt(0, 0, 0);
+    const turn = smoothstep(0.4, 0.95, t);
+    fwd.copy(toSun).lerp(bhDir, turn).normalize();
+    camera.lookAt(look.copy(camera.position).add(fwd));
     camera.updateProjectionMatrix();
     sunGlare.scale.setScalar(Math.max(0.01, d * 0.14 * lerp(1, 0.35, smoothstep(0.5, 1, t))));
     starMat.uniforms.scale.value = 400;
@@ -147,12 +159,60 @@ export const createStars = async (THREE, { tier, small }) => {
     // Nearby stars appear once the Sun's glare no longer swamps them.
     starMat.uniforms.fade.value = smoothstep(0.05, 0.3, t);
     fillMat.uniforms.fade.value = smoothstep(0.35, 0.7, t);
-    // The supernova brightens and its halo grows as we approach it.
-    const snA = smoothstep(0.45, 0.8, t);
-    snGlow.material.opacity = snA;
-    snGlow.scale.setScalar(4 + 14 * snA);
-    snHalo.scale.setScalar(20 + 50 * snA);
-    snHalo.material.opacity = 0.1 * snA;
+    // The black hole keeps its place in the sky ahead and swells a little
+    // as we close in, ready for the next stage to zoom the rest of the way.
+    bh.position.copy(camera.position).addScaledVector(bhDir, BH_D);
+    bh.scale.setScalar(BH_S * lerp(0.55, 1, smoothstep(0.55, 1, t)));
+    bh.material.opacity = smoothstep(0.35, 0.6, t);
   };
   return { scene, camera, update, resize, ready: Promise.resolve(), dispose: () => {} };
+};
+
+// A distant, nearly edge-on black hole: soft warm glow, the lensed image of
+// the disc's far side as a ring around the shadow, the shadow, and the thin
+// near side of the disc across the front.
+const blackHoleTexture = (THREE, size = 256) => {
+  const c = document.createElement("canvas");
+  c.width = c.height = size;
+  const g = c.getContext("2d");
+  const m = size / 2;
+  const R = m * 0.94;
+  const glow = g.createRadialGradient(m, m, 0, m, m, R);
+  glow.addColorStop(0, "rgba(255,190,110,0.35)");
+  glow.addColorStop(0.45, "rgba(255,150,70,0.12)");
+  glow.addColorStop(1, "rgba(255,120,50,0)");
+  g.fillStyle = glow;
+  g.fillRect(0, 0, size, size);
+  // Lensed far side: a bright annulus hugging the shadow.
+  const ring = g.createRadialGradient(m, m, R * 0.24, m, m, R * 0.5);
+  ring.addColorStop(0, "rgba(255,245,225,1)");
+  ring.addColorStop(0.15, "rgba(255,215,150,0.95)");
+  ring.addColorStop(0.55, "rgba(220,150,70,0.45)");
+  ring.addColorStop(1, "rgba(180,110,50,0)");
+  g.fillStyle = ring;
+  g.beginPath();
+  g.arc(m, m, R * 0.5, 0, Math.PI * 2);
+  g.fill();
+  // Shadow.
+  g.fillStyle = "rgba(0,0,0,1)";
+  g.beginPath();
+  g.arc(m, m, R * 0.24, 0, Math.PI * 2);
+  g.fill();
+  // Near side of the disc, thin and brightest towards the middle.
+  g.save();
+  g.translate(m, m);
+  g.scale(1, 0.07);
+  const disc = g.createRadialGradient(0, 0, R * 0.2, 0, 0, R);
+  disc.addColorStop(0, "rgba(255,240,215,1)");
+  disc.addColorStop(0.35, "rgba(255,200,130,0.9)");
+  disc.addColorStop(0.75, "rgba(210,140,70,0.45)");
+  disc.addColorStop(1, "rgba(160,100,50,0)");
+  g.fillStyle = disc;
+  g.beginPath();
+  g.arc(0, 0, R, 0, Math.PI * 2);
+  g.fill();
+  g.restore();
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
 };

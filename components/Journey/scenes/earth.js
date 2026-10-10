@@ -190,26 +190,36 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
   const camDir = new THREE.Vector3();
   const target = new THREE.Vector3();
   const look = new THREE.Vector3();
+  // Earth turns on its axis over time. Close in, the camera turns with it so
+  // Bangalore stays in view; from orbit (free = 1) the camera holds still and
+  // the planet visibly spins beneath it. The spin is wrapped whenever that
+  // is invisible (camera fully locked or fully free).
+  const SPIN = 0.09; // rad/s
+  let spin = 0;
   const resize = (w, h) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
-  const update = ({ t, time }) => {
+  const update = ({ t, dt = 0, time }) => {
     earthUniforms.cloudShift.value = time * 0.00012;
     sky.setTime(time);
-    earth.rotation.y = t * 0.35;
-    cloudShell.rotation.y = t * 0.35;
+    const free = smoothstep(0.3, 0.55, t);
+    spin += dt * SPIN * free;
+    if (free === 0 || free === 1) spin = Math.atan2(Math.sin(spin), Math.cos(spin));
+    earth.rotation.y = t * 0.35 + spin;
+    cloudShell.rotation.y = earth.rotation.y;
+    const camRot = t * 0.35 + spin * (1 - free);
     // Distance from the centre (log keyframes) and the viewing direction,
     // which drifts eastward so the planet turns beneath the camera.
     const d = track([[0, 1.07], [0.18, 1.6], [0.4, 3.4], [0.62, 9], [0.82, 60], [1, 420]], t, { log: true });
     const lift = smoothstep(0.0, 0.5, t);
-    camDir.copy(blr).applyAxisAngle(upRef, earth.rotation.y + lerp(0.0, 0.5, lift)).normalize();
+    camDir.copy(blr).applyAxisAngle(upRef, camRot + lerp(0.0, 0.5, lift)).normalize();
     // Tilt the approach so the horizon is visible from orbit.
     const side = new THREE.Vector3().crossVectors(camDir, upRef).normalize();
     camDir.applyAxisAngle(side, lerp(-0.22, 0.0, lift)).normalize();
     camera.position.copy(camDir).multiplyScalar(d);
     // Look: a point ahead on the surface from orbit, the centre later.
-    look.copy(blr).applyAxisAngle(upRef, earth.rotation.y + 0.09).multiplyScalar(1.0);
+    look.copy(blr).applyAxisAngle(upRef, camRot + 0.09).multiplyScalar(1.0);
     target.copy(look).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.0, 0.35, t));
     camera.up.copy(upRef);
     camera.lookAt(target);

@@ -82,6 +82,9 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
         float tl = length(tv);
         vec3 e2 = tl > 1e-5 ? tv / tl : normalize(cross(e1, vec3(0.0, 1.0, 0.0)));
         tl = max(tl, 1e-5);
+        // Rays escape once they are well outside the start radius again, so
+        // the camera can sit far out while the hole is still a speck.
+        float escR = max(90.0, r0 * 1.05);
         float u = 1.0 / r0;
         float du = -dr / (tl * r0);
         float phi = 0.0;
@@ -93,13 +96,18 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
         vec3 outDir = dir;
         for (int i = 0; i < ${STEPS}; i++){
           float r = 1.0 / u;
-          float h = 0.02 + 0.012 * r;
-          // Semi-implicit Euler on u'' = 1.5u² − u.
-          du += (1.5 * u * u - u) * h;
-          u += du * h;
+          float h = min(0.02 + 0.012 * r, 0.2);
+          // RK4 on u'' = 1.5u² − u. (A first-order step's error depends on
+          // how many steps a ray takes, which showed as rings in the sky.)
+          float k1u = du;                 float k1v = 1.5 * u * u - u;
+          float u2 = u + 0.5 * h * k1u;   float k2u = du + 0.5 * h * k1v; float k2v = 1.5 * u2 * u2 - u2;
+          float u3 = u + 0.5 * h * k2u;   float k3u = du + 0.5 * h * k2v; float k3v = 1.5 * u3 * u3 - u3;
+          float u4 = u + h * k3u;         float k4u = du + h * k3v;       float k4v = 1.5 * u4 * u4 - u4;
+          u += h / 6.0 * (k1u + 2.0 * k2u + 2.0 * k3u + k4u);
+          du += h / 6.0 * (k1v + 2.0 * k2v + 2.0 * k3v + k4v);
           phi += h;
           if (u > 1.0) { captured = true; break; }
-          if (u < 1.0 / 90.0) { escaped = true; break; }
+          if (u < 1.0 / escR && du < 0.0) { escaped = true; break; }
           r = 1.0 / u;
           Pp = P;
           P = r * (cos(phi) * e1 + sin(phi) * e2);
@@ -131,7 +139,11 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
           outDir = normalize(P - Pp);
         }
         if (!captured) {
-          if (!escaped) outDir = normalize(P - Pp);
+          // Exact tangent of the orbit (the chord between steps is off by
+          // half a step's angle): dP/dphi ∝ -(u'/u) n + n'.
+          vec3 n = cos(phi) * e1 + sin(phi) * e2;
+          vec3 nP = -sin(phi) * e1 + cos(phi) * e2;
+          outDir = normalize(-(du / u) * n + nP);
           col += (1.0 - acc) * skyColor(outDir);
         }
         col *= glow;
@@ -148,7 +160,7 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
   const discM = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(0.0, 0.0, 0.0));
   uniforms.discN.value.set(0, 1, 0).applyMatrix4(discM).normalize();
 
-  const scale = small ? 0.4 : 0.5;
+  const scale = small ? 0.5 : 0.75;
   const resize = (w, h, dpr = 1) => {
     const W = Math.max(2, Math.floor(w * dpr * scale));
     const H = Math.max(2, Math.floor(h * dpr * scale));
@@ -161,9 +173,11 @@ export const createBlackHole = async (THREE, { renderer, small, tier, reducedMot
   const look = new THREE.Vector3();
   const update = ({ t, time }) => {
     uniforms.time.value = reducedMotion ? 0 : time;
-    // Approach from far out, swing a third of the way round and climb a
-    // little above the disc so its far side shows over the top.
-    const d = track([[0, 46], [0.35, 22], [0.75, 13.5], [1, 11]], t, { log: true });
+    // Start where the stars stage left it, a speck far off (disc radius ~6%
+    // of the half-height), then zoom all the way in, swinging a third of the
+    // way round and climbing a little above the disc so its far side shows
+    // over the top.
+    const d = track([[0, 530], [0.12, 470], [0.45, 60], [0.7, 18], [0.88, 12.5], [1, 11]], t, { log: true });
     const az = lerp(0.2, 1.4, t);
     const el = track([[0, 0.05], [0.4, 0.14], [1, 0.26]], t);
     const pos = uniforms.camPos.value;

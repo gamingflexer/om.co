@@ -1,5 +1,5 @@
 // Synthesised sound design (no audio files): an ambient bed that follows the
-// journey, scroll ticks, hover blips and click sounds. Everything is built on
+// journey, plus hover blips and click sounds on the buttons. Everything is built on
 // the Web Audio API and starts only after the visitor turns sound on.
 
 const STORAGE_KEY = "om-sound";
@@ -9,7 +9,6 @@ export const createSound = () => {
   let master = null;
   let enabled = false;
   let bed = null;
-  let lastTick = 0;
   let lastHover = 0;
   const listeners = new Set();
 
@@ -106,25 +105,6 @@ export const createSound = () => {
     o.stop(t + dur + 0.02);
   };
 
-  const noiseBurst = (dur, gain, freq) => {
-    if (!enabled || !ctx) return;
-    const t = ctx.currentTime;
-    const len = Math.floor(ctx.sampleRate * dur);
-    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    const f = ctx.createBiquadFilter();
-    f.type = "bandpass";
-    f.frequency.value = freq;
-    f.Q.value = 1.2;
-    const g = ctx.createGain();
-    g.gain.value = gain;
-    src.connect(f).connect(g).connect(master);
-    src.start(t);
-  };
-
   const api = {
     get enabled() {
       return enabled;
@@ -151,14 +131,6 @@ export const createSound = () => {
       const space = s < 0.1 ? 0 : s > 0.935 ? 0 : Math.min(1, (s - 0.1) / 0.06) * Math.min(1, (0.935 - s) / 0.06);
       setSpace(Math.max(0, Math.min(1, space)));
     },
-    // Scroll tick, rate-limited; pitch rises with speed.
-    scroll: (speed) => {
-      if (!enabled || !ctx) return;
-      const now = performance.now();
-      if (now - lastTick < 90) return;
-      lastTick = now;
-      noiseBurst(0.05, 0.12 + Math.min(0.2, speed * 0.3), 1800 + Math.min(2500, speed * 3000));
-    },
     hover: () => {
       const now = performance.now();
       if (now - lastHover < 60) return;
@@ -167,8 +139,6 @@ export const createSound = () => {
     },
     clickDown: () => blip(520, 0.07, 0.09, "triangle"),
     clickUp: () => blip(780, 0.08, 0.07, "triangle"),
-    // A soft swoosh at stage hand-offs.
-    swoosh: () => noiseBurst(0.6, 0.18, 600),
     wasEnabled: () => {
       try {
         return localStorage.getItem(STORAGE_KEY) === "1";

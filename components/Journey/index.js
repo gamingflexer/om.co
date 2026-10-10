@@ -164,6 +164,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
         res: { value: new THREE.Vector2(1, 1) },
       };
       const compScene = new THREE.Scene();
+      const blank = new THREE.Scene();
       const compCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
       compScene.add(
         new THREE.Mesh(
@@ -257,17 +258,10 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       // Scroll → progress, smoothed.
       let target = 0;
       let s = 0;
-      let lastY = window.scrollY;
-      let lastT = performance.now();
       const onScroll = () => {
         const spacer = spacerRef && spacerRef.current;
         const max = (spacer ? spacer.offsetTop + spacer.offsetHeight : document.documentElement.scrollHeight) - window.innerHeight;
         target = max > 0 ? clamp(window.scrollY / max, 0, 1) : 0;
-        const now = performance.now();
-        const speed = Math.abs(window.scrollY - lastY) / Math.max(1, now - lastT);
-        lastY = window.scrollY;
-        lastT = now;
-        if (soundRef.current) soundRef.current.scroll(speed);
       };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -299,7 +293,6 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       const clock = new THREE.Clock();
       let raf = 0;
       let lastProgress = -1;
-      let lastStage = "";
       let fade = 0;
       const tick = () => {
         raf = requestAnimationFrame(tick);
@@ -326,38 +319,30 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
         // The outgoing stage is A, the incoming is B; w is the overlap mix.
         const A = active[0];
         const B = active[1];
-        const stageKey = A ? A.id + (A.reverse ? "r" : "") : "";
-        if (stageKey !== lastStage) {
-          if (lastStage && soundRef.current) soundRef.current.swoosh();
-          lastStage = stageKey;
-        }
         let w = 0;
         if (A && B) {
           const o0 = B.a;
           const o1 = A.b;
           w = smoothstep(o0, o1, s);
         }
+        // An empty slot still goes through render(): the targets are
+        // multisampled and three.js only resolves them after a render, so a
+        // bare clear() would leave the last frame in the texture (it showed
+        // as a second iris through the open pupil).
         const render = (st, rt) => {
-          const sc = scenes[st.id];
+          const sc = st && scenes[st.id];
           renderer.setRenderTarget(rt);
           renderer.setClearColor(0x000000, 1);
+          if (!sc) {
+            renderer.render(blank, compCam);
+            return;
+          }
           renderer.clear();
-          if (!sc) return;
           sc.update({ t: st.t, dt, time, reverse: !!st.reverse });
           renderer.render(sc.scene, sc.camera);
         };
-        if (A) render(A, rtA);
-        else {
-          renderer.setRenderTarget(rtA);
-          renderer.setClearColor(0x000000, 1);
-          renderer.clear();
-        }
-        if (B) render(B, rtB);
-        else {
-          renderer.setRenderTarget(rtB);
-          renderer.setClearColor(0x000000, 1);
-          renderer.clear();
-        }
+        render(A, rtA);
+        render(B, rtB);
         compUniforms.w.value = w;
         renderer.setRenderTarget(null);
         renderer.render(compScene, compCam);
