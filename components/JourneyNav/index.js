@@ -4,6 +4,7 @@ import data from "../../data/portfolio.json";
 
 // Fixed top bar over the journey: "Om Surve" in cursive on the left, icon
 // links (resume, blogs, Ayu Health, LinkedIn) and a "Say hello" button.
+// tone="light" is the dark-on-offwhite variant used on content pages.
 const ICONS = {
   resume: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -24,7 +25,7 @@ const ICONS = {
   ),
 };
 
-const JourneyNav = ({ sound }) => {
+const JourneyNav = ({ sound, tone }) => {
   const email = data.socials.find((s) => s.link.startsWith("mailto:"));
   const linkedin = data.socials.find((s) => /linkedin/i.test(s.title));
   const handlers = {
@@ -34,13 +35,13 @@ const JourneyNav = ({ sound }) => {
   };
   const links = [
     { id: "resume", label: "Resume", href: "/om-surve-resume.pdf", icon: ICONS.resume, external: true },
-    { id: "blogs", label: "Blogs", href: data.writing[0].url, icon: ICONS.blogs },
+    { id: "blogs", label: "Blogs", href: "/blogs/", icon: ICONS.blogs },
     // eslint-disable-next-line @next/next/no-img-element -- static export, no image optimisation
     { id: "ayu", label: "Ayu Health", href: "https://www.ayuapp.com/", icon: <img src="/images/ayu-logo.svg" alt="" width="22" height="20" />, external: true },
     linkedin && { id: "linkedin", label: "LinkedIn", href: linkedin.link, icon: ICONS.linkedin, external: true },
   ].filter(Boolean);
   return (
-    <header className="journey-nav">
+    <header className={`journey-nav${tone === "light" ? " journey-nav--light" : ""}`}>
       <Link href="/" className="journey-nav__brand" {...handlers}>
         {data.name}
       </Link>

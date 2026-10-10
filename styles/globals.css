@@ -252,3 +252,62 @@ body {
   .journey-hero__title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
   .journey-hero__sub { font-size: 1.05rem; }
 }
+
+/* Top bar on light content pages (/blogs) */
+.journey-nav--light { position: sticky; color: #332f3c; background: rgba(250, 247, 245, 0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(51, 47, 60, 0.08); }
+.journey-nav--light .journey-nav__brand { color: #332f3c; text-shadow: none; }
+.journey-nav--light .journey-nav__icon { color: rgba(51, 47, 60, 0.72); }
+.journey-nav--light .journey-nav__icon img { filter: none; opacity: 0.9; }
+.journey-nav--light .journey-nav__icon:hover { color: #332f3c; background: #ffe5e2; }
+.journey-nav--light .journey-nav__cta { box-shadow: none; }
+
+/* Blogs index, Ayu palette: offwhite page, bluish dark grey ink, tiger orange accent */
+.blogs-page { min-height: 100vh; background: #faf7f5; color: #332f3c; }
+.blogs-main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+.blogs-head { max-width: 44rem; margin-bottom: 2.5rem; }
+.blogs-head__eyebrow { font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase; color: #f15c3e; font-weight: 500; }
+.blogs-head__title {
+  margin-top: 0.6rem; font-family: var(--font-display), Georgia, serif; font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "WONK" 1;
+  font-size: clamp(2.8rem, 8vw, 5.5rem); line-height: 0.95; letter-spacing: -0.02em;
+}
+.blogs-head__sub { margin-top: 1.1rem; font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.6; color: rgba(51, 47, 60, 0.75); }
+.blogs-card {
+  display: flex; flex-direction: column; overflow: hidden; text-decoration: none; color: inherit;
+  background: #fff; border: 1px solid rgba(51, 47, 60, 0.1); border-radius: 1.25rem;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.blogs-card:hover { transform: translateY(-3px); border-color: #ffcac4; box-shadow: 0 18px 40px -18px rgba(241, 92, 62, 0.35); }
+.blogs-card:focus-visible { outline: 3px solid #f15c3e; outline-offset: 3px; }
+.blogs-card__cover { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #ffe5e2; }
+.blogs-card__cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; }
+.blogs-card:hover .blogs-card__cover img { transform: scale(1.03); }
+.blogs-card__body { display: flex; flex-direction: column; gap: 0.6rem; padding: 1.25rem 1.25rem 1.4rem; }
+.blogs-card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: rgba(51, 47, 60, 0.6); }
+.blogs-card__ep { padding: 0.2rem 0.6rem; border-radius: 999px; background: #ffe5e2; color: #332f3c; font-weight: 600; letter-spacing: 0.04em; }
+.blogs-card__title {
+  font-family: var(--font-display), Georgia, serif; font-variation-settings: "opsz" 72, "SOFT" 50;
+  font-size: 1.5rem; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance;
+}
+.blogs-card__desc { font-size: 0.95rem; line-height: 1.55; color: rgba(51, 47, 60, 0.75); }
+.blogs-card__read { margin-top: 0.3rem; font-size: 0.9rem; font-weight: 600; color: #f15c3e; }
+.blogs-card__read span { display: inline-block; transition: transform 200ms ease; }
+.blogs-card:hover .blogs-card__read span { transform: translateX(3px); }
+.blogs-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 1.25rem; }
+.blogs-foot {
+  max-width: 72rem; margin: 0 auto; padding: 1.5rem 1rem 3rem;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+  border-top: 1px solid rgba(51, 47, 60, 0.1); font-size: 0.95rem;
+}
+.blogs-foot a { color: #332f3c; text-decoration: none; }
+.blogs-foot a:hover { color: #f15c3e; }
+@media (min-width: 768px) {
+  .blogs-main { padding: 4rem 2.5rem 5rem; }
+  .blogs-foot { padding-inline: 2.5rem; }
+  .blogs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .blogs-card--featured { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  .blogs-card--featured .blogs-card__cover { aspect-ratio: auto; min-height: 100%; }
+  .blogs-card--featured .blogs-card__body { justify-content: center; padding: 2rem 2.25rem; }
+  .blogs-card--featured .blogs-card__title { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .blogs-card--featured .blogs-card__desc { font-size: 1.05rem; }
+}

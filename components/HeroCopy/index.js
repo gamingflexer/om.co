@@ -10,17 +10,13 @@ const HeroCopy = ({ sound }) => {
   };
   return (
     <div className="journey-hero__inner">
-      <p className="journey-hero__eyebrow">{data.headerTaglineOne} I&apos;m Om</p>
-      <h2 className="journey-hero__title">
-        Building AI for
-        <br />
-        Indian healthcare,
-        <br />
-        one consult at a time
-      </h2>
+      <p className="journey-hero__eyebrow">{data.headerTaglineOne} I&apos;m Om Surve</p>
+      <h2 className="journey-hero__title">I build AI that fits how doctors already work</h2>
       <p className="journey-hero__sub">
-        Founder &amp; CEO of Ayu Health and VP of AI at FusionCyber. Backend, cloud and AI engineer; I turn a doctor&apos;s
-        consultation into a structured record, in the doctor&apos;s own language.
+        I&apos;m a founder-engineer in Bengaluru. Ayu Health started with my mother&apos;s diabetes files, a bag of loose
+        papers no specialist could read. Now we turn a doctor&apos;s consultation into a structured record, in their own
+        language, without them typing or switching software. I&apos;m also VP of AI at FusionCyber, and before that I spent
+        almost two years at IIT Bombay teaching machines to read Indian-language manuscripts.
       </p>
       <div className="journey-hero__actions">
         <a className="journey-btn journey-btn--primary" href="https://www.ayuapp.com/" target="_blank" rel="noopener noreferrer" {...handlers}>
