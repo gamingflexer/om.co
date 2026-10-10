@@ -19,7 +19,7 @@ const HeroCopy = ({ sound }) => {
       </p>
       <div className="journey-hero__actions">
         <a className="journey-btn journey-btn--primary" href="https://www.ayuapp.com/" target="_blank" rel="noopener noreferrer" {...handlers}>
-          See Ayu Health <span aria-hidden="true">↗</span>
+          See Ayu App <span aria-hidden="true">↗</span>
         </a>
         <a className="journey-btn" href="#end" {...handlers}>
           More about me
