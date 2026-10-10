@@ -1,4 +1,4 @@
-import { Dancing_Script, Fraunces, Inter } from "next/font/google";
+import { Cormorant_Upright, Dancing_Script, Fraunces, Inter, Mansalva } from "next/font/google";
 import "../styles/globals.css";
 import "../styles/markdown.css";
 import { ThemeProvider } from "next-themes";
@@ -20,6 +20,19 @@ const script = Dancing_Script({
   subsets: ["latin"],
   display: "swap",
 });
+// Hero "About Om" block, after about.senbuzy.com: Mansalva for the brush
+// title, Cormorant Upright for the paragraph. Neither has a variable build,
+// so only the one weight each that the hero uses is loaded.
+const hand = Mansalva({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+const upright = Cormorant_Upright({
+  subsets: ["latin"],
+  weight: "500",
+  display: "swap",
+});
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -29,6 +42,8 @@ const App = ({ Component, pageProps }) => {
           --font-display: ${fraunces.style.fontFamily};
           --font-body: ${inter.style.fontFamily};
           --font-script: ${script.style.fontFamily};
+          --font-hand: ${hand.style.fontFamily};
+          --font-upright: ${upright.style.fontFamily};
           --font-hind: ${inter.style.fontFamily};
           --font-jetbrains: ${inter.style.fontFamily};
         }

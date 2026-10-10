@@ -231,26 +231,31 @@ body {
   position: absolute; inset: 0; z-index: 15; display: flex; align-items: flex-start; justify-content: flex-start;
   padding: calc(4.5rem + env(safe-area-inset-top)) 1.5rem 0; color: #fff;
   transition: opacity 0.7s ease; pointer-events: none;
-  /* Scrim so the copy reads against a bright daytime sky as well as night. */
-  background: linear-gradient(to bottom, rgba(10, 8, 14, 0.62) 0%, rgba(10, 8, 14, 0.38) 55%, rgba(10, 8, 14, 0) 100%);
+}
+/* Scrim so the copy reads against a bright daytime sky as well as night. It
+   overhangs the hero top and bottom so the lift on scroll never shows its
+   edge, and the stops ease out to zero slope so no line shows where it ends. */
+.journey-hero::before {
+  content: ""; position: absolute; inset: -80px 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(10, 8, 14, 0.62) 0%, rgba(10, 8, 14, 0.6) 12%, rgba(10, 8, 14, 0.54) 24%, rgba(10, 8, 14, 0.45) 36%, rgba(10, 8, 14, 0.35) 48%, rgba(10, 8, 14, 0.25) 60%, rgba(10, 8, 14, 0.15) 71%, rgba(10, 8, 14, 0.07) 81%, rgba(10, 8, 14, 0.02) 90%, rgba(10, 8, 14, 0) 100%);
 }
 .journey-hero__inner { max-width: 34rem; pointer-events: auto; }
 .journey-hero__title, .journey-hero__sub, .journey-hero__eyebrow { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45); }
-.journey-hero__eyebrow { font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.journey-hero__eyebrow { font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
 .journey-hero__title {
-  margin-top: 0.75rem; font-family: var(--font-display), serif; font-weight: 500;
-  font-size: clamp(2rem, 7vw, 3.6rem); line-height: 1.04; letter-spacing: -0.02em;
+  margin-top: 0.75rem; font-family: var(--font-hand), cursive; font-weight: 400;
+  font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 1.02; letter-spacing: 0.01em;
 }
-.journey-hero__sub { margin-top: 1rem; max-width: 28rem; font-size: 0.95rem; line-height: 1.55; color: rgba(255, 255, 255, 0.72); }
+.journey-hero__sub { margin-top: 1rem; max-width: 30rem; font-family: var(--font-upright), serif; font-weight: 500; font-size: 1.15rem; line-height: 1.4; color: rgba(255, 255, 255, 0.86); }
 .journey-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 @media (min-width: 768px) {
-  .journey-hero {
-    align-items: center; padding: 0 2.5rem;
-    background: linear-gradient(to right, rgba(10, 8, 14, 0.62) 0%, rgba(10, 8, 14, 0.42) 38%, rgba(10, 8, 14, 0) 62%);
+  .journey-hero { align-items: center; padding: 0 2.5rem; }
+  .journey-hero::before {
+    background: linear-gradient(to right, rgba(10, 8, 14, 0.62) 0%, rgba(10, 8, 14, 0.6) 9%, rgba(10, 8, 14, 0.55) 18%, rgba(10, 8, 14, 0.47) 27%, rgba(10, 8, 14, 0.38) 36%, rgba(10, 8, 14, 0.28) 45%, rgba(10, 8, 14, 0.19) 54%, rgba(10, 8, 14, 0.11) 63%, rgba(10, 8, 14, 0.05) 72%, rgba(10, 8, 14, 0.015) 81%, rgba(10, 8, 14, 0) 90%);
   }
   .journey-hero__inner { max-width: 36rem; }
-  .journey-hero__title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
-  .journey-hero__sub { font-size: 1.05rem; }
+  .journey-hero__title { font-size: clamp(2.8rem, 5.2vw, 4.8rem); }
+  .journey-hero__sub { font-size: 1.3rem; }
 }
 
 /* Top bar on light content pages (/blogs) */

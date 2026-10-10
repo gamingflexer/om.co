@@ -1,5 +1,4 @@
 import React from "react";
-import data from "../../data/portfolio.json";
 
 // Hero copy on the opening stage, left of Om (above him on phones).
 const HeroCopy = ({ sound }) => {
@@ -10,10 +9,10 @@ const HeroCopy = ({ sound }) => {
   };
   return (
     <div className="journey-hero__inner">
-      <p className="journey-hero__eyebrow">{data.headerTaglineOne} I&apos;m Om Surve</p>
+      <p className="journey-hero__eyebrow">About Om</p>
       <h2 className="journey-hero__title">I build AI that fits how doctors already work</h2>
       <p className="journey-hero__sub">
-        I&apos;m a founder-engineer in Bengaluru. Ayu Health started with my mother&apos;s diabetes files, a bag of loose
+        I&apos;m a founder-engineer in Mumbai. Ayu Health started with my mother&apos;s diabetes files, a bag of loose
         papers no specialist could read. Now we turn a doctor&apos;s consultation into a structured record, in their own
         language, without them typing or switching software. I&apos;m also VP of AI at FusionCyber, and before that I spent
         almost two years at IIT Bombay teaching machines to read Indian-language manuscripts.
