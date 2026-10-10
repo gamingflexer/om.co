@@ -217,6 +217,16 @@ body {
   transition: background 0.2s, transform 0.2s;
 }
 .journey-nav__cta:hover { background: #e0512f; transform: translateY(-1px); }
+.journey-nav__end { display: flex; align-items: center; gap: 0.6rem; }
+/* Round GitHub button beside "Say hello": dark glass disc, as on about.senbuzy.com. */
+.journey-nav__gh {
+  display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  color: rgba(244, 241, 234, 0.85); background: rgba(12, 16, 24, 0.72); border: 1px solid rgba(244, 241, 234, 0.14);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: color 0.2s, background 0.2s, transform 0.2s;
+}
+.journey-nav__gh svg { width: 1.2rem; height: 1.2rem; }
+.journey-nav__gh:hover { color: #fff; background: rgba(12, 16, 24, 0.9); transform: translateY(-1px); }
 @media (min-width: 768px) {
   .journey-nav { padding: 1.25rem 2.5rem; }
   .journey-nav__brand { font-size: 2rem; }
@@ -265,6 +275,8 @@ body {
 .journey-nav--light .journey-nav__icon img { filter: none; opacity: 0.9; }
 .journey-nav--light .journey-nav__icon:hover { color: #332f3c; background: #ffe5e2; }
 .journey-nav--light .journey-nav__cta { box-shadow: none; }
+.journey-nav--light .journey-nav__gh { color: #faf7f5; background: #332f3c; border-color: transparent; }
+.journey-nav--light .journey-nav__gh:hover { background: #1f1c26; }
 
 /* Blogs index, Ayu palette: offwhite page, bluish dark grey ink, tiger orange accent */
 .blogs-page { min-height: 100vh; background: #faf7f5; color: #332f3c; }

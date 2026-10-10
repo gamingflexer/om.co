@@ -388,15 +388,30 @@ export const createSolar = async (THREE, { tier, small }) => {
     camera.updateProjectionMatrix();
   };
   const ringN = new THREE.Vector3();
-  const update = ({ t, dt, time }) => {
+  // Slow orbital drift with time, on top of the scroll sweep: inner bodies
+  // faster (rate ∝ 1/a, gentler than Kepler's a^-1.5 so the giants still
+  // visibly move): Mercury ~1.6 min a lap, Earth ~4 min, Jupiter ~22 min.
+  // It accumulates only once the camera has left Earth and resets at the
+  // very start of the stage (hidden by the cross-fade), so the hand-off from
+  // the Earth stage always matches.
+  const DRIFT = 0.025; // rad/s at 1 AU
+  let drift = 0;
+  const BELT_A = 2.7; // AU, middle of the asteroid belt
+  const KUIPER_A = 40;
+  const update = ({ t, dt = 0, time }) => {
     sunUniforms.time.value = time;
     sky.setTime(time);
     // Scrolling carries the planets round their orbits (inner ones faster,
-    // per Kepler), on top of a slow drift with time. Earth is pinned until
-    // the camera has left it so the opening shot stays put.
-    const sweep = smoothstep(0.08, 0.3, t) * (t * 2.2 + time * 0.004);
+    // per Kepler). Earth is pinned until the camera has left it so the
+    // opening shot stays put.
+    const gate = smoothstep(0.08, 0.3, t);
+    if (t < 0.03) drift = 0;
+    else drift += Math.min(dt, 0.1) * DRIFT * gate;
+    const sweep = gate * t * 2.2;
+    asteroids.rotation.y = sweep / Math.pow(BELT_A, 1.5) + drift / BELT_A;
+    kuiper.rotation.y = sweep / Math.pow(KUIPER_A, 1.5) + drift / KUIPER_A;
     planets.forEach((p) => {
-      const a = p.ang + sweep / Math.sqrt(p.a * p.a * p.a);
+      const a = p.ang + sweep / Math.sqrt(p.a * p.a * p.a) + drift / p.a;
       p.pos.set(Math.cos(a) * p.a * AU, 0, -Math.sin(a) * p.a * AU);
       p.group.position.copy(p.pos);
       p.mesh.rotation.y = time * p.spin;
