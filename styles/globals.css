@@ -266,12 +266,25 @@ body {
 }
 .journey-hero__inner { max-width: 34rem; pointer-events: auto; }
 .journey-hero__title, .journey-hero__sub, .journey-hero__eyebrow { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45); }
-.journey-hero__eyebrow { font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.journey-hero__eyebrow { font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
 .journey-hero__title {
   margin-top: 0.75rem; font-family: var(--font-hand), cursive; font-weight: 400;
-  font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 1.02; letter-spacing: 0.01em; text-wrap: balance;
+  font-size: clamp(1.65rem, 7vw, 2.6rem); line-height: 1.04; letter-spacing: 0.01em; text-wrap: balance;
 }
-.journey-hero__sub { margin-top: 1rem; max-width: 30rem; font-family: var(--font-upright), serif; font-weight: 500; font-size: 1.15rem; line-height: 1.4; color: rgba(255, 255, 255, 0.86); }
+.journey-hero__sub { margin-top: 0.75rem; max-width: 30rem; font-family: var(--font-upright), serif; font-weight: 500; font-size: 1.02rem; line-height: 1.38; color: rgba(255, 255, 255, 0.86); }
+/* Phones: second half of the paragraph behind a "…" toggle. */
+/* font-family: inherit beats the global "* { font-family }" rule. */
+.journey-hero__more { display: none; font-family: inherit; }
+.journey-hero__sub--open .journey-hero__more { display: inline; }
+.journey-hero__toggle {
+  display: inline; padding: 0 0.15em; border: 0; background: none; cursor: pointer; pointer-events: auto;
+  font: inherit; font-weight: 600; letter-spacing: 0.08em; color: #ffb59e;
+}
+.journey-hero__toggle:hover { color: #fff; }
+@media (max-width: 767px) {
+  .journey-hero__actions { gap: 0.6rem; margin-top: 1.1rem; }
+  .journey-hero__actions .journey-btn { padding: 0.6rem 1.1rem; font-size: 0.85rem; }
+}
 .journey-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 @media (min-width: 768px) {
   .journey-hero { align-items: center; padding: 0 2.5rem; }
@@ -281,6 +294,8 @@ body {
   .journey-hero__inner { max-width: 36rem; }
   .journey-hero__title { font-size: clamp(2.8rem, 5.2vw, 4.8rem); }
   .journey-hero__sub { font-size: 1.3rem; }
+  .journey-hero__more { display: inline; }
+  .journey-hero__toggle { display: none; }
 }
 
 /* Top bar on light content pages (/blogs) */

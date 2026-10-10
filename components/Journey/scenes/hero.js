@@ -506,7 +506,6 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps }) => {
   const timeTimer = setInterval(applyTime, 60000);
 
   const setPointer = (x, y) => om.setLook(x, y);
-  let lastWave = -100;
 
   const camPos = new THREE.Vector3();
   const camTarget = new THREE.Vector3();
@@ -514,11 +513,6 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps }) => {
     grassUniforms.time.value = time;
     // Idle motion fades out as the camera closes in so the eye holds still.
     const idle = 1 - smoothstep(0.3, 0.6, t);
-    // A wave shortly after arriving, then now and then while he is in frame.
-    if (!reverse && t < 0.12 && time - lastWave > 9 && time > 1.2) {
-      om.wave();
-      lastWave = time;
-    }
     om.update({ time, dt, idle, look: 1 - smoothstep(0.4, 0.75, t) });
     om.group.updateMatrixWorld(true);
     om.landmarks.update();
