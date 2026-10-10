@@ -444,7 +444,8 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps, onMode
   scene.add(om.group);
   const ready = (async () => {
     try {
-      const loaderMod = import("three/examples/jsm/loaders/GLTFLoader.js");
+      // The model is meshopt-compressed (scripts/mixamo-to-glb.py).
+      const loaderMod = Promise.all([import("three/examples/jsm/loaders/GLTFLoader.js"), import("three/examples/jsm/libs/meshopt_decoder.module.js")]);
       // One retry after a stall; if that stalls too, the placeholder stays
       // so the page still opens.
       let buf = null;
@@ -457,8 +458,8 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps, onMode
           console.warn("om.glb retry", e);
         }
       }
-      const { GLTFLoader } = await loaderMod;
-      const gltf = await new GLTFLoader().parseAsync(buf, "/models/");
+      const [{ GLTFLoader }, { MeshoptDecoder }] = await loaderMod;
+      const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(buf, "/models/");
       const model = loadModelAvatar(THREE, gltf, { reducedMotion });
       if (!model) return;
       scene.remove(om.group);

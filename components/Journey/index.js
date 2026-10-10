@@ -225,8 +225,8 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         reducedMotion,
         deps: { RoomEnvironment },
         onModelProgress: (loaded, total) => {
-          // Without a length, assume the ~3 MB file so the bar still moves.
-          done.model = Math.min(0.99, loaded / (total || 3.2e6));
+          // Without a length, assume the ~1.7 MB file so the bar still moves.
+          done.model = Math.min(0.99, loaded / (total || 1.7e6));
           report();
         },
       });

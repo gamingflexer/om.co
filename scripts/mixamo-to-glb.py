@@ -4,6 +4,16 @@ Usage (Blender 3.x/4.x, from the repo root):
 
   blender -b -P scripts/mixamo-to-glb.py -- <character_idle.fbx> <wave.fbx> [more clips...] -o public/models/om.glb
 
+Then compress it for phones (3.0 MB -> 1.7 MB; the hero loads it with
+three's MeshoptDecoder): dedup the shared normal map, shrink the
+eyelash-only and shoe textures, meshopt the geometry and animation.
+
+  g() { pnpm dlx @gltf-transform/cli@4.1.1 "$@"; }
+  g dedup public/models/om.glb /tmp/a.glb
+  g resize /tmp/a.glb /tmp/b.glb --pattern "Remy_Body_Diffuse-Remy_Body_Opacity" --width 512 --height 512
+  g resize /tmp/b.glb /tmp/c.glb --pattern "Remy_Shoes_*" --width 512 --height 512
+  g meshopt /tmp/c.glb public/models/om.glb --level medium
+
 Download from Mixamo:
   1. Pick a character, pick the "Idle" animation, Download: FBX Binary, With Skin, 30 fps.
   2. Pick "Waving" (or any wave), Download: FBX Binary, Without Skin, 30 fps.
