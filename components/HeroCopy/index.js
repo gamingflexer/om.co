@@ -10,7 +10,7 @@ const HeroCopy = ({ sound }) => {
   return (
     <div className="journey-hero__inner">
       <p className="journey-hero__eyebrow">About Om</p>
-      <h2 className="journey-hero__title">I build AI that fits how doctors already work</h2>
+      <h2 className="journey-hero__title">I build AI that makes how doctors practice 10x better</h2>
       <p className="journey-hero__sub">
         I&apos;m a founder-engineer in Mumbai. Ayu Health started with my mother&apos;s diabetes files, a bag of loose
         papers no specialist could read. Now we turn a doctor&apos;s consultation into a structured record, in their own
