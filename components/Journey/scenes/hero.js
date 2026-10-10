@@ -1,9 +1,12 @@
 import { clamp, lerp, smoothstep, track } from "../util";
+import { createCharacter } from "./character";
 
-// Om (public/models/om.glb, static pose) standing on a grassy meadow. The sky,
-// sun/moon and light follow the time of day in IST. His head follows the
-// cursor. The camera path runs from a wide shot down into one eye (t 0 → 1);
-// the reverse stage uses the same path with 1 - t.
+// Opening and closing stage: Om (built from primitives in character.js)
+// standing on a grassy meadow. The sky, sun/moon and light follow the time
+// of day in IST. His head follows the cursor. At t = 0 he stands right of
+// centre (the hero copy sits on the left); as t grows he slides to the
+// centre and the camera pushes in to his eye (t 0 → 1). The reverse stage
+// runs the same path with 1 - t.
 
 const NIGHT = {
   zenith: "#050817", mid: "#0b1430", horizon: "#1a2547", glow: "#8090ff", glowI: 0.12,
@@ -102,8 +105,140 @@ const groundTexture = (THREE) => {
   return t;
 };
 
-export const createMeadow = (THREE, { renderer, small, reducedMotion, deps, onProgress }) => {
-  const { GLTFLoader, MeshoptDecoder, RoomEnvironment } = deps;
+// Wrap a modelled glTF avatar (public/models/om.glb, e.g. a Mixamo
+// character merged by scripts/mixamo-to-glb.py) in the same interface as
+// the primitive Om. Head/neck bones are found by name (mixamorig:Head or
+// anything containing "head"/"neck"); the eye landmark is a mesh named
+// "eye" if there is one, otherwise a point in front of the head bone.
+const loadModelAvatar = (THREE, gltf, { reducedMotion }) => {
+  const group = gltf.scene;
+  let eyeMesh = null;
+  let eyeBone = null;
+  let head = null;
+  let neck = null;
+  const materials = [];
+  group.traverse((o) => {
+    if (o.isMesh) {
+      o.castShadow = true;
+      o.frustumCulled = false;
+      (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
+        materials.push(m);
+        if (m.map) m.map.anisotropy = 8;
+      });
+      // A single-eye mesh (left/right in the name) gives the landmark
+      // directly; a combined "Eyes" mesh does not.
+      if (/eye/i.test(o.name) && /left|right|_l\b|_r\b|\.l\b|\.r\b/i.test(o.name) && (!eyeMesh || /right|_r\b|\.r\b/i.test(o.name))) eyeMesh = o;
+    } else {
+      // Mixamo: mixamorig:RightEye is the character's right, the viewer's left.
+      if (/righteye$/i.test(o.name) || (!eyeBone && /eye$/i.test(o.name))) eyeBone = o;
+      if (!head && /head$/i.test(o.name)) head = o;
+      if (!neck && /neck$/i.test(o.name)) neck = o;
+    }
+  });
+  if (!head && !eyeMesh && !eyeBone) return null;
+  // Feet on the ground, facing +z, metres.
+  group.updateMatrixWorld(true);
+  const bb = new THREE.Box3().setFromObject(group);
+  const height = bb.max.y - bb.min.y;
+  if (height > 10) group.scale.setScalar(0.01); // centimetre export
+  else if (height < 0.3) group.scale.setScalar(100);
+  group.updateMatrixWorld(true);
+  bb.setFromObject(group);
+  group.position.y -= bb.min.y;
+  group.position.x -= (bb.min.x + bb.max.x) / 2;
+
+  const mixer = new THREE.AnimationMixer(group);
+  const clips = gltf.animations || [];
+  const idleClip = clips.find((c) => /idle/i.test(c.name)) || clips[0];
+  const waveClip = clips.find((c) => /wav/i.test(c.name));
+  const idle = idleClip ? mixer.clipAction(idleClip) : null;
+  const waveAct = waveClip ? mixer.clipAction(waveClip) : null;
+  if (idle && !reducedMotion) idle.play();
+  if (waveAct) {
+    waveAct.setLoop(THREE.LoopOnce, 1);
+    waveAct.clampWhenFinished = false;
+  }
+  let waving = false;
+  mixer.addEventListener("finished", (e) => {
+    if (e.action !== waveAct) return;
+    waving = false;
+    if (idle) {
+      idle.enabled = true;
+      idle.reset().play();
+      waveAct.crossFadeTo(idle, 0.4, false);
+    }
+  });
+
+  const headRest = head ? head.quaternion.clone() : null;
+  const neckRest = neck ? neck.quaternion.clone() : null;
+  const look = new THREE.Vector2();
+  const target = new THREE.Vector2();
+  const e = new THREE.Euler();
+  const q = new THREE.Quaternion();
+  const box = new THREE.Box3();
+  const v = new THREE.Vector3();
+  const landmarks = {
+    eye: new THREE.Vector3(),
+    face: new THREE.Vector3(),
+    irisRadius: 0.0115,
+    update: () => {
+      if (eyeMesh) {
+        box.setFromObject(eyeMesh);
+        box.getCenter(landmarks.eye);
+        box.getSize(v);
+        landmarks.eye.z += v.z * 0.5;
+        landmarks.irisRadius = Math.max(v.x, v.y) * 0.3;
+      } else if (eyeBone) {
+        // Eye joint sits at the eyeball centre; the cornea is ~1.2 cm in
+        // front of it (the model faces +z). Human iris radius ~6 mm.
+        eyeBone.getWorldPosition(landmarks.eye);
+        landmarks.eye.z += 0.012;
+        landmarks.irisRadius = 0.006;
+      } else {
+        head.getWorldPosition(landmarks.eye);
+        landmarks.eye.add(v.set(0.031, 0.045, 0.1));
+      }
+      landmarks.face.copy(landmarks.eye);
+      landmarks.face.x -= 0.031;
+      landmarks.face.y -= 0.035;
+    },
+  };
+  return {
+    group,
+    materials,
+    landmarks,
+    setLook: (x, y) => target.set(x, y),
+    wave: () => {
+      if (!waveAct || waving || reducedMotion) return;
+      waving = true;
+      waveAct.reset().play();
+      if (idle) idle.crossFadeTo(waveAct, 0.35, false);
+    },
+    update: ({ dt, look: amp = 1 }) => {
+      mixer.update(dt);
+      look.lerp(target, 1 - Math.pow(0.004, dt));
+      const yaw = look.x * 0.5 * amp;
+      const pitch = look.y * 0.3 * amp;
+      // Applied after the mixer so the clip's own head motion is kept.
+      if (neck && neckRest) {
+        e.set(-pitch * 0.35, yaw * 0.35, 0);
+        neck.quaternion.multiply(q.setFromEuler(e));
+      }
+      if (head && headRest) {
+        e.set(-pitch * 0.65, yaw * 0.65, 0);
+        head.quaternion.multiply(q.setFromEuler(e));
+      }
+    },
+    dispose: () => {
+      mixer.stopAllAction();
+      group.traverse((o) => o.geometry && o.geometry.dispose());
+      materials.forEach((m) => m.dispose());
+    },
+  };
+};
+
+export const createHero = (THREE, { renderer, small, reducedMotion, deps }) => {
+  const { RoomEnvironment } = deps;
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xffffff, 8, 42);
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -257,18 +392,51 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps, onPr
   }
   scene.add(grass);
 
+  // ---------- Om ----------
+  // Placeholder figure from primitives (character.js). If a modelled avatar
+  // is dropped in at public/models/om.glb it replaces the placeholder: the
+  // code looks for a mesh whose name contains "eye" (the camera dives into
+  // it), objects named "head"/"neck" (cursor follow) and an optional
+  // "idle" clip. Feet must be at y = 0, about 1.75 m tall, facing +z.
+  let om = createCharacter(THREE, { reducedMotion });
+  scene.add(om.group);
+  const ready = (async () => {
+    try {
+      const head = await fetch("/models/om.glb", { method: "HEAD" });
+      if (!head.ok) return;
+      const { GLTFLoader } = await import("three/examples/jsm/loaders/GLTFLoader.js");
+      const gltf = await new GLTFLoader().loadAsync("/models/om.glb");
+      const model = loadModelAvatar(THREE, gltf, { reducedMotion });
+      if (!model) return;
+      scene.remove(om.group);
+      om.dispose();
+      om = model;
+      scene.add(om.group);
+      applyTime();
+    } catch (e) {
+      console.warn("om.glb", e);
+    }
+  })();
+
+  // ---------- Camera ----------
   const camera = new THREE.PerspectiveCamera(30, 1, 0.02, 200);
-  const wideTarget = new THREE.Vector3(0, 0.95, 0);
-  let wideDist = 4.5;
+  let wideDist = 4.6;
+  let heroShift = 0; // world-x offset of the target so Om sits right of centre
+  let heroLift = 0; // target-y offset on narrow screens so Om sits low
   const resize = (w, h) => {
     const aspect = w / h;
     const halfTan = Math.tan(THREE.MathUtils.degToRad(30) / 2);
-    wideDist = Math.max(2.4 / (2 * halfTan), 1.6 / (2 * halfTan * aspect));
+    wideDist = Math.max(2.7 / (2 * halfTan), 1.8 / (2 * halfTan * aspect));
+    const halfW = wideDist * halfTan * aspect;
+    const wide = clamp((aspect - 0.95) / 0.5, 0, 1);
+    heroShift = -halfW * 0.5 * wide;
+    // Phones: the copy takes the top half, so the target rises (Om drops)
+    // and the camera pulls back a little.
+    heroLift = 1.05 * (1 - wide);
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
   };
 
-  const charMats = [];
   const sunDir = new THREE.Vector3();
   const moonDir = new THREE.Vector3();
   const ca = new THREE.Color();
@@ -302,7 +470,13 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps, onPr
     key.color.copy(col("light"));
     key.intensity = num("lightI");
     scene.environmentIntensity = num("envI");
-    charMats.forEach((mat) => { mat.emissiveIntensity = num("emissive"); });
+    // Om has no texture to glow; lift his materials a little after dark.
+    const glow = Math.max(0, num("emissive") - 0.18) * 1.2;
+    om.materials.forEach((mat) => {
+      if (!mat.emissive) return;
+      mat.emissive.copy(mat.color);
+      mat.emissiveIntensity = glow;
+    });
     starMat.opacity = 0.85 * clamp((0.5 - num("envI")) / 0.3, 0, 1);
 
     const p = (hr - SUNRISE) / (SUNSET - SUNRISE);
@@ -331,171 +505,60 @@ export const createMeadow = (THREE, { renderer, small, reducedMotion, deps, onPr
   applyTime();
   const timeTimer = setInterval(applyTime, 60000);
 
-  // Head/neck turn, recomputed from the rest pose every frame.
-  let head, neck, headRest, neckRest, headParentQ, neckParentQ;
-  const qWorld = new THREE.Quaternion();
-  const qLocal = new THREE.Quaternion();
-  const euler = new THREE.Euler(0, 0, 0, "YXZ");
-  const turn = (bone, rest, parentQ, yaw, pitch) => {
-    euler.set(pitch, yaw, 0);
-    qWorld.setFromEuler(euler);
-    qLocal.copy(parentQ).invert().multiply(qWorld).multiply(parentQ);
-    bone.quaternion.copy(qLocal).multiply(rest);
-  };
-
-  // Landmarks found from the mesh once it loads (world space, rest pose).
-  const eye = new THREE.Vector3(0.03, 1.62, 0.1);
-  const face = new THREE.Vector3(0, 1.58, 0.08);
-  let character = null;
-  let skinned = null;
-
-  const loader = new GLTFLoader();
-  loader.setMeshoptDecoder(MeshoptDecoder);
-  const ready = new Promise((resolve) => {
-    loader.load(
-      "/models/om.glb",
-      (gltf) => {
-      character = gltf.scene;
-      character.traverse((o) => {
-        if (o.isMesh) {
-          o.castShadow = true;
-          o.frustumCulled = false;
-          o.material.emissive = new THREE.Color(0xffffff);
-          o.material.emissiveMap = o.material.map;
-          if (o.material.map) o.material.map.anisotropy = 8;
-          // The atlas is a front/back projection, so the sides of the head
-          // and neck pick up dark hair/background texels. A per-vertex skin
-          // mask (set below) lets the shader pull those texels back to skin.
-          o.material.onBeforeCompile = (shader) => {
-            shader.vertexShader =
-              "attribute float skinMask; varying float vSkin;\n" +
-              shader.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\n vSkin = skinMask;");
-            shader.fragmentShader =
-              "varying float vSkin;\nvec3 fixSkin(vec3 c){ float lum = dot(c, vec3(0.3, 0.59, 0.11)); float dark = 1.0 - smoothstep(0.045, 0.16, lum); return mix(c, vec3(0.5, 0.2, 0.11), dark * vSkin); }\n" +
-              shader.fragmentShader
-                .replace("#include <map_fragment>", "#ifdef USE_MAP\n vec4 sampledDiffuseColor = texture2D(map, vMapUv);\n sampledDiffuseColor.rgb = fixSkin(sampledDiffuseColor.rgb);\n diffuseColor *= sampledDiffuseColor;\n#endif")
-                .replace("#include <emissivemap_fragment>", "#ifdef USE_EMISSIVEMAP\n vec4 emissiveColor = texture2D(emissiveMap, vEmissiveMapUv);\n emissiveColor.rgb = fixSkin(emissiveColor.rgb);\n totalEmissiveRadiance *= emissiveColor.rgb;\n#endif");
-          };
-          o.material.needsUpdate = true;
-          charMats.push(o.material);
-          skinned = o;
-        }
-      });
-      scene.add(character);
-      const mixer = new THREE.AnimationMixer(character);
-      const pose = THREE.AnimationClip.findByName(gltf.animations, "pose");
-      if (pose) {
-        mixer.clipAction(pose).play();
-        mixer.update(0);
-      }
-      character.updateMatrixWorld(true);
-      head = character.getObjectByName("head");
-      neck = character.getObjectByName("neck");
-      headRest = head.quaternion.clone();
-      neckRest = neck.quaternion.clone();
-      headParentQ = head.parent.getWorldQuaternion(new THREE.Quaternion());
-      neckParentQ = neck.parent.getWorldQuaternion(new THREE.Quaternion());
-
-      // Locate the eye and the face centre from the atlas UVs (the texture is
-      // a front projection, so the iris pixels map to the eye vertices).
-      if (skinned && skinned.geometry.attributes.uv) {
-        // Bone matrices are only filled on render; compute them now so the
-        // skinned vertex positions reflect the pose.
-        if (skinned.skeleton) skinned.skeleton.update();
-        const uv = skinned.geometry.attributes.uv;
-        const v = new THREE.Vector3();
-        const findUv = (cu, cv, rad) => {
-          const acc = new THREE.Vector3();
-          let n = 0;
-          for (let i = 0; i < uv.count; i++) {
-            const du = uv.getX(i) - cu;
-            const dv = uv.getY(i) - cv;
-            if (du * du + dv * dv < rad * rad) {
-              skinned.getVertexPosition(i, v);
-              skinned.localToWorld(v);
-              acc.add(v);
-              n++;
-            }
-          }
-          return n ? acc.multiplyScalar(1 / n) : null;
-        };
-        // glTF UVs have their origin at the top-left of the atlas.
-        // Skin mask: sides of the face below the hairline, the ears and the
-        // neck (never the front, where brows, moustache and stubble live).
-        const mask = new Float32Array(uv.count);
-        for (let i = 0; i < uv.count; i++) {
-          skinned.getVertexPosition(i, v);
-          skinned.localToWorld(v);
-          const side = Math.abs(v.x) > 0.048 && v.y > 1.36 && v.y < 1.58;
-          const neck = v.y > 1.3 && v.y < 1.44 && Math.abs(v.x) < 0.1 && v.z > -0.08;
-          const front = v.z > 0.035 && Math.abs(v.x) < 0.07 && v.y > 1.44;
-          mask[i] = (side || neck) && !front ? 1 : 0;
-        }
-        skinned.geometry.setAttribute("skinMask", new THREE.BufferAttribute(mask, 1));
-        const e1 = findUv(0.2344, 0.1503, 0.006);
-        const e2 = findUv(0.2668, 0.1483, 0.006);
-        const nose = findUv(0.2505, 0.175, 0.006);
-        if (e1) eye.copy(e1);
-        if (e1 && e2 && nose) face.copy(e1).add(e2).add(nose).multiplyScalar(1 / 3);
-        else if (e1 && e2) face.copy(e1).add(e2).multiplyScalar(0.5);
-      }
-      applyTime();
-      resolve();
-    },
-      (e) => onProgress && onProgress(e.lengthComputable ? e.loaded / e.total : -1),
-      (e) => {
-        console.warn("om.glb", e);
-        resolve();
-      }
-    );
-  });
-
-  const pointer = new THREE.Vector2(0, 0);
-  const look = new THREE.Vector2(0, 0);
-  const setPointer = (x, y) => pointer.set(x, y);
+  const setPointer = (x, y) => om.setLook(x, y);
+  let lastWave = -100;
 
   const camPos = new THREE.Vector3();
   const camTarget = new THREE.Vector3();
-  const tmp = new THREE.Vector3();
   const update = ({ t, dt, time, reverse }) => {
     grassUniforms.time.value = time;
-    // Head follows the cursor; the amplitude fades as the camera closes in.
-    if (head && neck) {
-      look.lerp(pointer, 1 - Math.pow(0.004, dt));
-      const amp = 1 - smoothstep(0.3, 0.7, t);
-      const yaw = look.x * 0.5 * amp;
-      const pitch = look.y * 0.3 * amp;
-      turn(neck, neckRest, neckParentQ, yaw * 0.35, pitch * 0.35);
-      turn(head, headRest, headParentQ, yaw * 0.65, pitch * 0.65);
+    // Idle motion fades out as the camera closes in so the eye holds still.
+    const idle = 1 - smoothstep(0.3, 0.6, t);
+    // A wave shortly after arriving, then now and then while he is in frame.
+    if (!reverse && t < 0.12 && time - lastWave > 9 && time > 1.2) {
+      om.wave();
+      lastWave = time;
     }
-    // Camera: wide → chest → face → eye.
-    // On the way back out, Om drifts to the right so the footer text has room.
-    const wideShift = 0.95 * clamp((camera.aspect - 0.6) / 1.0, 0, 1);
-    const shift = reverse ? -wideShift * (1 - smoothstep(0.0, 0.35, t)) : 0;
-    const wide = [shift, 1.25, wideDist];
-    const chest = [0, 1.42, 2.3];
+    om.update({ time, dt, idle, look: 1 - smoothstep(0.4, 0.75, t) });
+    om.group.updateMatrixWorld(true);
+    om.landmarks.update();
+    const { eye, face, irisRadius } = om.landmarks;
+
+    // Camera: hero (Om right of centre) → centred → chest → face → eye.
+    // The reverse stage ends right of centre too, leaving room for the
+    // footer copy.
+    const shift = heroShift;
+    const lift = heroLift;
+    const heroCam = [0, 1.15 + lift * 0.3, wideDist * (1 + lift * 0.12)];
+    const heroTgt = [shift, 0.95 + lift, 0];
+    const centreCam = [0, 1.15, wideDist * 0.9];
+    const centreTgt = [0, 0.98, 0];
+    const chestCam = [0, 1.45, 2.2];
+    const chestTgt = [0, 1.4, 0];
     const faceCam = [face.x, face.y + 0.01, face.z + 0.5];
-    const eyeCam = [eye.x, eye.y, eye.z + 0.07];
-    // The last stretch holds on the eye so the iris cross-fade lands on it.
-    const p = track([[0, wide], [0.38, chest], [0.7, faceCam], [0.9, eyeCam], [1, eyeCam]], t);
-    const wt = [wideTarget.x + shift, wideTarget.y, wideTarget.z];
-    const eyeT = [eye.x, eye.y, eye.z];
-    const tg = track([[0, wt], [0.38, [0, 1.35, 0]], [0.7, [face.x, face.y, face.z]], [0.9, eyeT], [1, eyeT]], t);
+    const faceTgt = [face.x, face.y, face.z];
+    // The iris must fill the same share of the screen as the iris stage's
+    // first frame: radius = 0.62 of the half height at fov 34.
+    const eyeDist = irisRadius / (0.62 * Math.tan(THREE.MathUtils.degToRad(34) / 2));
+    const eyeCam = [eye.x, eye.y, eye.z + eyeDist];
+    const eyeTgt = [eye.x, eye.y, eye.z];
+    const p = track([[0, heroCam], [0.3, centreCam], [0.48, chestCam], [0.72, faceCam], [0.9, eyeCam], [1, eyeCam]], t);
+    const tg = track([[0, heroTgt], [0.3, centreTgt], [0.48, chestTgt], [0.72, faceTgt], [0.9, eyeTgt], [1, eyeTgt]], t);
     camPos.set(p[0], p[1], p[2]);
     camTarget.set(tg[0], tg[1], tg[2]);
     camera.position.copy(camPos);
     camera.lookAt(camTarget);
-    camera.fov = lerp(30, 34, smoothstep(0.7, 0.9, t));
+    camera.fov = lerp(30, 34, smoothstep(0.72, 0.9, t));
     camera.near = lerp(0.1, 0.01, smoothstep(0.6, 1, t));
     camera.updateProjectionMatrix();
-    tmp.copy(camPos);
   };
 
   const dispose = () => {
     clearInterval(timeTimer);
     pmrem.dispose();
     disc.dispose();
+    om.dispose();
   };
 
-  return { scene, camera, update, resize, ready, dispose, setPointer, landmarks: { eye, face } };
+  return { scene, camera, update, resize, ready, dispose, setPointer, get om() { return om; }, get landmarks() { return om.landmarks; } };
 };

@@ -1,4 +1,4 @@
-import { Fraunces, Inter } from "next/font/google";
+import { Dancing_Script, Fraunces, Inter } from "next/font/google";
 import "../styles/globals.css";
 import "../styles/markdown.css";
 import { ThemeProvider } from "next-themes";
@@ -15,6 +15,11 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+// Cursive wordmark ("Om Surve") in the journey's top bar.
+const script = Dancing_Script({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -23,6 +28,7 @@ const App = ({ Component, pageProps }) => {
         :root {
           --font-display: ${fraunces.style.fontFamily};
           --font-body: ${inter.style.fontFamily};
+          --font-script: ${script.style.fontFamily};
           --font-hind: ${inter.style.fontFamily};
           --font-jetbrains: ${inter.style.fontFamily};
         }

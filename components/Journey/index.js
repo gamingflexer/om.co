@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { clamp, smoothstep } from "./util";
+import JourneyLoader from "./Loader";
 
-// Scroll-driven journey: Om on the meadow → his eye → Earth from orbit → the
-// solar system → nearby stars → a black hole, a supernova and a pulsar in
+// Scroll-driven journey: Om on the meadow → his eye → Earth from orbit →
+// the solar system → nearby stars → a black hole, a supernova and a pulsar in
 // the galactic neighbourhood → the Milky Way → the Local Group → the cosmic
 // web and the observable universe → back through the eye to the meadow.
 // Each stage is its own three.js scene rendered to an HDR target; the
@@ -13,7 +14,7 @@ export const PAGES = 21; // page height in viewports
 
 // Stage windows in global progress. Overlaps are the cross-fades.
 const STAGES = [
-  { id: "meadow", a: 0.0, b: 0.09 },
+  { id: "hero", a: 0.0, b: 0.09 },
   { id: "iris", a: 0.075, b: 0.132 },
   { id: "earth", a: 0.106, b: 0.24 },
   { id: "solar", a: 0.228, b: 0.33 },
@@ -27,16 +28,19 @@ const STAGES = [
   { id: "local", a: 0.723, b: 0.8 },
   { id: "web", a: 0.79, b: 0.9 },
   { id: "iris", a: 0.872, b: 0.935, reverse: true },
-  { id: "meadow", a: 0.922, b: 1.0, reverse: true },
+  { id: "hero", a: 0.922, b: 1.0, reverse: true },
 ];
 
 // Loading phases and their share of the bar. The three.js chunk and the
-// scene modules come first, then Om's model (byte progress from the GLB
-// request), then shader compilation and the first frame.
-const PHASES = { modules: 0.3, model: 0.5, warm: 0.2 };
-const MODULE_COUNT = 15;
+// scene modules come first, then Om is built from primitives, then shader
+// compilation and the first frame.
+const PHASES = { modules: 0.55, model: 0.15, warm: 0.3 };
+const MODULE_COUNT = 13;
 
-const Journey = ({ className = "", spacerRef, sound, onFail }) => {
+// How far the hero copy stays on screen (global progress) before it fades.
+export const HERO_FADE = [0.006, 0.03];
+
+const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
   const containerRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -45,7 +49,8 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
   // to the user is state.
   const loadTarget = useRef(0);
   const [shown, setShown] = useState(0);
-  const [overlay, setOverlay] = useState("on"); // on → fading → off
+  // on → settling (bar full, dot animation plays to its hold pose) → fading → off
+  const [overlay, setOverlay] = useState("on");
   const [failed, setFailed] = useState(false);
   const soundRef = useRef(null);
   useEffect(() => {
@@ -73,8 +78,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       if (t >= 1 && v > 0.995) {
         setShown(1);
         cancelAnimationFrame(raf);
-        setOverlay("fading");
-        setTimeout(() => setOverlay("off"), 900);
+        setOverlay("settling");
       }
     };
     raf = requestAnimationFrame(step);
@@ -100,23 +104,11 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
         report();
         return m;
       });
-    let modelFallback = 0;
-    const onModelProgress = (frac) => {
-      // Some hosts gzip the model and omit the length; creep by count then.
-      if (frac < 0) modelFallback = Math.min(0.9, modelFallback + 0.08);
-      done.model = Math.max(done.model, frac < 0 ? modelFallback : frac);
-      report();
-    };
-
     (async () => {
       const THREE = await mod(import("three"));
-      const [{ GLTFLoader }, { MeshoptDecoder }, { RoomEnvironment }] = await Promise.all([
-        mod(import("three/examples/jsm/loaders/GLTFLoader.js")),
-        mod(import("three/examples/jsm/libs/meshopt_decoder.module.js")),
-        mod(import("three/examples/jsm/environments/RoomEnvironment.js")),
-      ]);
+      const { RoomEnvironment } = await mod(import("three/examples/jsm/environments/RoomEnvironment.js"));
       const scenesMod = await Promise.all([
-        mod(import("./scenes/meadow")),
+        mod(import("./scenes/hero")),
         mod(import("./scenes/iris")),
         mod(import("./scenes/earth")),
         mod(import("./scenes/solar")),
@@ -129,7 +121,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
         mod(import("./scenes/pulsar")),
       ]);
       if (disposed) return;
-      const [meadowM, irisM, earthM, solarM, starsM, galaxyM, localM, webM, blackholeM, supernovaM, pulsarM] = scenesMod;
+      const [heroM, irisM, earthM, solarM, starsM, galaxyM, localM, webM, blackholeM, supernovaM, pulsarM] = scenesMod;
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const small = Math.min(window.innerWidth, window.innerHeight) < 700 || /Mobi|Android/i.test(navigator.userAgent);
@@ -195,10 +187,12 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
         )
       );
 
-      // Scenes (shared instances for the two meadow/iris stages).
-      const meadow = meadowM.createMeadow(THREE, { renderer, small, reducedMotion, deps: { GLTFLoader, MeshoptDecoder, RoomEnvironment }, onProgress: onModelProgress });
+      // Scenes (shared instances for the two hero/iris stages).
+      const hero = heroM.createHero(THREE, { renderer, small, reducedMotion, deps: { RoomEnvironment } });
+      done.model = 1;
+      report();
       const iris = irisM.createIris(THREE);
-      const scenes = { meadow, iris };
+      const scenes = { hero, iris };
       const pending = {
         earth: earthM.createEarth(THREE, { tier, maxTex }),
         solar: solarM.createSolar(THREE, { tier, small }),
@@ -266,7 +260,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
 
-      // Head look follows the pointer in the meadow stages.
+      // Head look follows the pointer in the hero stages.
       const onPointerMove = (e) => {
         const r = container.getBoundingClientRect();
         const px = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
@@ -275,14 +269,12 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       };
       window.addEventListener("pointermove", onPointerMove);
 
-      await meadow.ready;
+      await hero.ready;
       if (disposed) return;
-      done.model = 1;
-      report();
       // Let the overlay paint the new phase before the (blocking) compile.
       await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 30)));
       if (disposed) return;
-      warm(meadow);
+      warm(hero);
       done.warm = 0.6;
       report();
       warm(iris);
@@ -355,7 +347,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
       });
 
       if (new URLSearchParams(window.location.search).has("debug")) {
-        window.__journey = { scenes, meadow, STAGES, get s() { return s; } };
+        window.__journey = { scenes, hero, STAGES, get s() { return s; } };
       }
 
       cleanup = () => {
@@ -386,47 +378,41 @@ const Journey = ({ className = "", spacerRef, sound, onFail }) => {
   const pct = Math.round(shown * 100);
   // The caption follows the bar, so it never runs ahead of the number.
   const label =
-    shown < PHASES.modules ? "Loading the engine" : shown < PHASES.modules + PHASES.model ? "Loading Om and the meadow" : shown < 0.995 ? "Preparing the view" : "Scroll to begin";
+    shown < PHASES.modules ? "Loading the engine" : shown < PHASES.modules + PHASES.model ? "Building Om" : shown < 0.995 ? "Preparing the view" : "Scroll to begin";
   return (
     <>
       <div ref={containerRef} className={className} />
-      {/* Loading overlay: a real progress bar fed by chunk, model and shader
+      {/* Hero copy (name, taglines, links) over the opening stage. It fades
+          as Om slides to the centre and the push into his eye begins. */}
+      {children && (
+        <div
+          className="journey-hero"
+          style={{
+            opacity: overlay === "off" ? 1 - smoothstep(HERO_FADE[0], HERO_FADE[1], progress) : 0,
+            transform: `translateY(${-smoothstep(HERO_FADE[0], HERO_FADE[1], progress) * 40}px)`,
+            pointerEvents: progress < HERO_FADE[1] ? "auto" : "none",
+          }}
+        >
+          {children}
+        </div>
+      )}
+      {/* Loading overlay (components/Journey/Loader.js): the dot-grid
+          animation with a real progress bar fed by chunk, build and shader
           progress. Fades out over the first frames of the meadow. */}
       {overlay !== "off" && (
-        <div
-          className={`journey-loader ${overlay === "fading" ? "journey-loader--done" : ""} ${failed ? "journey-loader--failed" : ""}`}
-          role={failed ? "alert" : "progressbar"}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={failed ? undefined : pct}
-          aria-label={failed ? undefined : label}
-        >
-          {failed ? (
-            <div className="journey-loader__box">
-              <p className="journey-loader__eyebrow">Om Surve</p>
-              <p className="journey-loader__msg">
-                The 3D journey could not start in this browser.
-                <br />
-                It needs WebGL; try another browser or device.
-              </p>
-              <a className="journey-btn journey-btn--primary mt-6" href="#end">
-                Skip to the end
-              </a>
-            </div>
-          ) : (
-            <div className="journey-loader__box">
-              <p className="journey-loader__eyebrow">Om Surve</p>
-              <p className="journey-loader__pct">
-                {pct}
-                <span>%</span>
-              </p>
-              <div className="journey-loader__track">
-                <div className="journey-loader__bar" style={{ transform: `scaleX(${shown})` }} />
-              </div>
-              <p className="journey-loader__label">{label}</p>
-            </div>
-          )}
-        </div>
+        <JourneyLoader
+          shown={shown}
+          pct={pct}
+          label={label}
+          overlay={overlay}
+          failed={failed}
+          onSettled={() => {
+            // The dot grid has reached its final pose: hold it a beat, fade
+            // the overlay out, and only then reveal the hero copy.
+            setTimeout(() => setOverlay("fading"), 500);
+            setTimeout(() => setOverlay("off"), 500 + 900);
+          }}
+        />
       )}
       {/* Scroll hint: a pill at the bottom that fades out once the journey starts. */}
       <div

@@ -5,7 +5,7 @@ import { lerp, smoothstep } from "../util";
 // so the composite shows the next scene through it.
 // t 0 → 1 zooms from the whole eye into the pupil; reverse mode mirrors it.
 // The starting zoom is chosen so the iris is the same size on screen as the
-// 3D eye at the end of the meadow stage, which makes the dissolve a push.
+// 3D eye at the end of the hero stage, which makes the dissolve a push.
 
 const NOISE = `
   float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }

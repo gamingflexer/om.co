@@ -4,7 +4,7 @@
 
 ## Pages
 
-- [Home](https://om.ayuapp.com/): Om as a 3D character standing on a meadow
+- [Home](https://om.ayuapp.com/): Om as a 3D character standing on a meadow; scroll into his eye and out to the observable universe
 
 ## Writing
 

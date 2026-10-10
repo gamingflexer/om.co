@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import Seo from "../components/Seo";
 import Journey, { PAGES } from "../components/Journey";
 import JourneyFooter from "../components/JourneyFooter";
+import JourneyNav from "../components/JourneyNav";
+import HeroCopy from "../components/HeroCopy";
 
 // Local Data
 import data from "../data/portfolio.json";
@@ -64,8 +66,11 @@ export default function Home() {
       <h1 className="sr-only">
         {data.name}, {data.headerTaglineThree}
       </h1>
+      <JourneyNav sound={sound} />
       <div className="fixed inset-0 z-10 overflow-hidden bg-black">
-        <Journey className="absolute inset-0" spacerRef={spacerRef} sound={sound} onFail={() => setFailed(true)} />
+        <Journey className="absolute inset-0" spacerRef={spacerRef} sound={sound} onFail={() => setFailed(true)}>
+          <HeroCopy sound={sound} />
+        </Journey>
       </div>
       <div ref={spacerRef} aria-hidden="true" style={{ height: failed ? "100vh" : `${PAGES * 100}vh` }} />
       <JourneyFooter sound={sound} />
