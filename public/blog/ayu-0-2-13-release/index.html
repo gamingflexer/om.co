@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ayu 0.2.13: everything we shipped this week</title>
+<meta name="description" content="Ayu 0.2.13: a family-plan onboarding, our first paying Plus user, password-protected PDFs, Whoop, trends in chat, and ABHA coming soon.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/ayu-0-2-13-release/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="Ayu 0.2.13: everything we shipped this week">
+<meta property="og:description" content="A family-plan onboarding, our first paying Plus user, password-protected PDFs, Whoop, trends in chat, and ABHA coming soon.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/ayu-0-2-13-release/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/ayu-0-2-13-release/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Three of the Ayu team at the yellow wall, with the title 'this week'.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ayu 0.2.13: everything we shipped this week">
+<meta name="twitter:description" content="A family-plan onboarding, our first paying Plus user, password-protected PDFs, Whoop, trends in chat, and ABHA coming soon.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/ayu-0-2-13-release/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<style>
+:root{--bg:#fbfaf7;--ink:#1d1b20;--soft:#5d5964;--accent:#e2513a;--card:#fff;--line:#e8e3d8}
+@media (prefers-color-scheme:dark){:root{--bg:#16151a;--ink:#f1eee8;--soft:#a9a4ae;--card:#1f1e24;--line:#33313a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:32px 16px 72px}
+a{color:var(--accent)}
+.meta{color:var(--soft);font-size:15px;margin:0 0 8px}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.12;margin:0 0 20px;letter-spacing:-.02em}
+h2{font-size:24px;margin:44px 0 8px;letter-spacing:-.01em}
+.cover{display:block;position:relative;margin:0 0 28px;border-radius:14px;overflow:hidden}
+.cover img{display:block;width:100%;height:auto}
+.cover span{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.72);color:#fff;border-radius:99px;padding:8px 16px;font-size:15px}
+.item{display:grid;grid-template-columns:1fr 200px;gap:20px;align-items:start;margin:8px 0}
+.item img{width:100%;height:auto;border-radius:18px;border:1px solid var(--line)}
+@media (max-width:600px){.item{grid-template-columns:1fr}.item img{max-width:240px}}
+.who{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:2px 12px;font-size:14px;color:var(--soft)}
+.cta{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:44px}
+</style>
+</head>
+<body>
+<main>
+<p class="meta"><a href="/">Om Surve</a> · 11 October 2026 · Ayu release notes</p>
+<h1>Ayu 0.2.13: everything we shipped this week</h1>
+<a class="cover" href="https://www.instagram.com/reel/DeWECftIQDu/"><img src="cover.jpg" alt="Three of the Ayu team at the yellow wall, with the title 'this week'." width="1920" height="1080"><span>▶ Watch the 55-second reel</span></a>
+
+<p>We shot this one at the yellow wall, passing one mic between three of us. It starts with a mistake: "This is everything we are shipping this week." "But we already shipped, right?" "…Everything we already shipped this week."</p>
+<p>Here is the list. One feature each, no slides. I build <a href="https://www.ayuapp.com/">Ayu</a>, a health records app for Indian families, and 0.2.13 is the build all of this rides on.</p>
+
+<h2>A new onboarding for the family plan</h2>
+<div class="item"><div>
+<p>Health records are a family thing in India. One person holds the files for parents, kids, a spouse. The new onboarding says that upfront: keep all your loved ones' medical records in one place, and switch between profiles.</p>
+<p><span class="who">Samyakta</span></p></div>
+<img src="img/886-8626_ayu-plus-family-shared.jpg" alt="Ayu Plus family plan screen" loading="lazy"></div>
+
+<h2>Our first paying Plus user</h2>
+<p>Someone paid for Ayu Plus. We have wanted to write that line for a long time. Thank you. The video has confetti, and it is real: we rolled our hands and it went off.</p>
+<p><span class="who">Om</span></p>
+
+<h2>Password-protected PDFs</h2>
+<div class="item"><div>
+<p>Many lab reports and discharge summaries come locked with a password. Ayu now supports them: it asks for the password and opens the file. No more unlocking it somewhere else and uploading it again.</p>
+<p><span class="who">Onkar</span></p></div>
+<img src="img/pdf-password.jpg" alt="Ayu asking for a PDF password" loading="lazy"></div>
+
+<h2>Connect your Whoop</h2>
+<div class="item"><div>
+<p>You can now connect your Whoop band with Ayu, so your wearable data and your records live in one place.</p>
+<p><span class="who">Onkar</span></p></div>
+<img src="img/whoop-connected.jpg" alt="Whoop connected in Ayu" loading="lazy"></div>
+
+<h2>Trends in chat</h2>
+<div class="item"><div>
+<p>Every document you upload, we extract the trends out of it. Now you can compare those trends right in the chat, and compare different types of trends with each other. </p>
+<p><span class="who">Om</span></p></div>
+<img src="img/chat-trends.jpg" alt="A trend chart inside Ayu chat" loading="lazy"></div>
+
+<h2>ABHA, soon</h2>
+<div class="item"><div>
+<p>ABHA will be live on Ayu soon. It is not out yet, so this is a promise with a date still to come. I will post when it ships.</p>
+<p><span class="who">Samyakta</span></p></div>
+<img src="img/abha.jpg" alt="ABHA creation screen in Ayu" loading="lazy"></div>
+
+<h2>And one more thing</h2>
+<p>Onkar has started content creation: 8 days in a row so far, on <a href="https://www.instagram.com/onkar.boltoy/">@onkar.boltoy</a>. Go say hi. Then the reel ends on a new role at Ayu that we are not explaining yet. Samyakta's eye-roll says enough.</p>
+
+<div class="cta">
+<p style="margin-top:0"><strong>Try it:</strong> download Ayu at <a href="https://www.ayuapp.com/app">ayuapp.com/app</a>. Watch the reel on <a href="https://www.instagram.com/reel/DeWECftIQDu/">Instagram</a>. I post one release note like this every week, and I am on Instagram as <a href="https://www.instagram.com/om_cosmos/">@om_cosmos</a>.</p>
+</div>
+</main>
+</body>
+</html>
