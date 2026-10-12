@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Never believe your customers</title>
+<meta name="description" content="Book of Clarity, episode 3: people say one thing and do another. Don't ask what they want. Watch what they do, and what they pay for.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/never-believe-your-customers/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="Never believe your customers">
+<meta property="og:description" content="Book of Clarity, episode 3: people say one thing and do another. Don't ask what they want. Watch what they do, and what they pay for.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/never-believe-your-customers/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/never-believe-your-customers/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="A note on the wall says gym from Monday. Then a pizza delivery arrives and the ticks turn into crosses.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Never believe your customers">
+<meta name="twitter:description" content="Book of Clarity, episode 3: people say one thing and do another. Don't ask what they want. Watch what they do, and what they pay for.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/never-believe-your-customers/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column on grid paper, like a page torn from a notebook; each idea is a doodle you can poke. */
+:root {
+  --paper: #f6f1e7;
+  --grid: #e6dccb;
+  --ink: #24222a;
+  --ink-soft: #5b5562;
+  --coral: #e2513a;
+  --card: #fffdf8;
+  --line: #d8cdb9;
+  --hand: "Gaegu", "Comic Sans MS", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 80px; }
+h1, h2, .hand { font-family: var(--hand); font-weight: 700; line-height: 1.05; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); margin: 0; }
+h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 .4rem; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+section { display: flex; flex-direction: column; gap: 1rem; margin-top: 3.2rem; }
+.kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.lede { font-family: var(--hand); font-weight: 700; font-size: clamp(1.45rem, 5vw, 1.8rem); line-height: 1.15; }
+.coral { color: var(--coral); }
+mark { background: none; color: inherit; background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--coral) 35%, transparent) 62%); padding: 0 .1em; }
+.byline { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.note { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+a { color: var(--coral); }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn:hover { transform: translate(-1px, -1px); }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+.reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
+.card { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .7rem; }
+
+/* ---------- hook: the Monday note ---------- */
+.skit { margin-top: 1.2rem; background: var(--card); border: 2px solid var(--ink); border-radius: 18px 14px 20px 12px; padding: .8rem .8rem 1rem; display: flex; flex-direction: column; gap: .6rem; }
+.skit svg { width: 100%; height: auto; display: block; overflow: visible; }
+.skit .tick, .skit .cross { transition: opacity .35s; }
+.skit .cross { opacity: 0; }
+.skit .cross path { stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset .5s .35s; }
+.skit .delivery { transform: translateX(340px); opacity: 0; transition: transform .7s cubic-bezier(.2,1.2,.4,1), opacity .3s; }
+.skit .ring { opacity: 0; transition: opacity .2s; }
+.skit .bubble { opacity: 0; transition: opacity .3s .5s; }
+.skit.monday .tick { opacity: 0; }
+.skit.monday .cross { opacity: 1; }
+.skit.monday .cross path { stroke-dashoffset: 0; }
+.skit.monday .delivery { transform: none; opacity: 1; }
+.skit.monday .ring { opacity: 1; }
+.skit.monday .bubble { opacity: 1; }
+.skit-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.skit-msg { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 1.15; }
+
+/* ---------- say vs pay: the crowd ---------- */
+.crowd { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; align-items: end; }
+.p { display: flex; flex-direction: column; align-items: center; gap: 2px; transition: opacity .3s; }
+.p svg { width: 100%; max-width: 46px; height: auto; display: block; }
+.p .coin { font-family: var(--mono); font-size: .62rem; color: var(--coral); height: 1em; line-height: 1; opacity: 0; transition: opacity .3s; }
+.p .body { fill: var(--card); stroke: var(--ink); transition: fill .25s, stroke .25s; }
+.p.out { opacity: .35; }
+.p.out .body { fill: none; stroke-dasharray: 3 3; }
+.p.in .body { fill: color-mix(in srgb, var(--coral) 22%, var(--card)); stroke: var(--coral); }
+.p.in .coin { opacity: 1; }
+.count { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.count b { font-family: var(--hand); font-size: clamp(3rem, 12vw, 4.4rem); line-height: .9; color: var(--coral); font-variant-numeric: tabular-nums; }
+.count span { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; }
+.price { display: flex; flex-direction: column; gap: .3rem; }
+.price label { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.price input[type=range] { width: 100%; accent-color: var(--coral); }
+.price b { color: var(--ink); font-size: 1.1rem; }
+.msg { font-family: var(--hand); font-weight: 700; font-size: 1.45rem; line-height: 1.15; min-height: 2.4em; }
+
+/* ---------- the scale ---------- */
+.scale svg { width: 100%; height: auto; display: block; overflow: visible; }
+.scale .cap { font-family: var(--hand); font-weight: 700; font-size: 1.4rem; line-height: 1.15; min-height: 1.2em; }
+.scale-foot { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+/* ---------- interviews: two cards, then the better question ---------- */
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .8rem; }
+@media (max-width: 460px) { .pair { grid-template-columns: 1fr; } }
+.pair .col { background: var(--card); border: 2px solid var(--ink); border-radius: 14px 18px 12px 16px; padding: .8rem .9rem; display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
+.pair .col.star { border-color: var(--coral); }
+.pair .who { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.pair .q { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 1.1; }
+.pair .col:not(.star) .q { text-decoration: line-through; text-decoration-color: var(--coral); text-decoration-thickness: 3px; color: var(--ink-soft); }
+.pair .col.star .q::before { content: "★ "; color: var(--coral); }
+.ask-pair .col { opacity: .35; transition: opacity .3s; }
+.ask-pair.better .col.star { opacity: 1; }
+.ask-pair:not(.better) .col:not(.star) { opacity: 1; }
+.ask-pair .col .sub { font-size: 1rem; line-height: 1.4; }
+
+/* ---------- say vs do ---------- */
+.sd { display: flex; flex-direction: column; gap: .6rem; }
+.sd .row { display: grid; grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr); gap: .5rem; align-items: center; }
+.sd .cell { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; border: 2px solid var(--ink); border-radius: 12px; padding: .45rem .7rem; background: var(--paper); min-width: 0; }
+.sd .arrow { font-family: var(--mono); color: var(--coral); text-align: center; }
+.sd .do { border-color: var(--coral); border-style: dashed; color: var(--ink); opacity: 0; transform: translateX(-8px); transition: opacity .35s, transform .35s; }
+.sd .arrow { opacity: 0; transition: opacity .35s; }
+.sd.on .do, .sd.on .arrow { opacity: 1; transform: none; }
+.sd .row:nth-child(2) .do, .sd .row:nth-child(2) .arrow { transition-delay: .25s; }
+.sd .row:nth-child(3) .do, .sd .row:nth-child(3) .arrow { transition-delay: .5s; }
+.sd .tag { font-family: var(--mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: .1rem; }
+@media (max-width: 460px) { .sd .row { grid-template-columns: 1fr; gap: .25rem; } .sd .arrow { transform: rotate(90deg); } }
+
+/* ---------- reel + series ---------- */
+.reel { display: grid; grid-template-columns: 1fr; gap: 1.1rem; align-items: start; }
+.cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
+.cover img { display: block; width: 100%; height: auto; }
+.cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+.eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
+.eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.eps .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; }
+.eps li.now .t { color: var(--coral); }
+.sources { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: .3rem; border-top: 1.5px dashed var(--line); padding-top: 1rem; margin-top: 3rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <div class="stack">
+    <div class="kicker">Book of Clarity · Episode 3</div>
+    <h1>Never believe your <span class="coral">customers</span></h1>
+    <p class="lede">Everyone starts the gym on Monday. Then a large cheese burst arrives. <span class="coral">Watch what they do.</span></p>
+    <div class="byline"><span>Om Surve</span><span>·</span><span>Founder, Ayu</span><span>·</span><span>4 min read</span></div>
+  </div>
+
+  <div class="skit" id="skit">
+    <svg viewBox="0 0 600 275" role="img" aria-label="A note on the wall says gym from Monday, with two ticks. A pizza delivery arrives and the ticks turn into crosses.">
+      <!-- the note -->
+      <g transform="rotate(-2 140 130)">
+        <rect x="22" y="22" width="270" height="226" rx="10" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/>
+        <rect x="112" y="8" width="70" height="26" fill="var(--grid)" stroke="var(--ink)" stroke-width="2.5" transform="rotate(3 147 21)"/>
+        <text x="157" y="82" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="38" fill="var(--ink)">GYM FROM</text>
+        <text x="157" y="122" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="38" fill="var(--ink)">MONDAY</text>
+        <!-- row 1 -->
+        <rect x="52" y="146" width="30" height="30" rx="4" fill="none" stroke="var(--ink)" stroke-width="3.5"/>
+        <path class="tick" d="M58 162 L66 171 L84 148" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="cross"><path d="M58 152 L76 170 M76 152 L58 170" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"/></g>
+        <text x="96" y="171" font-family="Gaegu, cursive" font-weight="700" font-size="28" fill="var(--ink)">full gym</text>
+        <!-- row 2 -->
+        <rect x="52" y="196" width="30" height="30" rx="4" fill="none" stroke="var(--ink)" stroke-width="3.5"/>
+        <path class="tick" d="M58 212 L66 221 L84 198" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="cross"><path d="M58 202 L76 220 M76 202 L58 220" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"/></g>
+        <text x="96" y="221" font-family="Gaegu, cursive" font-weight="700" font-size="28" fill="var(--ink)">full diet</text>
+      </g>
+      <!-- doorbell -->
+      <g class="ring" font-family="Gaegu, cursive" font-weight="700" fill="var(--ink-soft)">
+        <text x="470" y="26" text-anchor="middle" font-size="26">ding dong</text>
+        <path d="M380 10 q-9 10 0 20 M364 6 q-14 14 0 28 M560 10 q9 10 0 20 M576 6 q14 14 0 28" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- the delivery -->
+      <g class="delivery">
+        <g class="bubble">
+          <ellipse cx="470" cy="78" rx="106" ry="36" fill="var(--card)" stroke="var(--ink)" stroke-width="3.5"/>
+          <path d="M436 108 L418 138 L462 113" fill="var(--card)" stroke="var(--ink)" stroke-width="3.5" stroke-linejoin="round"/>
+          <path d="M430 108 L458 112" stroke="var(--card)" stroke-width="6"/>
+          <text x="470" y="74" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="25" fill="var(--ink)">Large</text>
+          <text x="470" y="100" text-anchor="middle" font-family="Gaegu, cursive" font-weight="700" font-size="25" fill="var(--coral)">cheese burst?</text>
+        </g>
+        <!-- pizza box, from above -->
+        <g stroke="var(--ink)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-4 470 200)">
+          <rect x="378" y="150" width="184" height="104" rx="6" fill="var(--card)"/>
+          <path d="M378 166 L562 166" fill="none" stroke-width="3"/>
+          <circle cx="470" cy="211" r="38" fill="var(--paper)"/>
+          <path d="M470 211 L470 174 M470 211 L503 193" fill="none" stroke-width="3"/>
+          <circle cx="448" cy="200" r="5" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+          <circle cx="486" cy="226" r="5" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+          <circle cx="451" cy="229" r="4" fill="none" stroke="var(--coral)" stroke-width="3.5"/>
+        </g>
+      </g>
+    </svg>
+    <div class="skit-foot">
+      <p class="skit-msg" id="skitMsg" aria-live="polite">Sunday night. The plan is perfect.</p>
+      <button class="btn" id="skitBtn" type="button">It's Monday</button>
+    </div>
+  </div>
+
+  <section>
+    <p>We humans are notorious for saying one thing and doing another. In our heads, we're angels. In our actions, we go for love, money, fame and sugar.</p>
+    <p>That's the third idea in <i>The Book of Clarity</i> by <a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra</a>, who co-founded <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a>, and I'm reading it one idea a day. This one is about customers.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The biggest mistake</div>
+    <h2>Believing what they say</h2>
+    <p>One of the biggest mistakes a founder can make is believing what the customer says. Either they say they like your idea, or they hate it. <mark>Both are just words.</mark></p>
+    <p class="reveal">Customers vote with their wallets. Words are cheap. <b>Money is expensive.</b></p>
+  </section>
+
+  <section>
+    <div class="kicker">Try it</div>
+    <h2>Words cost ₹0</h2>
+    <p>Ten people just told you they love your idea. Now ask for money. Drag the price up and see who's left.</p>
+    <div class="card">
+      <div class="count"><b id="payN" aria-live="polite">0</b><span>of 10 would still pay</span></div>
+      <div class="crowd" id="crowd" aria-hidden="true"></div>
+      <div class="price">
+        <label for="price">You ask for: <b id="priceOut">₹0</b></label>
+        <input type="range" id="price" min="0" max="1000" step="10" value="0">
+      </div>
+      <p class="msg" id="payMsg">At ₹0, everybody loves it. Words are free.</p>
+      <p class="note">Illustrative: a made-up crowd to show the shape, not data. Your real numbers will differ. The shape won't.</p>
+    </div>
+    <p>The few who stay at your real price are your evidence. Everyone else is a nice comment.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The proof in the book</div>
+    <h2>The airline everyone complained about</h2>
+    <p>In the book, <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" target="_blank" rel="noopener">Spirit Airlines</a> is America's most hated airline, and for years one of its most profitable. Whatever people said online, saving money beat comfort.</p>
+    <div class="card scale">
+      <svg id="scaleSvg" viewBox="0 0 600 310" role="img" aria-label="A balance: angry reviews on one side, a cheap ticket on the other"></svg>
+      <p class="cap" id="scaleCap" aria-live="polite">What they said.</p>
+      <div class="scale-foot"><button class="btn" id="weighBtn" type="button">Weigh it</button><span class="note">Review bubbles are invented for the drawing.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">What I've learned</div>
+    <h2>It's not about doing the interviews</h2>
+    <p>In my startup, this is the lesson. It's not about doing user interviews. <mark>It's about how you do them.</mark></p>
+    <div class="pair">
+      <div class="col"><span class="who">Everyone does</span><span class="q">user interviews</span></div>
+      <div class="col star"><span class="who">What matters</span><span class="q">knowing how</span></div>
+    </div>
+    <p>Here's the difference. Tap to swap the question.</p>
+    <div class="pair ask-pair" id="askPair">
+      <div class="col"><span class="who">Asks for words</span><span class="q">"Would you use this?"</span><span class="sub">A free yes. It tells you how polite they are.</span></div>
+      <div class="col star"><span class="who">Looks for behaviour</span><span class="q">"What did you do last time?"</span><span class="sub">Something they actually did, spent or tried.</span></div>
+    </div>
+    <div><button class="btn ghost" id="askBtn" type="button">Ask it better</button></div>
+    <p>The best guides on this are in the captions below the reel.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The rule</div>
+    <h2>Don't ask. Watch.</h2>
+    <p>The person who says they want to lose weight is the one buying the junk food. So don't ask people what they want. <mark>Watch what they do, and what they pay for.</mark> What they say and what they do is very different.</p>
+    <div class="card">
+      <div class="sd" id="sd">
+        <div class="row"><div class="cell"><span class="tag">They say</span>"I want to lose weight."</div><span class="arrow">→</span><div class="cell do"><span class="tag">They do</span>Order the cheese burst</div></div>
+        <div class="row"><div class="cell"><span class="tag">They say</span>"This airline is awful."</div><span class="arrow">→</span><div class="cell do"><span class="tag">They do</span>Buy the cheaper ticket</div></div>
+        <div class="row"><div class="cell"><span class="tag">They say</span>"I love your idea!"</div><span class="arrow">→</span><div class="cell do"><span class="tag">They do</span>Don't pay a rupee</div></div>
+      </div>
+      <div><button class="btn" id="sdBtn" type="button">Watch what they do</button></div>
+      <p class="note">The weight line is from the book. The airline row retells its Spirit story. The last row is the made-up crowd above, not data.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Your turn</div>
+    <h2>Do this today</h2>
+    <p>Pick one person who told you they like your idea. Ask for something small and real: money, a pre-order, an hour of their time, an introduction. Then write down what they did, not what they said.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Next episode</div>
+    <p class="hand" style="font-size:1.6rem">Is this market done? <span class="coral">No market ever is.</span></p>
+    <p>Next: why no market is ever done.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Why I'm reading this out loud</div>
+    <h2>One idea a day, on camera</h2>
+    <div class="reel">
+      <a class="cover" href="https://www.instagram.com/reel/DeZHN2dNv2h/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Never believe your customers"><span class="play">▶ Watch the reel on Instagram</span></a>
+      <div class="stack">
+        <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn.</p>
+        <p>I build <a href="https://ayuapp.com" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. I try to watch what families actually do in the app, more than what they tell me they will.</p>
+        <ul class="eps">
+          <li><span class="d">8 Oct</span><span class="t"><a href="/blog/why-most-startups-fail/">Why do most startups fail?</a></span></li>
+          <li><span class="d">9 Oct</span><span class="t"><a href="/blog/when-should-you-start-a-startup/">When should you start a startup?</a></span></li>
+          <li><span class="d">10 Oct</span><span class="t"><a href="/blog/why-do-businesses-exist/">Why do businesses exist?</a></span></li>
+          <li class="now"><span class="d">12 Oct</span><span class="t">Never believe your customers</span></li>
+        </ul>
+        <p><a href="https://www.instagram.com/om_cosmos/" target="_blank" rel="noopener">Follow along on Instagram, @om_cosmos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources">
+    <span>Sources: Paras Chopra, <i>The Book of Clarity</i>, Part 1, "Evidence of desire is in people's behaviour (and not in what they say)" (pp. 17–19), for the gym and pizza line, saying one thing and doing another, angels in our heads, the biggest mistake, the Spirit Airlines story, customers voting with their wallets, and "watch what they do".</span>
+    <span><a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra's site</a> · <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a> · <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a> · <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" target="_blank" rel="noopener">Spirit Airlines on Wikipedia</a>.</span>
+    <span>The "how to ask" lesson is mine, from building a startup. Drawings are mine. The ten-person crowd, the prices and the review bubbles are illustrative, not data.</span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS = 'http://www.w3.org/2000/svg';
+  const mk = (p, n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+  const fmt = n => n.toLocaleString('en-IN');
+
+  /* ---------- hook: it's Monday ---------- */
+  const skit = document.getElementById('skit'), skitBtn = document.getElementById('skitBtn'), skitMsg = document.getElementById('skitMsg');
+  skitBtn.addEventListener('click', () => {
+    const on = skit.classList.toggle('monday');
+    skitBtn.textContent = on ? 'Rewind' : "It's Monday";
+    skitMsg.innerHTML = on ? 'Monday <span class="coral">se.</span>' : 'Sunday night. The plan is perfect.';
+  });
+
+  /* ---------- the crowd: love is free, money is not ---------- */
+  const th = [0, 0, 0, 20, 50, 120, 250, 400, 650, 1000];   // illustrative: the most each person would pay
+  const crowd = document.getElementById('crowd'), people = [];
+  th.forEach(() => {
+    const d = document.createElement('div'); d.className = 'p';
+    d.innerHTML = '<span class="coin">₹</span><svg viewBox="0 0 46 70"><g fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><circle class="body" cx="23" cy="16" r="11"/><path class="body" d="M7 66 L9 40 Q23 30 37 40 L39 66 Z"/><path d="M18 20 q5 4 10 0" stroke="var(--ink)"/><path d="M17 13 l.1 0 M29 13 l.1 0" stroke="var(--ink)" stroke-width="4.5"/></g></svg>';
+    crowd.appendChild(d); people.push(d);
+  });
+  const price = document.getElementById('price'), priceOut = document.getElementById('priceOut'), payN = document.getElementById('payN'), payMsg = document.getElementById('payMsg');
+  let shown = 0, raf = 0;
+  const countTo = n => {
+    cancelAnimationFrame(raf);
+    if (reduce) { shown = n; payN.textContent = n; return; }
+    const from = shown, t0 = performance.now();
+    (function f(t) { const p = Math.min(1, (t - t0) / 450); shown = Math.round(from + (n - from) * p); payN.textContent = shown; if (p < 1) raf = requestAnimationFrame(f); })(t0);
+  };
+  const say = n => n === 10 ? 'At ₹0, everybody loves it. Words are free.'
+    : n >= 6 ? 'Some of the love just left. It only cost a few rupees.'
+    : n >= 3 ? 'Watch the crowd thin. Money is expensive.'
+    : n >= 1 ? (n === 1 ? 'One person. That one is your evidence.' : 'These few are your evidence.')
+    : 'Nobody. Now you know, and it cost you nothing to find out.';
+  const update = () => {
+    const p = +price.value; let n = 0;
+    people.forEach((d, i) => { const yes = p <= th[i]; d.className = 'p ' + (yes ? (p > 0 ? 'in' : '') : 'out'); if (yes) n++; });
+    priceOut.textContent = '₹' + fmt(p); countTo(n); payMsg.textContent = say(n);
+  };
+  price.addEventListener('input', update); update();
+
+  /* ---------- the scale: what they said vs what they paid ---------- */
+  const sv = document.getElementById('scaleSvg'), cap = document.getElementById('scaleCap'), weighBtn = document.getElementById('weighBtn');
+  const cx = 300, cy = 70, L = 165, hang = 105;
+  mk(sv, 'path', { d: 'M300 70 L300 272 M236 278 L364 278', stroke: 'var(--ink)', 'stroke-width': 5, 'stroke-linecap': 'round', fill: 'none' });
+  const strings = [mk(sv, 'path', { fill: 'none', stroke: 'var(--ink)', 'stroke-width': 3 }), mk(sv, 'path', { fill: 'none', stroke: 'var(--ink)', 'stroke-width': 3 })];
+  const beam = mk(sv, 'line', { stroke: 'var(--ink)', 'stroke-width': 6, 'stroke-linecap': 'round' });
+  mk(sv, 'circle', { cx, cy, r: 9, fill: 'var(--card)', stroke: 'var(--ink)', 'stroke-width': 4 });
+  const left = mk(sv, 'g', {}), right = mk(sv, 'g', {});
+  const pan = g => mk(g, 'path', { d: 'M-100 0 Q0 40 100 0 Z', fill: 'var(--card)', stroke: 'var(--ink)', 'stroke-width': 4, 'stroke-linejoin': 'round' });
+  pan(left); pan(right);
+  // left pan: angry review bubbles (invented)
+  [['Worst ever!', -10, -14], ['Never again', 12, -50]].forEach(([t, x, y]) => { const g = mk(left, 'g', {}); mk(g, 'rect', { x: x - 62, y: y - 16, width: 124, height: 32, rx: 14, fill: 'var(--card)', stroke: 'var(--ink)', 'stroke-width': 3 }); const tx = mk(g, 'text', { x, y: y + 6, 'text-anchor': 'middle', 'font-family': 'Gaegu, cursive', 'font-weight': 700, 'font-size': 20, fill: 'var(--ink)' }); tx.textContent = t; });
+  // right pan: the cheap fare
+  const tag = mk(right, 'g', { transform: 'translate(0 -24)' });
+  mk(tag, 'path', { d: 'M-80 -30 L38 -30 L62 -2 L38 26 L-80 26 Z', fill: 'var(--card)', stroke: 'var(--coral)', 'stroke-width': 4, 'stroke-linejoin': 'round' });
+  mk(tag, 'circle', { cx: 44, cy: -2, r: 4.5, fill: 'none', stroke: 'var(--coral)', 'stroke-width': 3 });
+  const tt = mk(tag, 'text', { x: -20, y: 7, 'text-anchor': 'middle', 'font-family': 'Gaegu, cursive', 'font-weight': 700, 'font-size': 23, fill: 'var(--coral)' }); tt.textContent = 'cheap fare';
+  let ang = -11, raf2 = 0;
+  const draw = a => {
+    const r = a * Math.PI / 180, lx = cx - L * Math.cos(r), ly = cy - L * Math.sin(r), rx = cx + L * Math.cos(r), ry = cy + L * Math.sin(r);
+    beam.setAttribute('x1', lx); beam.setAttribute('y1', ly); beam.setAttribute('x2', rx); beam.setAttribute('y2', ry);
+    left.setAttribute('transform', `translate(${lx} ${ly + hang})`); right.setAttribute('transform', `translate(${rx} ${ry + hang})`);
+    strings[0].setAttribute('d', `M${lx} ${ly} L${lx - 100} ${ly + hang} M${lx} ${ly} L${lx + 100} ${ly + hang}`);
+    strings[1].setAttribute('d', `M${rx} ${ry} L${rx - 100} ${ry + hang} M${rx} ${ry} L${rx + 100} ${ry + hang}`);
+  };
+  const tilt = to => { cancelAnimationFrame(raf2); if (reduce) { ang = to; draw(ang); return; } const from = ang, t0 = performance.now(); (function f(t) { const p = Math.min(1, (t - t0) / 900), e = 1 - Math.pow(1 - p, 3), over = p < 1 ? Math.sin(p * Math.PI) * 1.8 * Math.sign(to - from) : 0; ang = from + (to - from) * e + over; draw(ang); if (p < 1) raf2 = requestAnimationFrame(f); else { ang = to; draw(ang); } })(t0); };
+  draw(ang);
+  let paid = false;
+  weighBtn.addEventListener('click', () => { paid = !paid; tilt(paid ? 11 : -11); cap.innerHTML = paid ? 'What they paid for: <span class="coral">the cheap fare.</span>' : 'What they said.'; weighBtn.textContent = paid ? 'Back' : 'Weigh it'; });
+  cap.textContent = 'What they said.';
+
+  /* ---------- the better question ---------- */
+  const askPair = document.getElementById('askPair'), askBtn = document.getElementById('askBtn');
+  askBtn.addEventListener('click', () => { const on = askPair.classList.toggle('better'); askBtn.textContent = on ? 'Back to the usual one' : 'Ask it better'; });
+
+  /* ---------- say vs do ---------- */
+  const sd = document.getElementById('sd'), sdBtn = document.getElementById('sdBtn');
+  sdBtn.addEventListener('click', () => { const on = sd.classList.toggle('on'); sdBtn.textContent = on ? 'Hide' : 'Watch what they do'; });
+})();
+</script>
+</body>
+</html>
