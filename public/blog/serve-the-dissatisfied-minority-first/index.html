@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serve the dissatisfied minority first</title>
+<meta name="description" content="Book of Clarity, episode 5: never serve the average user first. Airbnb began with travellers who needed a safe bed, Uber with people who wouldn't plan ahead. Serve the one in burning pain, and the mainstream follows.">
+<meta name="author" content="Om Surve">
+<link rel="canonical" href="https://om.ayuapp.com/blog/serve-the-dissatisfied-minority-first/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Om Surve">
+<meta property="og:title" content="Serve the dissatisfied minority first">
+<meta property="og:description" content="Book of Clarity, episode 5: never serve the average user first. Airbnb began with travellers who needed a safe bed, Uber with people who wouldn't plan ahead. Serve the one in burning pain, and the mainstream follows.">
+<meta property="og:url" content="https://om.ayuapp.com/blog/serve-the-dissatisfied-minority-first/">
+<meta property="og:image" content="https://om.ayuapp.com/blog/serve-the-dissatisfied-minority-first/cover.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Serve the dissatisfied minority first. A big circle for the average user with a small triangle cut out for the dissatisfied minority.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Serve the dissatisfied minority first">
+<meta name="twitter:description" content="Book of Clarity, episode 5: never serve the average user first. Airbnb began with travellers who needed a safe bed, Uber with people who wouldn't plan ahead. Serve the one in burning pain, and the mainstream follows.">
+<meta name="twitter:image" content="https://om.ayuapp.com/blog/serve-the-dissatisfied-minority-first/cover.jpg">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow reading column on grid paper, like a page torn from a notebook; each idea is a doodle you can poke. */
+:root {
+  --paper: #f6f1e7;
+  --grid: #e6dccb;
+  --ink: #24222a;
+  --ink-soft: #5b5562;
+  --coral: #e2513a;
+  --card: #fffdf8;
+  --line: #d8cdb9;
+  --hand: "Gaegu", "Comic Sans MS", cursive;
+  --serif: "EB Garamond", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #1d1b1f; --grid: #2a272d; --ink: #f1ebe0; --ink-soft: #b3aca3; --coral: #ff7a5f; --card: #252228; --line: #3a363e; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.2rem; line-height: 1.6;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 80px; }
+h1, h2, .hand { font-family: var(--hand); font-weight: 700; line-height: 1.05; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); margin: 0; }
+h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin: 0 0 .4rem; }
+p { margin: 0; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+section { display: flex; flex-direction: column; gap: 1rem; margin-top: 3.2rem; }
+.kicker { font-family: var(--mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.lede { font-family: var(--hand); font-weight: 700; font-size: clamp(1.45rem, 5vw, 1.8rem); line-height: 1.15; }
+.coral { color: var(--coral); }
+mark { background: none; color: inherit; background-image: linear-gradient(transparent 62%, color-mix(in srgb, var(--coral) 35%, transparent) 62%); padding: 0 .1em; }
+.byline { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.note { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+a { color: var(--coral); }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn:hover { transform: translate(-1px, -1px); }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+.reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
+.card { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .8rem; }
+.msg { font-family: var(--hand); font-weight: 700; font-size: 1.45rem; line-height: 1.15; min-height: 1.2em; }
+@media (max-width: 520px) { .msg { min-height: 3.5em; } }
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.heart { display: block; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- stickers: real photos cut out, with a white die-cut edge ---------- */
+.pic { height: 92px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.pic img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; filter: drop-shadow(0 1px 1px rgba(0,0,0,.18)); }
+.pic svg { height: 100%; width: auto; max-width: 100%; }
+.pic.duo img { max-width: 50%; max-height: 72px; }
+
+/* ---------- the quiz ---------- */
+.qhead { font-family: var(--hand); font-weight: 700; font-size: 1.9rem; line-height: 1; }
+.opts { display: flex; flex-direction: column; gap: .6rem; }
+.opt { position: relative; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .2rem .8rem; align-items: center; text-align: left; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: .6rem .8rem .65rem; transition: opacity .35s, border-color .35s, background .35s, transform .2s; }
+.opt:hover { transform: translateX(2px); }
+.opt .ltr { grid-row: 1 / span 2; width: 2.4rem; height: 2.4rem; display: flex; align-items: center; justify-content: center; font-family: var(--hand); font-weight: 700; font-size: 1.6rem; line-height: 1; border: 2.5px solid var(--ink); border-radius: 50%; transition: border-color .3s, color .3s, box-shadow .3s; }
+.opt .who { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
+.opt .say { font-family: var(--serif); font-style: italic; font-size: 1rem; line-height: 1.3; color: var(--ink-soft); }
+.opt .x { position: absolute; inset: 8px 10px; width: calc(100% - 20px); height: calc(100% - 16px); opacity: 0; pointer-events: none; }
+.opt .x path { stroke: var(--coral); stroke-width: 5; stroke-linecap: round; fill: none; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .5s; }
+.opt.out { opacity: .55; border-style: dashed; border-color: var(--line); }
+.opt.out .who, .opt.out .say { text-decoration: line-through; text-decoration-color: var(--coral); text-decoration-thickness: 3px; }
+.opt.win { border-color: var(--coral); background: var(--card); box-shadow: 4px 4px 0 var(--coral); }
+.opt.win .ltr { border-color: var(--coral); color: var(--coral); box-shadow: 0 0 0 4px color-mix(in srgb, var(--coral) 28%, transparent); }
+.opt .note-svg { height: 1.1rem; width: auto; vertical-align: -.2em; }
+
+/* ---------- the book's circle: average user, extreme minority ---------- */
+.venn { display: block; width: 100%; max-width: 380px; height: auto; margin-inline: auto; overflow: visible; }
+.venn .ring { fill: var(--card); stroke: var(--ink); stroke-width: 4; }
+.venn text { font-family: var(--hand); font-weight: 700; fill: var(--ink); text-anchor: middle; text-transform: uppercase; letter-spacing: .03em; }
+.venn text.s { font-family: var(--mono); font-weight: 400; font-size: 9px; letter-spacing: .05em; fill: var(--ink-soft); }
+.venn .tri { fill: var(--paper); stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; transition: fill .5s, opacity .5s, stroke .5s; }
+.venn .top, .venn .bot { transition: opacity .5s; }
+.venn .flame { fill: var(--coral); opacity: 0; transform: scale(.4); transform-origin: 160px 192px; transition: opacity .4s, transform .5s; }
+.venn .cross { opacity: 0; transition: opacity .35s; }
+.venn .cross path { stroke: var(--coral); stroke-width: 7; stroke-linecap: round; fill: none; }
+#circle .venn .bot, #circle .venn .tri { opacity: .25; }
+#circle[data-s="1"] .venn .bot, #circle[data-s="1"] .venn .tri { opacity: 1; }
+#circle[data-s="1"] .venn .top { opacity: .55; }
+#circle[data-s="1"] .venn .tri { fill: color-mix(in srgb, var(--coral) 14%, var(--card)); }
+.venn .grow { transform-origin: 160px 262px; transform: scale(var(--k, 1)); transition: transform .8s cubic-bezier(.3,.7,.3,1); }
+.venn .grow path { fill: color-mix(in srgb, var(--coral) 26%, var(--card)); stroke: var(--coral); stroke-width: 3.5; stroke-linejoin: round; }
+#grow[data-s="0"] .flame { opacity: 1; transform: none; }
+#grow[data-s="1"] .cross { opacity: 1; }
+#grow[data-s="4"] .lbl { opacity: 0; }
+.venn .sad, .venn .glad { transition: opacity .4s; }
+.venn .glad { opacity: 0; }
+#grow[data-s="4"] .sad { opacity: 0; }
+#grow[data-s="4"] .glad { opacity: 1; }
+.chips { display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap; }
+.chip { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; line-height: 1; text-transform: uppercase; letter-spacing: .03em; padding: .3rem .8rem .4rem; border: 2px dashed var(--line); border-radius: 999px; color: var(--ink-soft); transition: all .3s; }
+.chip.on { border: 2px solid var(--coral); color: var(--coral); background: var(--card); }
+@media (max-width: 460px) { .chip { font-size: 1.05rem; padding: .25rem .55rem .35rem; } }
+
+/* ---------- relay: boxes lit one after another ---------- */
+.stops { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 460px) { .stops.four { grid-template-columns: 1fr 1fr; } }
+.stop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .7rem .4rem .5rem; border: 2px dashed var(--line); border-radius: 14px; background: var(--paper); text-align: center; opacity: .3; transition: opacity .35s, border-color .35s, transform .35s; }
+.stop .lab { font-family: var(--hand); font-weight: 700; font-size: 1.25rem; line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
+.pic { position: relative; }
+.pic svg.x { position: absolute; inset: 4px 12%; width: 76%; height: calc(100% - 8px); max-width: none; opacity: 0; pointer-events: none; }
+.stop .x path { stroke: var(--coral); stroke-width: 6; stroke-linecap: round; fill: none; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .5s .15s; }
+.stop.live { opacity: 1; border: 2px solid var(--ink); background: var(--card); transform: translateY(-3px); }
+.stop.xs.live .pic svg.x { opacity: 1; }
+.stop.xs.live .x path { stroke-dashoffset: 0; }
+.stop .bubble { position: absolute; top: -.9rem; left: 50%; transform: translateX(-50%) scale(.8); white-space: nowrap; font-family: var(--hand); font-weight: 700; font-size: 1.05rem; line-height: 1; background: var(--card); border: 2px solid var(--coral); border-radius: 999px; padding: .15rem .6rem .25rem; color: var(--coral); opacity: 0; transition: opacity .3s, transform .3s; }
+.stop.live .bubble { opacity: 1; transform: translateX(-50%) scale(1); }
+.stops.padtop { padding-top: .9rem; }
+.stop .pic { height: 84px; }
+
+/* ---------- reel + series ---------- */
+.reel { display: grid; grid-template-columns: 1fr; gap: 1.1rem; align-items: start; }
+.cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
+.cover img { display: block; width: 100%; height: auto; }
+.cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+.eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
+.eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.eps .t { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; }
+.eps li.now .t { color: var(--coral); }
+.sources { font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: .3rem; border-top: 1.5px dashed var(--line); padding-top: 1rem; margin-top: 3rem; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <symbol id="heart" viewBox="0 0 100 96">
+    <path d="M50 90 C8 58 4 28 24 16 C38 8 50 18 50 27 C50 18 62 8 76 16 C96 28 92 58 50 90 Z" style="fill: color-mix(in srgb, var(--coral) 22%, var(--card)); stroke: var(--coral)" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="38" cy="40" r="3.6" style="fill: var(--ink)"/><circle cx="62" cy="40" r="3.6" style="fill: var(--ink)"/>
+    <path d="M40 54 q10 10 20 0" fill="none" style="stroke: var(--ink)" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="heart-angry" viewBox="0 0 100 96">
+    <path d="M50 90 C8 58 4 28 24 16 C38 8 50 18 50 27 C50 18 62 8 76 16 C96 28 92 58 50 90 Z" style="fill: color-mix(in srgb, var(--coral) 22%, var(--card)); stroke: var(--coral)" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="38" cy="44" r="3.6" style="fill: var(--ink)"/><circle cx="62" cy="44" r="3.6" style="fill: var(--ink)"/>
+    <path d="M28 32 L46 39 M72 32 L54 39" fill="none" style="stroke: var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M40 64 q10 -9 20 0" fill="none" style="stroke: var(--ink)" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="flame-s" viewBox="0 0 20 30"><path d="M10 1 C15 8 19 13 17 21 C16 27 4 27 3 21 C1 14 7 10 10 1 Z"/></symbol>
+</svg>
+
+<main class="wrap">
+  <div class="stack">
+    <div class="kicker">Book of Clarity · Episode 5</div>
+    <h1>Serve the dissatisfied minority <span class="coral">first</span></h1>
+    <p class="lede">You've built a great product. Who do you sell to first? <span class="coral">Not the average user. The outlier.</span></p>
+    <div class="byline"><span>Om Surve</span><span>·</span><span>Founder, Ayu</span><span>·</span><span>3 min read</span></div>
+  </div>
+
+  <div class="card" id="quiz">
+    <div class="qhead">Who do you sell to first?</div>
+    <div class="opts" id="opts">
+      <button class="opt" type="button" data-k="a" aria-pressed="false"><span class="ltr">A</span><span class="who">The aunty</span><span class="say">"Son, I raised you since childhood. How will you take money from me?"</span></button>
+      <button class="opt" type="button" data-k="b" aria-pressed="false"><span class="ltr">B</span><span class="who">The friend</span><span class="say">"Brother, will you give me that product for free?"</span></button>
+      <button class="opt" type="button" data-k="c" aria-pressed="false"><span class="ltr">C</span><span class="who">The one who pays</span><span class="say">Takes out the cash.</span></button>
+    </div>
+    <p class="msg" id="quizMsg" aria-live="polite">Tap one.</p>
+    <div class="foot"><button class="btn" id="quizBtn" type="button">Show the answer</button><span class="note">The skit is from the reel. The drawing is mine.</span></div>
+  </div>
+
+  <section>
+    <p>The aunty and the friend are on your side. Neither one is your first customer. The one who pays is.</p>
+    <p>A chapter in <i>The Book of Clarity</i> by <a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra</a>, who co-founded <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a>, takes that one step further. It's called "Serve the dissatisfied minority first", and I'm reading the book one idea a day.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The point</div>
+    <h2>Never serve the average user first</h2>
+    <p>Serve the one who is the most dissatisfied minority first. The outlier. The book draws it as a big circle with a small triangle cut out of it. Tap to see who is in which.</p>
+    <div class="card" id="circle" data-s="0">
+      <svg class="venn" viewBox="0 0 320 300" role="img" aria-label="A big circle for the average user, who is satisfied by mainstream solutions, with a small triangle cut out for the minority with extreme needs, who are dissatisfied">
+        <circle class="ring" cx="160" cy="150" r="140"/>
+        <g class="top"><use href="#heart" x="136" y="34" width="48" height="46"/><text x="160" y="106" font-size="20">Average user</text><text class="s" x="160" y="124">SATISFIED BY MAINSTREAM SOLUTIONS</text></g>
+        <path class="tri" d="M160 160 L76 262 A140 140 0 0 0 244 262 Z"/>
+        <g class="bot"><use href="#heart-angry" x="142" y="198" width="36" height="35"/><text x="160" y="257" font-size="13">Extreme needs</text><text x="160" y="273" font-size="13">Dissatisfied</text></g>
+      </svg>
+      <p class="msg" id="circleMsg" aria-live="polite"></p>
+      <div class="foot"><button class="btn" id="circleBtn" type="button" data-label="Cut out the minority">Cut out the minority</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">The proof</div>
+    <h2>There were always hotels and cabs</h2>
+    <p>So do you know why Airbnb came? Take a traveller who just wants to sleep for a night, safely. Not a fancy hotel lobby, or two kinds of pillow. That's where <a href="https://www.airbnb.com/" target="_blank" rel="noopener">Airbnb</a> came in. In the book, its first guests were conference visitors in a city where every hotel was booked.</p>
+    <div class="card" id="airbnb">
+      <div class="stops four padtop" id="airbnbStops" style="--n:4">
+        <div class="stop"><span class="bubble">Why Airbnb?</span><div class="pic"><img src="img/hotel.webp" alt="A hotel building"></div><span class="lab">Hotels</span></div>
+        <div class="stop"><div class="pic">
+          <svg viewBox="0 0 130 92" role="img" aria-label="A smiling heart with a suitcase, dreaming of sleep"><use href="#heart" x="22" y="14" width="46" height="44"/><rect x="74" y="42" width="34" height="26" rx="4" style="fill: var(--card); stroke: var(--ink)" stroke-width="3.5"/><path d="M84 42 v-7 h14 v7" style="fill: none; stroke: var(--ink)" stroke-width="3.5"/><text x="74" y="22" font-size="17" style="font-family: var(--hand); font-weight: 700; fill: var(--coral)">z</text><text x="88" y="12" font-size="13" style="font-family: var(--hand); font-weight: 700; fill: var(--coral)">z</text><path d="M14 74 L116 74" style="stroke: var(--line)" stroke-width="3" stroke-linecap="round"/></svg>
+        </div><span class="lab">Sleep, safely</span></div>
+        <div class="stop xs"><div class="pic duo"><img src="img/coffee-machine.webp" alt="A coffee machine, standing in for the fancy lobby"><img src="img/pillows.webp" alt="Two pillows"><svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M14 14 L86 86 M86 14 L14 86" pathLength="100"/></svg></div><span class="lab">Lobby, 2 pillows</span></div>
+        <div class="stop"><div class="pic duo"><img src="img/bed.webp" alt="A plain bed"><img src="img/airbnb.webp" alt="The Airbnb logo"></div><span class="lab">A bed. Airbnb</span></div>
+      </div>
+      <p class="msg" id="airbnbMsg" aria-live="polite"></p>
+      <div class="foot"><button class="btn" id="airbnbBtn" type="button" data-label="Next">Next</button></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Same with Uber</h2>
+    <p>Cabs and taxi drivers were always there too. <a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a> launched with Uber Black first: the people who didn't want to plan ahead of time. One tap, and the car is at your doorstep.</p>
+    <div class="card" id="uber">
+      <div class="stops four padtop" id="uberStops" style="--n:4">
+        <div class="stop"><span class="bubble">Why Uber?</span><div class="pic"><img src="img/taxi.webp" alt="A yellow taxi"></div><span class="lab">Cabs</span></div>
+        <div class="stop"><div class="pic"><img src="img/uber.webp" alt="The Uber logo"></div><span class="lab">Uber Black first</span></div>
+        <div class="stop xs"><div class="pic">
+          <svg viewBox="0 0 100 92" role="img" aria-label="A calendar"><rect x="14" y="14" width="72" height="64" rx="6" style="fill: var(--card); stroke: var(--ink)" stroke-width="4"/><path d="M14 32 H86" style="stroke: var(--ink)" stroke-width="4"/><path d="M32 8 v12 M68 8 v12" style="stroke: var(--ink)" stroke-width="4" stroke-linecap="round"/><g style="fill: var(--ink-soft)"><circle cx="32" cy="46" r="3"/><circle cx="50" cy="46" r="3"/><circle cx="68" cy="46" r="3"/><circle cx="32" cy="62" r="3"/><circle cx="50" cy="62" r="3"/><circle cx="68" cy="62" r="3"/></g></svg>
+        <svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M14 14 L86 86 M86 14 L14 86" pathLength="100"/></svg></div><span class="lab">Plan ahead</span></div>
+        <div class="stop"><div class="pic duo">
+          <svg viewBox="0 0 60 92" role="img" aria-label="A phone, one tap"><rect x="12" y="6" width="36" height="72" rx="7" style="fill: var(--card); stroke: var(--ink)" stroke-width="4"/><circle cx="30" cy="62" r="5" style="fill: var(--coral)"/><circle cx="30" cy="62" r="11" style="fill: none; stroke: var(--coral)" stroke-width="2.5"/><circle cx="30" cy="62" r="17" style="fill: none; stroke: var(--coral)" stroke-width="1.5" opacity=".5"/><path d="M22 22 H38" style="stroke: var(--ink-soft)" stroke-width="3" stroke-linecap="round"/></svg>
+          <img src="img/black-sedan.webp" alt="A black sedan pulling up">
+        </div><span class="lab">One tap</span></div>
+      </div>
+      <p class="msg" id="uberMsg" aria-live="polite"></p>
+      <div class="foot"><button class="btn" id="uberBtn" type="button" data-label="Next">Next</button></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">The aim</div>
+    <h2>That's where you solve it</h2>
+    <p>The mainstream is always happy. The extreme user is the one who is always in burning pain. That's where you solve it.</p>
+    <p class="reveal">As a beginner, don't build for the mainstream. <b>The mainstream will always follow the extremist</b>, because it's better, cheaper and faster.</p>
+    <div class="card" id="grow" data-s="0">
+      <svg class="venn" viewBox="0 0 320 300" role="img" aria-label="The big circle again. The small triangle grows until it fills the circle">
+        <defs><clipPath id="cc2"><circle cx="160" cy="150" r="140"/></clipPath></defs>
+        <circle class="ring" cx="160" cy="150" r="140"/>
+        <g clip-path="url(#cc2)"><g class="grow" id="growShape"><path d="M160 160 L76 262 A140 140 0 0 0 244 262 Z"/></g></g>
+        <g class="top"><use href="#heart" x="136" y="34" width="48" height="46"/><text x="160" y="106" font-size="20">Mainstream</text>
+          <g class="cross"><path d="M124 36 L196 86 M196 36 L124 86"/></g></g>
+        <g class="bot"><use class="sad" href="#heart-angry" x="142" y="198" width="36" height="35"/><use class="glad" href="#heart" x="142" y="198" width="36" height="35"/><text class="lbl" x="160" y="257" font-size="13">Extreme users</text></g>
+        <use class="flame" href="#flame-s" x="150" y="166" width="20" height="30" style="fill: var(--coral)"/>
+      </svg>
+      <div class="chips" id="chips"><span class="chip">Better</span><span class="chip">Cheaper</span><span class="chip">Faster</span></div>
+      <p class="msg" id="growMsg" aria-live="polite"></p>
+      <div class="foot"><button class="btn" id="growBtn" type="button" data-label="Next">Next</button></div>
+    </div>
+    <p>That's what happened with Airbnb too, the book says: more and more people now like staying in cosy homes, not hotels.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Remember</div>
+    <h2>Dissatisfaction is where the profit follows</h2>
+    <p>The average user is easy to find and easy to please, and every solid product already does. The person in pain is the one who'll switch.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Your turn</div>
+    <h2>Do this today</h2>
+    <p>List the people who could use your product. Next to each name, write how badly they need it today. Start with the one in the most pain, even if that's a small group.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Next episode</div>
+    <p class="hand" style="font-size:1.6rem">Next: <span class="coral">why products can't create desires</span></p>
+  </section>
+
+  <section>
+    <div class="kicker">Why I'm reading this out loud</div>
+    <h2>One idea a day, on camera</h2>
+    <div class="reel">
+      <a class="cover" href="https://www.instagram.com/reel/DedY2bCq79b/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Who should you sell to first?"><span class="play">▶ Watch the reel on Instagram</span></a>
+      <div class="stack">
+        <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn. This one is also a <a href="https://www.youtube.com/shorts/aDrlUzb-PSk" target="_blank" rel="noopener">YouTube Short</a>.</p>
+        <p>I build <a href="https://ayuapp.com" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. Who is the user in the most pain? That's the question I'm taking from this chapter.</p>
+        <ul class="eps">
+          <li><span class="d">8 Oct</span><span class="t"><a href="/blog/why-most-startups-fail/">Why do most startups fail?</a></span></li>
+          <li><span class="d">9 Oct</span><span class="t"><a href="/blog/when-should-you-start-a-startup/">When should you start a startup?</a></span></li>
+          <li><span class="d">10 Oct</span><span class="t"><a href="/blog/why-do-businesses-exist/">Why do businesses exist?</a></span></li>
+          <li><span class="d">12 Oct</span><span class="t"><a href="/blog/never-believe-your-customers/">Never believe your customers</a></span></li>
+          <li><span class="d">13 Oct</span><span class="t"><a href="/blog/no-market-is-ever-done/">No market is ever done</a></span></li>
+          <li class="now"><span class="d">14 Oct</span><span class="t">Serve the dissatisfied minority first</span></li>
+        </ul>
+        <p>Watch it as a <a href="https://www.instagram.com/reel/DedY2bCq79b/" target="_blank" rel="noopener">reel on Instagram</a>. <a href="https://www.instagram.com/om_cosmos/" target="_blank" rel="noopener">Follow along on Instagram, @om_cosmos</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources">
+    <span>Sources: Paras Chopra, <i>The Book of Clarity</i>, Part 2, "Serve the dissatisfied minority first" (pp. 25–27), for the circle with the small triangle, the Airbnb conference-visitor story, the Uber example, the burning pain, the mainstream following, and "dissatisfaction is where the profit is".</span>
+    <span><a href="https://invertedpassion.com/" target="_blank" rel="noopener">Paras Chopra's site</a> · <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a> · <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a> · <a href="https://www.airbnb.com/" target="_blank" rel="noopener">Airbnb</a> · <a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a>.</span>
+    <span>The quiz skit, the line after the quiz, the Do this today step and the Ayu line are mine. Drawings are mine.</span>
+    <span>Sticker photos (cut out, white edge added, modified): hotel by Braveheart, <a href="https://commons.wikimedia.org/w/index.php?curid=68111135" target="_blank" rel="noopener">CC BY-SA 4.0</a> · taxi by Pascal Subtil, <a href="https://www.flickr.com/photos/70671795@N02/7731693856" target="_blank" rel="noopener">CC BY 2.0</a> · coffee machine by gocarts, <a href="https://www.flickr.com/photos/7534505@N06/2433527667" target="_blank" rel="noopener">CC BY 2.0</a> · pillows by Didriks, <a href="https://www.flickr.com/photos/49889671@N03/8230011368" target="_blank" rel="noopener">CC BY 2.0</a> · bed by Bonsoni.com, <a href="https://www.flickr.com/photos/56705951@N04/12172308703" target="_blank" rel="noopener">CC BY 2.0</a> · Cadillac by 1970_Lincoln_Continental, <a href="https://www.flickr.com/photos/39311243@N05/5085542348" target="_blank" rel="noopener">CC BY 2.0</a>. Logos (Airbnb, Uber): official marks from Wikimedia Commons, trademarks of their owners.</span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  /* the quiz */
+  const opts = [...document.querySelectorAll('#opts .opt')], qMsg = $('quizMsg'), qBtn = $('quizBtn');
+  const say = { a: 'She loves you. She is not your first customer.', b: 'He\'ll use it, free. Not your first customer either.', c: 'The one who pays.' };
+  const quiz = k => {
+    opts.forEach(o => {
+      if (k === 'c') { o.classList.toggle('out', o.dataset.k !== 'c'); o.classList.toggle('win', o.dataset.k === 'c'); }
+      else if (o.dataset.k === k) o.classList.add('out');
+      o.setAttribute('aria-pressed', String(o.classList.contains('win')));
+    });
+    qMsg.innerHTML = k === 'c' ? 'A and B crossed out. <span class="coral">The one who pays.</span>' : say[k];
+    qBtn.textContent = k === 'c' ? 'Try again' : 'Show the answer';
+  };
+  const reset = () => { opts.forEach(o => { o.classList.remove('win', 'out'); o.setAttribute('aria-pressed', 'false'); }); qMsg.textContent = 'Tap one.'; qBtn.textContent = 'Show the answer'; };
+  opts.forEach(o => o.addEventListener('click', () => quiz(o.dataset.k)));
+  qBtn.addEventListener('click', () => qBtn.textContent === 'Try again' ? reset() : quiz('c'));
+
+  /* a stepper: boxes lit one after another, cumulatively; the card gets data-s */
+  const stepper = (card, boxSel, msgs, btn, msgEl) => {
+    const boxes = card ? [...card.querySelectorAll(boxSel)] : [], label = btn.dataset.label, last = msgs.length - 1;
+    let s = 0;
+    const render = () => {
+      card.dataset.s = s;
+      boxes.forEach((b, i) => b.classList.toggle('live', i <= s));
+      msgEl.innerHTML = msgs[s];
+      btn.textContent = s === last ? 'Rewind' : label;
+      if (card.onstep) card.onstep(s);
+    };
+    btn.addEventListener('click', () => { s = s === last ? 0 : s + 1; render(); });
+    render();
+  };
+
+  stepper($('circle'), '.nope', [
+    'The average user is satisfied by the mainstream solutions that already exist.',
+    'A small minority with extreme needs is not. <span class="coral">Dissatisfied.</span>'
+  ], $('circleBtn'), $('circleMsg'));
+
+  stepper($('airbnb'), '.stop', [
+    'There were always hotels.',
+    'Take a traveller who just wants to sleep for a night, safely.',
+    'Not a fancy hotel lobby, or two kinds of pillow.',
+    'A plain bed in a home. <span class="coral">That\'s where Airbnb came in.</span>'
+  ], $('airbnbBtn'), $('airbnbMsg'));
+
+  stepper($('uber'), '.stop', [
+    'There were always cabs.',
+    'Uber launched with Uber Black first.',
+    'For people who didn\'t want to plan ahead of time.',
+    'One tap, and the car is at your doorstep. <span class="coral">Same idea.</span>'
+  ], $('uberBtn'), $('uberMsg'));
+
+  const grow = $('grow'), chips = [...document.querySelectorAll('#chips .chip')], ks = [1, 1, 1.7, 2.4, 3.4];
+  grow.onstep = s => { $('growShape').style.setProperty('--k', ks[s]); chips.forEach((c, i) => c.classList.toggle('on', s >= i + 2)); };
+  stepper(grow, '.nope', [
+    'The extreme user is in burning pain. <span class="coral">That\'s where you solve it.</span>',
+    'As a beginner, don\'t build for the mainstream.',
+    'Better, for the user in pain.',
+    'Cheaper.',
+    'Faster. <span class="coral">Now the mainstream follows.</span>'
+  ], $('growBtn'), $('growMsg'));
+})();
+</script>
+</body>
+</html>
