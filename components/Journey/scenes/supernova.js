@@ -48,7 +48,10 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
   scene.add(flash);
 
   const r = rng(42);
-  const ejecta = makeEjecta(THREE, { count: small ? 30000 : 90000, hazeStride: small ? 4 : 1 });
+  // The haze is drawn from every 3rd particle (every 4th on phones) at
+  // matching brightness: the blobs are so soft and overlap so much that it
+  // reads the same, at a third of the fill cost (it halved the frame rate).
+  const ejecta = makeEjecta(THREE, { count: small ? 30000 : 90000, hazeStride: small ? 4 : 3 });
   const shellUniforms = ejecta.uniforms;
   scene.add(ejecta.group);
   // Fireball: a hot core that fills the young shell and cools away.
@@ -138,12 +141,14 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
     const swell = 1 + 0.6 * smoothstep(0.1, 0.25, t);
     star.scale.setScalar(swell * (1 - blow) + 0.001);
     star.visible = blow < 1;
+    glare.visible = blow < 1;
     // From far off the star is a point: keep the glare a few pixels wide.
     const camD = camera.position.length();
     glare.scale.setScalar(Math.max(lerp(3.2, 6.0, heat), camD * 0.012) * (1 - blow) + 0.001);
     glare.material.opacity = 1 - blow;
     const flashI = Math.exp(-Math.pow((t - 0.265) / 0.035, 2.0));
     flash.material.opacity = flashI;
+    flash.visible = flashI > 0.002;
     flash.scale.setScalar(lerp(14, 160, smoothstep(0.22, 0.34, t)));
     // Ejecta: radius grows fast then decelerates as it sweeps up gas.
     const e = smoothstep(0.24, 1.0, t);
@@ -151,15 +156,20 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
     shellUniforms.R.value = R;
     shellUniforms.age.value = smoothstep(0.42, 1.0, t);
     shellUniforms.fade.value = smoothstep(0.25, 0.32, t);
+    // Before the blast every particle sits at the centre with zero alpha;
+    // drawing them anyway cost ~30 ms a frame during the fly-in.
+    ejecta.group.visible = shellUniforms.fade.value > 0;
     shellUniforms.time.value = time;
     const age = shellUniforms.age.value;
     fireball.scale.setScalar(Math.max(0.01, R * 1.25));
     fireball.material.opacity = shellUniforms.fade.value * lerp(0.85, 0.0, smoothstep(0.0, 0.9, age));
     fireball.material.color.setRGB(1.0, lerp(0.95, 0.35, age), lerp(0.85, 0.1, age));
+    fireball.visible = fireball.material.opacity > 0.002;
     ringUniforms.R.value = 44 * Math.pow(smoothstep(0.26, 1.0, t), 0.75);
     ringUniforms.lit.value = smoothstep(21, 26, ringUniforms.R.value) * (1 - 0.5 * smoothstep(30, 44, ringUniforms.R.value));
     ringUniforms.fade.value = smoothstep(0.27, 0.34, t);
     ringUniforms.time.value = time;
+    ringPlane.visible = ringUniforms.fade.value > 0;
     // Camera: fly in from far, close on the star, pull back as the shell
     // grows, slow orbit.
     const d = stageT < APPROACH ? track([[0, 2200], [0.08, 1800], [APPROACH, 9]], stageT, { log: true }) : track([[0, 9], [0.24, 7.5], [0.5, 70], [1, 150]], t, { log: true });
@@ -185,7 +195,7 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
 // radius and age runs 0 (young, white-hot) → 1 (old remnant: Hα red and
 // O III teal filaments). Shared with the pulsar stage, which sits inside
 // the same remnant.
-// hazeStride > 1 draws the soft haze from every n-th particle (phones).
+// hazeStride > 1 draws the soft haze from every n-th particle, n times brighter.
 export const makeEjecta = (THREE, { count, rngSeed = 42, hazeStride = 1 }) => {
   const r = rng(rngSeed);
   const dirs = new Float32Array(count * 3);

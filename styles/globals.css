@@ -110,27 +110,6 @@ body {
   .journey-hint__label, .journey-hint__dot { animation: none; }
   .journey-hint__dot { top: 17px; }
 }
-.journey-footer {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 30%, rgba(0, 0, 0, 0.88) 100%);
-  margin-top: -40vh;
-  padding-top: 40vh;
-}
-.journey-footer__name {
-  font-family: var(--font-display), Georgia, serif;
-  font-variation-settings: "opsz" 144, "SOFT" 60, "WONK" 1;
-  font-weight: 400;
-  font-size: clamp(2.6rem, 7vw, 5.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-}
-.journey-footer__about {
-  margin-top: 1.5rem;
-  max-width: 44rem;
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.86);
-}
-.journey-footer__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
 .journey-btn {
   display: inline-flex; align-items: center; gap: 0.4rem;
   padding: 0.8rem 1.4rem; border-radius: 999px;
@@ -141,15 +120,6 @@ body {
 .journey-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.7); transform: translateY(-1px); }
 .journey-btn--primary { background: #fff; color: #000; border-color: #fff; }
 .journey-btn--primary:hover { background: #ececec; }
-.journey-footer__row {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem;
-  margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 0.8rem; color: rgba(255, 255, 255, 0.6);
-}
-.journey-footer__socials { display: flex; gap: 1.25rem; }
-.journey-footer__socials a { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
-.journey-footer__socials a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
-.journey-footer__credits { max-width: 34rem; }
 .journey-sound {
   position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 30;
   width: 2.6rem; height: 2.6rem; border-radius: 999px;
@@ -219,14 +189,22 @@ body {
   pointer-events: none;
 }
 .journey-nav a { pointer-events: auto; }
+/* Over the footer the bar gets a Dark Orange glass backing so its icons never
+   sit on top of footer text. */
+.journey-nav::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: rgba(50, 40, 38, 0.8); opacity: 0; transition: opacity 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.journey-nav--solid::before { opacity: 1; -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
 .journey-nav__brand {
   font-family: var(--font-script), "Brush Script MT", cursive; font-weight: 600; font-size: 1.7rem; line-height: 1;
   letter-spacing: 0.01em; text-decoration: none; color: #fff; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+  white-space: nowrap; flex: none;
 }
 .journey-nav__links { display: flex; align-items: center; gap: 0.35rem; }
 .journey-nav__icon {
   display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; border-radius: 50%;
-  color: rgba(255, 255, 255, 0.78); transition: color 0.2s, background 0.2s, transform 0.2s;
+  color: rgba(255, 255, 255, 0.78); transition: color 0.2s, background 0.2s, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .journey-nav__icon svg { width: 1.2rem; height: 1.2rem; }
 .journey-nav__icon img { display: block; filter: brightness(0) invert(1); opacity: 0.85; }
@@ -256,12 +234,25 @@ body {
 @media (max-width: 420px) {
   .journey-nav__cta { display: none; }
 }
+/* Narrowest phones: tighter icons so the cursive name stays on one line. */
+@media (max-width: 374px) {
+  .journey-nav { gap: 0.5rem; }
+  .journey-nav__brand { font-size: 1.5rem; }
+  .journey-nav__links { gap: 0.1rem; }
+  .journey-nav__icon, .journey-nav__gh { width: 2.2rem; height: 2.2rem; }
+}
 
 /* Hero copy over the opening stage */
 .journey-hero {
   position: absolute; inset: 0; z-index: 15; display: flex; align-items: flex-start; justify-content: flex-start;
   padding: calc(4.5rem + env(safe-area-inset-top)) 1.5rem 0; color: #fff;
-  transition: opacity 0.7s ease; pointer-events: none;
+  opacity: 0; pointer-events: none; will-change: opacity, transform;
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Thin scroll-progress line: scaled, not resized, so it never triggers layout. */
+.journey-progress {
+  position: fixed; left: 0; top: 0; z-index: 20; width: 100%; height: 1px; pointer-events: none;
+  background: rgba(255, 255, 255, 0.6); transform: scaleX(0); transform-origin: 0 50%; will-change: transform;
 }
 /* Scrim so the copy reads against a bright daytime sky as well as night. It
    overhangs the hero top and bottom so the lift on scroll never shows its
@@ -347,20 +338,138 @@ body {
 .blogs-card__read span { display: inline-block; transition: transform 200ms ease; }
 .blogs-card:hover .blogs-card__read span { transform: translateX(3px); }
 .blogs-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 1.25rem; }
-.blogs-foot {
-  max-width: 72rem; margin: 0 auto; padding: 1.5rem 1rem 3rem;
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
-  border-top: 1px solid rgba(51, 47, 60, 0.1); font-size: 0.95rem;
-}
-.blogs-foot a { color: #332f3c; text-decoration: none; }
-.blogs-foot a:hover { color: #f15c3e; }
 @media (min-width: 768px) {
   .blogs-main { padding: 4rem 2.5rem 5rem; }
-  .blogs-foot { padding-inline: 2.5rem; }
   .blogs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .blogs-card--featured { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
   .blogs-card--featured .blogs-card__cover { aspect-ratio: auto; min-height: 100%; }
   .blogs-card--featured .blogs-card__body { justify-content: center; padding: 2rem 2.25rem; }
   .blogs-card--featured .blogs-card__title { font-size: clamp(1.9rem, 3vw, 2.6rem); }
   .blogs-card--featured .blogs-card__desc { font-size: 1.05rem; }
+}
+
+/* ------------------------------------------------------------------------
+   Site footer: Ayu's F5a "Dusk hills" (ayu-app-website, HEADER-FOOTER-SPEC.md)
+   adapted for Om. Dark Orange sky, three coral hill bands rolling left → right
+   (transform-only, paused off screen), link columns across the top and a
+   giant offwhite wordmark sinking behind the front hills.
+   ------------------------------------------------------------------------ */
+.site-foot {
+  --dark: #322826; --offwhite: #faf7f5; --ink: #332f3c; --coral: #f15c3e;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative; z-index: 20; color: var(--offwhite); background: var(--dark);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+/* On the homepage the meadow dusks into the footer instead of meeting an edge. */
+.site-foot--fade::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 45vh; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(50, 40, 38, 0) 0%, rgba(50, 40, 38, 0.18) 35%, rgba(50, 40, 38, 0.62) 72%, var(--dark) 100%);
+}
+.site-foot__stage {
+  position: relative; overflow: hidden; min-height: 960px; padding: 96px 80px 0;
+  background: var(--dark) center bottom / cover no-repeat;
+}
+.site-foot__stage.is-near { background-image: url(/footer/dusk-hills-desktop.webp); }
+.site-foot__band {
+  position: absolute; top: 0; bottom: 0; left: 0; width: auto; aspect-ratio: 9.432; pointer-events: none;
+  background: left bottom / 50% 100% repeat-x;
+  animation: site-foot-roll var(--dur, 256s) linear infinite; animation-play-state: paused;
+  will-change: transform; transform: translate3d(-50%, 0, 0);
+}
+.is-near .site-foot__band { background-image: url(/footer/dusk-strip-desktop.webp); }
+.is-live .site-foot__band { animation-play-state: running; }
+@keyframes site-foot-roll { from { transform: translate3d(-50%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+.site-foot__band--back { z-index: 0; --dur: 256s; -webkit-mask-image: linear-gradient(180deg, transparent 54%, #000 64%); mask-image: linear-gradient(180deg, transparent 54%, #000 64%); }
+.site-foot__band--mid { z-index: 0; --dur: 160s; opacity: 0.75; animation-delay: -52s; -webkit-mask-image: linear-gradient(180deg, transparent 60%, #000 70%, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, transparent 60%, #000 70%, #000 88%, transparent 100%); }
+.site-foot__band--front { z-index: 2; --dur: 112s; animation-delay: -28s; -webkit-mask-image: linear-gradient(180deg, transparent 60%, #000 72%); mask-image: linear-gradient(180deg, transparent 60%, #000 72%); }
+
+.site-foot__top {
+  position: relative; z-index: 3;
+  display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(4, minmax(0, 1fr)); gap: 32px 40px;
+}
+.site-foot__lede { margin: 0; max-width: 24rem; font-size: 17px; line-height: 1.45; font-weight: 500; letter-spacing: -0.01em; color: rgba(250, 247, 245, 0.95); }
+.site-foot__sub { margin: 10px 0 0; max-width: 24rem; font-size: 15px; line-height: 1.5; color: rgba(250, 247, 245, 0.66); }
+.site-foot__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.site-foot__btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 20px; border-radius: 999px;
+  font-size: 15px; font-weight: 600; text-decoration: none; color: var(--offwhite);
+  box-shadow: inset 0 0 0 1px rgba(250, 247, 245, 0.32);
+  transition: background-color 250ms var(--ease), box-shadow 250ms var(--ease), transform 250ms var(--ease);
+}
+.site-foot__btn:hover { background: rgba(250, 247, 245, 0.08); box-shadow: inset 0 0 0 1px rgba(250, 247, 245, 0.6); transform: translateY(-1px); }
+.site-foot__btn--primary { background: var(--coral); box-shadow: none; }
+.site-foot__btn--primary:hover { background: #de4b2e; box-shadow: none; }
+.site-foot__col h2 { margin: 0 0 18px; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; color: rgba(250, 247, 245, 0.95); }
+.site-foot__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.site-foot__col a {
+  font-size: 15px; line-height: 1.3; color: rgba(250, 247, 245, 0.78); text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 2px;
+  transition: color 200ms var(--ease), background-size 350ms var(--ease);
+}
+.site-foot__col a:hover, .site-foot__col a:focus-visible { color: var(--offwhite); background-size: 100% 1px; }
+
+/* Wordmark: the site's cursive, offwhite, half hidden by the front hills. */
+.site-foot__mark {
+  position: absolute; z-index: 1; left: 64px; top: 400px; margin: 0; pointer-events: none; user-select: none;
+  font-family: var(--font-script), cursive; font-weight: 700; font-size: clamp(150px, 22vw, 340px); line-height: 1;
+  letter-spacing: -0.01em; white-space: nowrap; color: var(--offwhite);
+}
+.site-foot__mark span { display: block; font-family: inherit; }
+
+.site-foot__bottom {
+  position: absolute; z-index: 3; left: 80px; right: 80px; bottom: 72px;
+  display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap;
+  font-size: 13px; color: rgba(51, 47, 60, 0.82);
+}
+.site-foot__copy { font-weight: 600; }
+.site-foot__credits { max-width: 36rem; line-height: 1.45; }
+.site-foot__spacer { flex: 1; }
+.site-foot__soc { display: flex; gap: 6px; }
+.site-foot__soc a {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; color: var(--ink);
+  transition: background-color 200ms var(--ease), transform 200ms var(--ease);
+}
+.site-foot__soc a:hover { background: rgba(250, 247, 245, 0.35); transform: translateY(-1px); }
+.site-foot__soc svg { width: 19px; height: 19px; }
+.site-foot a:focus-visible { outline: 2px solid var(--offwhite); outline-offset: 3px; border-radius: 6px; }
+
+/* Entrance: columns rise in one after another; the wordmark surfaces from
+   behind the hills. */
+.site-foot__reveal { opacity: 0; transform: translate3d(0, 18px, 0); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); transition-delay: calc(var(--i, 0) * 70ms); }
+.is-in .site-foot__reveal { opacity: 1; transform: none; }
+.site-foot__mark span { opacity: 0; transform: translate3d(0, 22%, 0); transition: opacity 1.4s var(--ease) 0.15s, transform 1.6s var(--ease) 0.15s; }
+.is-in .site-foot__mark span { opacity: 1; transform: none; }
+/* Where scroll-driven animations exist the wordmark also keeps sinking as
+   the page comes to rest, so it reads as sitting in the landscape. */
+@supports (animation-timeline: view()) {
+  .site-foot__mark { animation: site-foot-sink linear both; animation-timeline: view(); animation-range: entry 30% cover 75%; }
+  @keyframes site-foot-sink { from { transform: translate3d(0, -40px, 0); } to { transform: translate3d(0, 18px, 0); } }
+}
+
+@media (max-width: 1099px) {
+  .site-foot__stage { padding: 80px 32px 0; min-height: 1120px; }
+  .site-foot__top { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .site-foot__about { grid-column: 1 / -1; }
+  .site-foot__mark { left: 24px; top: 540px; font-size: clamp(120px, 21vw, 230px); }
+  .site-foot__bottom { left: 32px; right: 32px; bottom: 64px; }
+}
+@media (max-width: 767px) {
+  .site-foot__stage { padding: 64px 20px 0; min-height: 1340px; }
+  .site-foot__stage.is-near { background-image: url(/footer/dusk-hills-mobile.webp); }
+  .site-foot__band { aspect-ratio: 2.233; }
+  .is-near .site-foot__band { background-image: url(/footer/dusk-strip-mobile.webp); }
+  .site-foot__band--back { --dur: 160s; -webkit-mask-image: linear-gradient(180deg, transparent 58%, #000 66%); mask-image: linear-gradient(180deg, transparent 58%, #000 66%); }
+  .site-foot__band--mid { --dur: 104s; -webkit-mask-image: linear-gradient(180deg, transparent 64%, #000 72%, #000 90%, transparent 100%); mask-image: linear-gradient(180deg, transparent 64%, #000 72%, #000 90%, transparent 100%); }
+  .site-foot__band--front { --dur: 72s; -webkit-mask-image: linear-gradient(180deg, transparent 64%, #000 72%); mask-image: linear-gradient(180deg, transparent 64%, #000 72%); }
+  .site-foot__top { grid-template-columns: 1fr 1fr; gap: 36px 24px; }
+  .site-foot__col a { white-space: normal; }
+  .site-foot__mark { left: 18px; top: auto; bottom: 430px; font-size: 23vw; }
+  .site-foot__bottom { left: 20px; right: 20px; bottom: 88px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .site-foot__spacer { display: none; }
+  .site-foot__soc { margin-left: -10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-foot__band { animation: none; }
+  .site-foot__reveal, .site-foot__mark span { opacity: 1; transform: none; transition: none; }
+  .site-foot__mark { animation: none; }
 }

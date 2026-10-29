@@ -91,7 +91,8 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   // The supernova remnant around it, matching the end of the previous stage
   // (shell radius 46 seen from 150 there; ×8.7 here).
   const REM = 400;
-  const remnant = makeEjecta(THREE, { count: small ? 20000 : 60000, hazeStride: small ? 4 : 1 });
+  // Haze from every 3rd particle (4th on phones), as in the supernova stage.
+  const remnant = makeEjecta(THREE, { count: small ? 20000 : 60000, hazeStride: small ? 4 : 3 });
   remnant.uniforms.R.value = REM;
   remnant.uniforms.age.value = 1;
   remnant.uniforms.fade.value = 1;
@@ -207,6 +208,7 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
   const dir = new THREE.Vector3();
   const beamDir = new THREE.Vector3();
   const toCam = new THREE.Vector3();
+  const magQ = new THREE.Quaternion();
   const resize = (w, h) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -239,11 +241,12 @@ export const createPulsar = async (THREE, { tier, small, reducedMotion }) => {
     remnant.uniforms.time.value = time;
     remnant.uniforms.scale.value = 500;
     // Flash: how directly either beam points at us.
-    beamDir.set(0, 1, 0).applyQuaternion(mag.getWorldQuaternion(new THREE.Quaternion()));
+    beamDir.set(0, 1, 0).applyQuaternion(mag.getWorldQuaternion(magQ));
     toCam.copy(camera.position).normalize();
     const align = Math.abs(beamDir.dot(toCam));
     const pulse = Math.pow(smoothstep(0.86, 0.995, align), 2.0);
     flash.material.opacity = pulse * 0.9;
+    flash.visible = pulse > 0.002;
     // Close in the flash fills the view; from far off it stays a blink.
     flash.scale.setScalar(lerp(10, 50, pulse) * Math.min(d / 20, 1 + d * 0.0015));
     // Far off the star is a point that blinks: keep the glare a few pixels.

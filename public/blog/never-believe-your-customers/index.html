@@ -65,7 +65,7 @@ mark { background: none; color: inherit; background-image: linear-gradient(trans
 button { font: inherit; cursor: pointer; }
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
 a { color: var(--coral); }
-.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .2s cubic-bezier(.22,1,.36,1); }
 .btn:hover { transform: translate(-1px, -1px); }
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
 .reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
@@ -104,7 +104,7 @@ a { color: var(--coral); }
 .count span { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; }
 .price { display: flex; flex-direction: column; gap: .3rem; }
 .price label { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
-.price input[type=range] { width: 100%; accent-color: var(--coral); }
+.price input[type=range] { width: 100%; height: 28px; margin: 0; accent-color: var(--coral); }
 .price b { color: var(--ink); font-size: 1.1rem; }
 .msg { font-family: var(--hand); font-weight: 700; font-size: 1.45rem; line-height: 1.15; min-height: 2.4em; }
 
@@ -132,7 +132,7 @@ a { color: var(--coral); }
 .sd .row { display: grid; grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr); gap: .5rem; align-items: center; }
 .sd .cell { font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; border: 2px solid var(--ink); border-radius: 12px; padding: .45rem .7rem; background: var(--paper); min-width: 0; }
 .sd .arrow { font-family: var(--mono); color: var(--coral); text-align: center; }
-.sd .do { border-color: var(--coral); border-style: dashed; color: var(--ink); opacity: 0; transform: translateX(-8px); transition: opacity .35s, transform .35s; }
+.sd .do { border-color: var(--coral); border-style: dashed; color: var(--ink); opacity: 0; transform: translateX(-8px); transition: opacity .35s, transform .45s cubic-bezier(.22,1,.36,1); }
 .sd .arrow { opacity: 0; transition: opacity .35s; }
 .sd.on .do, .sd.on .arrow { opacity: 1; transform: none; }
 .sd .row:nth-child(2) .do, .sd .row:nth-child(2) .arrow { transition-delay: .25s; }
@@ -145,6 +145,8 @@ a { color: var(--coral); }
 .cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
 .cover img { display: block; width: 100%; height: auto; }
 .cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+/* the banner covers carry their title low in the frame; on a phone the overlay label would sit on it, so it drops below the image */
+@media (max-width: 520px) { .cover { text-decoration: none; } .cover .play { position: static; display: block; background: var(--ink); color: var(--paper); padding: .45rem .7rem .5rem; } }
 .eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
 .eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
 .eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
@@ -303,7 +305,7 @@ a { color: var(--coral); }
     <div class="kicker">Why I'm reading this out loud</div>
     <h2>One idea a day, on camera</h2>
     <div class="reel">
-      <a class="cover" href="https://www.instagram.com/reel/DeZHN2dNv2h/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Never believe your customers"><span class="play">▶ Watch the reel on Instagram</span></a>
+      <a class="cover" href="https://www.instagram.com/reel/DeZHN2dNv2h/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Never believe your customers" width="800" height="348" loading="lazy" decoding="async"><span class="play">▶ Watch the reel on Instagram</span></a>
       <div class="stack">
         <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn. This one is also a <a href="https://www.youtube.com/shorts/CjwMi_hIcxQ" target="_blank" rel="noopener">YouTube Short</a>.</p>
         <p>I build <a href="https://ayuapp.com" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. I try to watch what families actually do in the app, more than what they tell me they will.</p>

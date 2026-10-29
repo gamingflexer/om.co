@@ -74,7 +74,7 @@ a { color: var(--coral); }
 .orbit.burst .big-you { transform: scale(1); opacity: 1; }
 .orbit.burst .hook-line { visibility: hidden; }
 .orbit.burst .btn { translate: 0 2.2rem; }
-.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .2s cubic-bezier(.22,1,.36,1), translate .45s cubic-bezier(.22,1,.36,1); }
 .btn:hover { transform: translate(-1px, -1px); }
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
 
@@ -83,7 +83,7 @@ a { color: var(--coral); }
 @media (max-width: 460px) { .choices { grid-template-columns: 1fr; } }
 .choice { text-align: left; background: var(--card); color: var(--ink); border: 2px solid var(--ink); border-radius: 14px 18px 12px 16px; padding: .7rem .9rem; font-family: var(--hand); font-size: 1.35rem; font-weight: 700; line-height: 1.1; position: relative; }
 .choice .bar { display: block; height: 6px; margin-top: .5rem; border-radius: 3px; background: var(--line); overflow: hidden; }
-.choice .bar i { display: block; height: 100%; width: 0; background: var(--ink-soft); transition: width .7s ease; }
+.choice .bar i { display: block; height: 100%; width: 100%; background: var(--ink-soft); transform: scaleX(0); transform-origin: left center; transition: transform .7s cubic-bezier(.22,1,.36,1); }
 .choice.right { border-color: var(--coral); }
 .choice.right .bar i { background: var(--coral); }
 .choice.picked::after { content: "your pick"; position: absolute; top: -.7rem; right: .6rem; font-family: var(--mono); font-size: .65rem; background: var(--paper); padding: 0 .3rem; letter-spacing: .08em; text-transform: uppercase; }
@@ -113,7 +113,7 @@ a { color: var(--coral); }
 .step .what b { font-family: var(--hand); font-size: 1.45rem; line-height: 1.1; }
 .xboxes { display: flex; gap: .4rem; }
 .xbox { width: 46px; height: 34px; border: 2px solid var(--ink); border-radius: 6px; position: relative; background: var(--card); }
-.xbox::before, .xbox::after { content: ""; position: absolute; left: 50%; top: 50%; width: 52px; height: 3px; background: var(--coral); border-radius: 2px; transform-origin: center; transform: translate(-50%, -50%) rotate(35deg) scaleX(0); transition: transform .25s; }
+.xbox::before, .xbox::after { content: ""; position: absolute; left: 50%; top: 50%; width: 52px; height: 3px; background: var(--coral); border-radius: 2px; transform-origin: center; transform: translate(-50%, -50%) rotate(35deg) scaleX(0); transition: transform .3s cubic-bezier(.22,1,.36,1); }
 .xbox::after { transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); }
 .xbox.x::before { transform: translate(-50%, -50%) rotate(35deg) scaleX(1); }
 .xbox.x::after { transform: translate(-50%, -50%) rotate(-35deg) scaleX(1); transition-delay: .12s; }
@@ -133,7 +133,7 @@ a { color: var(--coral); }
 /* salary chart */
 .chart-box { background: var(--card); border: 2px solid var(--ink); border-radius: 16px; padding: 1rem; display: flex; flex-direction: column; gap: .6rem; }
 .chart-box svg { width: 100%; height: auto; display: block; }
-.chart-box input[type=range] { width: 100%; accent-color: var(--coral); }
+.chart-box input[type=range] { width: 100%; height: 28px; margin: 0; accent-color: var(--coral); }
 .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-family: var(--mono); font-size: .75rem; color: var(--ink-soft); }
 .legend span::before { content: ""; display: inline-block; width: 18px; height: 3px; margin-right: .35rem; vertical-align: middle; background: currentColor; }
 .legend .s { color: var(--ink-soft); } .legend .b { color: var(--coral); }
@@ -216,7 +216,7 @@ a { color: var(--coral); }
       <div class="step"><div class="when">₹700</div><div class="what"><b>A domain and a server. No investors.</b><p>That's the whole starting budget for <a href="https://wingify.com/" target="_blank" rel="noopener">Wingify</a>.</p></div></div>
       <div class="step"><div class="when">Month 1</div><div class="what"><b>$4,000 in the first paying month.</b><p>Eighteen months later: a million dollars.</p></div></div>
       <div class="step"><div class="when">2025</div><div class="what"><b>A majority stake goes to Everstone, at about $200 million.</b>
-        <figure class="shot" style="margin:.3rem 0 0"><img src="img/web_techcrunch.jpg" alt="TechCrunch headline on Everstone buying a majority stake in Wingify" loading="lazy"><figcaption><a href="https://techcrunch.com/2025/01/23/everstone-acquires-bootstrapped-indian-startup-wingify-for-200m" target="_blank" rel="noopener">TechCrunch, January 2025</a></figcaption></figure></div></div>
+        <figure class="shot" style="margin:.3rem 0 0"><img src="img/web_techcrunch.jpg" alt="TechCrunch headline on Everstone buying a majority stake in Wingify" width="700" height="451" loading="lazy" decoding="async"><figcaption><a href="https://techcrunch.com/2025/01/23/everstone-acquires-bootstrapped-indian-startup-wingify-for-200m" target="_blank" rel="noopener">TechCrunch, January 2025</a></figcaption></figure></div></div>
     </div>
   </section>
 
@@ -258,7 +258,7 @@ a { color: var(--coral); }
     <div class="kicker">Why I'm reading this out loud</div>
     <h2>One idea a day, on camera</h2>
     <div class="reel">
-      <a class="cover" href="https://www.instagram.com/reel/DeN-014vbWa/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Om holding The Book of Clarity"><span class="play">▶ Watch the reel</span></a>
+      <a class="cover" href="https://www.instagram.com/reel/DeN-014vbWa/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Om holding The Book of Clarity" width="405" height="720" loading="lazy" decoding="async"><span class="play">▶ Watch the reel</span></a>
       <div class="stack">
         <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn.</p>
         <p>I build <a href="https://www.ayuapp.com/" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families, and these ideas are the ones I keep coming back to while doing it.</p>
@@ -297,19 +297,31 @@ a { color: var(--coral); }
   const imgs = names.map(n => { const i = new Image(); i.src = 'img/logos/' + n + '.png'; return i; });
   const per = [8, 10, 11]; let ri = 0, rk = 0; const cards = names.map((n, k) => { if (rk >= per[ri]) { ri++; rk = 0; } const c = { img: imgs[k], ring: ri, a: (rk / per[ri]) * Math.PI * 2 + ri * .45 }; rk++; return c; });
   const dots = Array.from({ length: 220 }, (_, k) => ({ a: Math.random() * Math.PI * 2, r: .30 + Math.random() * .2, s: .0006 + Math.random() * .0012, z: Math.random() }));
-  let W = 0, H = 0, burst = 0, burstT = 0;
-  function size() { const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1; W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
-  size(); addEventListener('resize', size);
+  /* The loop only runs while the orbit is on screen and the tab is visible; with reduced motion it draws
+     single frames on demand. Motion is time-based (same speed at 60 Hz and 120 Hz), colours are read once
+     instead of every frame, and the backing store is capped at 2x DPR. */
+  let W = 0, H = 0, burst = 0, burstT = 0, ink = '', card = '', clock = 0, last = 0, raf = 0, onScreen = true;
+  const readColors = () => { ink = css('--ink'); card = css('--card'); };
+  readColors();
+  function size() { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = Math.round(W * d); cv.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0); }
+  function kick() { if (!raf) { last = 0; raf = requestAnimationFrame(draw); } }
+  size();
+  if ('ResizeObserver' in window) new ResizeObserver(() => { size(); kick(); }).observe(orbit); else addEventListener('resize', () => { size(); kick(); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; if (onScreen) kick(); }).observe(orbit);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); kick(); });
+  imgs.forEach(i => { if (!i.complete) i.addEventListener('load', kick); });
   function draw(t) {
+    const dt = last ? Math.min(t - last, 50) : 0; last = t; if (!reduce) clock += dt;
     ctx.clearRect(0, 0, W, H);
-    const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2, Rx = W / 2, Ry = H / 2, ink = css('--ink'), card = css('--card');
-    const b = burst ? Math.min(1, (t - burstT) / 700) : 0, push = 1 + b * b * .9;
+    const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2, Rx = W / 2, Ry = H / 2;
+    const b = burst ? (reduce ? 1 : Math.min(1, Math.max(0, t - burstT) / 700)) : 0, push = 1 + b * b * .9;
     ctx.fillStyle = ink;
-    for (const d of dots) { d.a += reduce ? 0 : d.s; const r = d.r * push; ctx.globalAlpha = (.18 + d.z * .25) * (1 - b * .8); ctx.beginPath(); ctx.arc(cx + Math.cos(d.a) * r * Rx, cy + Math.sin(d.a) * r * Ry * .92, 1.2 + d.z * 1.6, 0, 7); ctx.fill(); }
+    for (const d of dots) { if (!reduce) d.a += d.s * dt / 16.667; const r = d.r * push; ctx.globalAlpha = (.18 + d.z * .25) * (1 - b * .8); ctx.beginPath(); ctx.arc(cx + Math.cos(d.a) * r * Rx, cy + Math.sin(d.a) * r * Ry * .92, 1.2 + d.z * 1.6, 0, 7); ctx.fill(); }
     ctx.globalAlpha = 1;
     const radii = [.6, .75, .86], speed = [.00018, -.00012, .00008];
     for (const c of cards) {
-      const ang = c.a + (reduce ? 0 : t * speed[c.ring]); const r = radii[c.ring] * push;
+      const ang = c.a + clock * speed[c.ring]; const r = radii[c.ring] * push;
       const x = cx + Math.cos(ang) * r * Rx, y = cy + Math.sin(ang) * r * Ry * .9;
       const w = Math.max(40, R * .18), h = w * .52;
       ctx.save(); ctx.translate(x, y); ctx.rotate(Math.sin(ang * 2) * .12); ctx.globalAlpha = 1 - b * .85;
@@ -318,12 +330,13 @@ a { color: var(--coral); }
       if (c.img.complete && c.img.naturalWidth) { const s = Math.min((w - 10) / c.img.naturalWidth, (h - 8) / c.img.naturalHeight); const iw = c.img.naturalWidth * s, ih = c.img.naturalHeight * s; ctx.drawImage(c.img, -iw / 2, -ih / 2, iw, ih); }
       ctx.restore();
     }
-    requestAnimationFrame(draw);
+    const moving = !reduce || (burst && b < 1);
+    raf = moving && onScreen && !document.hidden ? requestAnimationFrame(draw) : 0;
   }
-  requestAnimationFrame(draw);
+  kick();
   document.getElementById('whyBtn').addEventListener('click', e => {
-    if (burst) { burst = 0; orbit.classList.remove('burst'); e.target.textContent = 'Why?'; return; }
-    burst = 1; burstT = performance.now(); orbit.classList.add('burst'); e.target.textContent = 'Again';
+    if (burst) { burst = 0; orbit.classList.remove('burst'); e.target.textContent = 'Why?'; kick(); return; }
+    burst = 1; burstT = performance.now(); orbit.classList.add('burst'); e.target.textContent = 'Again'; kick();
   });
 
   /* ---------- quiz ---------- */
@@ -331,7 +344,7 @@ a { color: var(--coral); }
   quiz.addEventListener('click', e => {
     const b = e.target.closest('.choice'); if (!b || quiz.dataset.done) return;
     quiz.dataset.done = 1; b.classList.add('picked');
-    quiz.querySelectorAll('.choice').forEach(c => { if (c.dataset.k === 'you') c.classList.add('right'); c.querySelector('i').style.width = c.dataset.k === 'you' ? '100%' : '0'; });
+    quiz.querySelectorAll('.choice').forEach(c => { if (c.dataset.k === 'you') c.classList.add('right'); c.querySelector('i').style.transform = c.dataset.k === 'you' ? 'scaleX(1)' : 'scaleX(0)'; });
     document.getElementById('quizReveal').hidden = false;
   });
 
@@ -387,8 +400,9 @@ a { color: var(--coral); }
 
   /* ---------- multiplier count-up ---------- */
   const multEl = document.getElementById('mult'), target = 24300000;
-  function countUp() { if (reduce) { multEl.textContent = '2.4 crore×'; return; } const t0 = performance.now(); (function f(t) { const p = Math.min(1, (t - t0) / 1800), v = Math.round(target * (1 - Math.pow(1 - p, 3)));
-    multEl.textContent = (p < 1 ? v.toLocaleString('en-IN') : '2.4 crore') + '×'; if (p < 1) requestAnimationFrame(f); })(t0); }
+  let countRaf = 0;
+  function countUp() { cancelAnimationFrame(countRaf); if (reduce) { multEl.textContent = '2.4 crore×'; return; } const t0 = performance.now(); (function f(t) { const p = Math.min(1, Math.max(0, t - t0) / 1800), v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    multEl.textContent = (p < 1 ? v.toLocaleString('en-IN') : '2.4 crore') + '×'; if (p < 1) countRaf = requestAnimationFrame(f); })(t0); }
   multEl.textContent = '2.4 crore×';
   if ('IntersectionObserver' in window) { const io2 = new IntersectionObserver(es => { if (es[0].isIntersecting) { countUp(); io2.disconnect(); } }, { threshold: .7 }); io2.observe(multEl); }
   document.getElementById('countBtn').addEventListener('click', countUp);

@@ -1,7 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import Seo from "../components/Seo";
 import JourneyNav from "../components/JourneyNav";
+import SiteFooter from "../components/SiteFooter";
 import data from "../data/portfolio.json";
 
 // Writing index. Posts are listed in data/portfolio.json `writing` (newest
@@ -41,7 +41,6 @@ const PostCard = ({ post, featured }) => {
 
 const Blogs = () => {
   const [latest, ...rest] = data.writing;
-  const email = data.socials.find((s) => s.link.startsWith("mailto:"));
   return (
     <>
       <Seo
@@ -77,16 +76,7 @@ const Blogs = () => {
             </div>
           )}
         </main>
-        <footer className="blogs-foot">
-          <Link href="/" className="blogs-foot__home">
-            <span aria-hidden="true">←</span> Back to the meadow
-          </Link>
-          {email && (
-            <a href={email.link} className="blogs-foot__mail">
-              Write to me
-            </a>
-          )}
-        </footer>
+        <SiteFooter />
       </div>
     </>
   );

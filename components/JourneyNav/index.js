@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import data from "../../data/portfolio.json";
 
@@ -33,6 +33,15 @@ const ICONS = {
 
 const JourneyNav = ({ sound, tone }) => {
   const email = data.socials.find((s) => s.link.startsWith("mailto:"));
+  // Solid backing once the footer (#end) reaches the bar.
+  const [solid, setSolid] = useState(false);
+  useEffect(() => {
+    const end = document.getElementById("end");
+    if (tone === "light" || !end || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([e]) => setSolid(e.isIntersecting), { rootMargin: "0px 0px -92% 0px" });
+    io.observe(end);
+    return () => io.disconnect();
+  }, [tone]);
   const linkedin = data.socials.find((s) => /linkedin/i.test(s.title));
   const github = data.socials.find((s) => /github/i.test(s.title));
   const handlers = {
@@ -48,7 +57,7 @@ const JourneyNav = ({ sound, tone }) => {
     linkedin && { id: "linkedin", label: "LinkedIn", href: linkedin.link, icon: ICONS.linkedin, external: true },
   ].filter(Boolean);
   return (
-    <header className={`journey-nav${tone === "light" ? " journey-nav--light" : ""}`}>
+    <header className={`journey-nav${tone === "light" ? " journey-nav--light" : ""}${solid ? " journey-nav--solid" : ""}`}>
       <Link href="/" className="journey-nav__brand" {...handlers}>
         {data.name}
       </Link>

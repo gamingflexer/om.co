@@ -65,7 +65,7 @@ mark { background: none; color: inherit; background-image: linear-gradient(trans
 button { font: inherit; cursor: pointer; }
 button:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
 a { color: var(--coral); }
-.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .2s cubic-bezier(.22,1,.36,1); }
 .btn:hover { transform: translate(-1px, -1px); }
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
 .reveal { border-left: 4px solid var(--coral); padding: .2rem 0 .2rem 1rem; }
@@ -85,7 +85,7 @@ a { color: var(--coral); }
 /* ---------- the quiz ---------- */
 .qhead { font-family: var(--hand); font-weight: 700; font-size: 1.9rem; line-height: 1; }
 .opts { display: flex; flex-direction: column; gap: .6rem; }
-.opt { position: relative; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .2rem .8rem; align-items: center; text-align: left; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: .6rem .8rem .65rem; transition: opacity .35s, border-color .35s, background .35s, transform .2s; }
+.opt { position: relative; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .2rem .8rem; align-items: center; text-align: left; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: .6rem .8rem .65rem; transition: opacity .35s, border-color .35s, background .35s, transform .25s cubic-bezier(.22,1,.36,1); }
 .opt:hover { transform: translateX(2px); }
 .opt .ltr { grid-row: 1 / span 2; width: 2.4rem; height: 2.4rem; display: flex; align-items: center; justify-content: center; font-family: var(--hand); font-weight: 700; font-size: 1.6rem; line-height: 1; border: 2.5px solid var(--ink); border-radius: 50%; transition: border-color .3s, color .3s, box-shadow .3s; }
 .opt .who { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
@@ -105,7 +105,7 @@ a { color: var(--coral); }
 .venn text.s { font-family: var(--mono); font-weight: 400; font-size: 9px; letter-spacing: .05em; fill: var(--ink-soft); }
 .venn .tri { fill: var(--paper); stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; transition: fill .5s, opacity .5s, stroke .5s; }
 .venn .top, .venn .bot { transition: opacity .5s; }
-.venn .flame { fill: var(--coral); opacity: 0; transform: scale(.4); transform-origin: 160px 192px; transition: opacity .4s, transform .5s; }
+.venn .flame { fill: var(--coral); opacity: 0; transform: scale(.4); transform-origin: 160px 192px; transition: opacity .4s, transform .5s cubic-bezier(.22,1,.36,1); }
 .venn .cross { opacity: 0; transition: opacity .35s; }
 .venn .cross path { stroke: var(--coral); stroke-width: 7; stroke-linecap: round; fill: none; }
 #circle .venn .bot, #circle .venn .tri { opacity: .25; }
@@ -122,14 +122,14 @@ a { color: var(--coral); }
 #grow[data-s="4"] .sad { opacity: 0; }
 #grow[data-s="4"] .glad { opacity: 1; }
 .chips { display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap; }
-.chip { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; line-height: 1; text-transform: uppercase; letter-spacing: .03em; padding: .3rem .8rem .4rem; border: 2px dashed var(--line); border-radius: 999px; color: var(--ink-soft); transition: all .3s; }
+.chip { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; line-height: 1; text-transform: uppercase; letter-spacing: .03em; padding: .3rem .8rem .4rem; border: 2px dashed var(--line); border-radius: 999px; color: var(--ink-soft); transition: color .3s, border-color .3s, background-color .3s; }
 .chip.on { border: 2px solid var(--coral); color: var(--coral); background: var(--card); }
 @media (max-width: 460px) { .chip { font-size: 1.05rem; padding: .25rem .55rem .35rem; } }
 
 /* ---------- relay: boxes lit one after another ---------- */
 .stops { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: .6rem; }
 @media (max-width: 460px) { .stops.four { grid-template-columns: 1fr 1fr; } }
-.stop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .7rem .4rem .5rem; border: 2px dashed var(--line); border-radius: 14px; background: var(--paper); text-align: center; opacity: .3; transition: opacity .35s, border-color .35s, transform .35s; }
+.stop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .3rem; padding: .7rem .4rem .5rem; border: 2px dashed var(--line); border-radius: 14px; background: var(--paper); text-align: center; opacity: .3; transition: opacity .35s, border-color .35s, transform .45s cubic-bezier(.22,1,.36,1); }
 .stop .lab { font-family: var(--hand); font-weight: 700; font-size: 1.25rem; line-height: 1; text-transform: uppercase; letter-spacing: .02em; }
 .pic { position: relative; }
 .pic svg.x { position: absolute; inset: 4px 12%; width: 76%; height: calc(100% - 8px); max-width: none; opacity: 0; pointer-events: none; }
@@ -137,7 +137,7 @@ a { color: var(--coral); }
 .stop.live { opacity: 1; border: 2px solid var(--ink); background: var(--card); transform: translateY(-3px); }
 .stop.xs.live .pic svg.x { opacity: 1; }
 .stop.xs.live .x path { stroke-dashoffset: 0; }
-.stop .bubble { position: absolute; top: -.9rem; left: 50%; transform: translateX(-50%) scale(.8); white-space: nowrap; font-family: var(--hand); font-weight: 700; font-size: 1.05rem; line-height: 1; background: var(--card); border: 2px solid var(--coral); border-radius: 999px; padding: .15rem .6rem .25rem; color: var(--coral); opacity: 0; transition: opacity .3s, transform .3s; }
+.stop .bubble { position: absolute; top: -.9rem; left: 50%; transform: translateX(-50%) scale(.8); white-space: nowrap; font-family: var(--hand); font-weight: 700; font-size: 1.05rem; line-height: 1; background: var(--card); border: 2px solid var(--coral); border-radius: 999px; padding: .15rem .6rem .25rem; color: var(--coral); opacity: 0; transition: opacity .3s, transform .4s cubic-bezier(.22,1,.36,1); }
 .stop.live .bubble { opacity: 1; transform: translateX(-50%) scale(1); }
 .stops.padtop { padding-top: .9rem; }
 .stop .pic { height: 84px; }
@@ -147,6 +147,8 @@ a { color: var(--coral); }
 .cover { position: relative; display: block; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 5px 5px 0 var(--coral); max-width: 100%; }
 .cover img { display: block; width: 100%; height: auto; }
 .cover .play { position: absolute; inset: auto 0 0 0; padding: .6rem; font-family: var(--hand); font-weight: 700; font-size: 1.2rem; background: linear-gradient(transparent, rgba(0,0,0,.65)); color: #fff; }
+/* the banner covers carry their title low in the frame; on a phone the overlay label would sit on it, so it drops below the image */
+@media (max-width: 520px) { .cover { text-decoration: none; } .cover .play { position: static; display: block; background: var(--ink); color: var(--paper); padding: .45rem .7rem .5rem; } }
 .eps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
 .eps li { display: grid; grid-template-columns: 4.8rem minmax(0, 1fr); gap: .8rem; align-items: baseline; }
 .eps .d { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
@@ -220,12 +222,12 @@ a { color: var(--coral); }
     <p>So do you know why Airbnb came? Take a traveller who just wants to sleep for a night, safely. Not a fancy hotel lobby, or two kinds of pillow. That's where <a href="https://www.airbnb.com/" target="_blank" rel="noopener">Airbnb</a> came in. In the book, its first guests were conference visitors in a city where every hotel was booked.</p>
     <div class="card" id="airbnb">
       <div class="stops four padtop" id="airbnbStops" style="--n:4">
-        <div class="stop"><span class="bubble">Why Airbnb?</span><div class="pic"><img src="img/hotel.webp" alt="A hotel building"></div><span class="lab">Hotels</span></div>
+        <div class="stop"><span class="bubble">Why Airbnb?</span><div class="pic"><img src="img/hotel.webp" alt="A hotel building" width="445" height="300" loading="lazy" decoding="async"></div><span class="lab">Hotels</span></div>
         <div class="stop"><div class="pic">
           <svg viewBox="0 0 130 92" role="img" aria-label="A smiling heart with a suitcase, dreaming of sleep"><use href="#heart" x="22" y="14" width="46" height="44"/><rect x="74" y="42" width="34" height="26" rx="4" style="fill: var(--card); stroke: var(--ink)" stroke-width="3.5"/><path d="M84 42 v-7 h14 v7" style="fill: none; stroke: var(--ink)" stroke-width="3.5"/><text x="74" y="22" font-size="17" style="font-family: var(--hand); font-weight: 700; fill: var(--coral)">z</text><text x="88" y="12" font-size="13" style="font-family: var(--hand); font-weight: 700; fill: var(--coral)">z</text><path d="M14 74 L116 74" style="stroke: var(--line)" stroke-width="3" stroke-linecap="round"/></svg>
         </div><span class="lab">Sleep, safely</span></div>
-        <div class="stop xs"><div class="pic duo"><img src="img/coffee-machine.webp" alt="A coffee machine, standing in for the fancy lobby"><img src="img/pillows.webp" alt="Two pillows"><svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M14 14 L86 86 M86 14 L14 86" pathLength="100"/></svg></div><span class="lab">Lobby, 2 pillows</span></div>
-        <div class="stop"><div class="pic duo"><img src="img/bed.webp" alt="A plain bed"><img src="img/airbnb.webp" alt="The Airbnb logo"></div><span class="lab">A bed. Airbnb</span></div>
+        <div class="stop xs"><div class="pic duo"><img src="img/coffee-machine.webp" alt="A coffee machine, standing in for the fancy lobby" width="300" height="340" loading="lazy" decoding="async"><img src="img/pillows.webp" alt="Two pillows" width="340" height="242" loading="lazy" decoding="async"><svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M14 14 L86 86 M86 14 L14 86" pathLength="100"/></svg></div><span class="lab">Lobby, 2 pillows</span></div>
+        <div class="stop"><div class="pic duo"><img src="img/bed.webp" alt="A plain bed" width="420" height="284" loading="lazy" decoding="async"><img src="img/airbnb.webp" alt="The Airbnb logo" width="240" height="240" loading="lazy" decoding="async"></div><span class="lab">A bed. Airbnb</span></div>
       </div>
       <p class="msg" id="airbnbMsg" aria-live="polite"></p>
       <div class="foot"><button class="btn" id="airbnbBtn" type="button" data-label="Next">Next</button></div>
@@ -237,14 +239,14 @@ a { color: var(--coral); }
     <p>Cabs and taxi drivers were always there too. <a href="https://www.uber.com/" target="_blank" rel="noopener">Uber</a> launched with Uber Black first: the people who didn't want to plan ahead of time. One tap, and the car is at your doorstep.</p>
     <div class="card" id="uber">
       <div class="stops four padtop" id="uberStops" style="--n:4">
-        <div class="stop"><span class="bubble">Why Uber?</span><div class="pic"><img src="img/taxi.webp" alt="A yellow taxi"></div><span class="lab">Cabs</span></div>
-        <div class="stop"><div class="pic"><img src="img/uber.webp" alt="The Uber logo"></div><span class="lab">Uber Black first</span></div>
+        <div class="stop"><span class="bubble">Why Uber?</span><div class="pic"><img src="img/taxi.webp" alt="A yellow taxi" width="480" height="186" loading="lazy" decoding="async"></div><span class="lab">Cabs</span></div>
+        <div class="stop"><div class="pic"><img src="img/uber.webp" alt="The Uber logo" width="380" height="145" loading="lazy" decoding="async"></div><span class="lab">Uber Black first</span></div>
         <div class="stop xs"><div class="pic">
           <svg viewBox="0 0 100 92" role="img" aria-label="A calendar"><rect x="14" y="14" width="72" height="64" rx="6" style="fill: var(--card); stroke: var(--ink)" stroke-width="4"/><path d="M14 32 H86" style="stroke: var(--ink)" stroke-width="4"/><path d="M32 8 v12 M68 8 v12" style="stroke: var(--ink)" stroke-width="4" stroke-linecap="round"/><g style="fill: var(--ink-soft)"><circle cx="32" cy="46" r="3"/><circle cx="50" cy="46" r="3"/><circle cx="68" cy="46" r="3"/><circle cx="32" cy="62" r="3"/><circle cx="50" cy="62" r="3"/><circle cx="68" cy="62" r="3"/></g></svg>
         <svg class="x" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M14 14 L86 86 M86 14 L14 86" pathLength="100"/></svg></div><span class="lab">Plan ahead</span></div>
         <div class="stop"><div class="pic duo">
           <svg viewBox="0 0 60 92" role="img" aria-label="A phone, one tap"><rect x="12" y="6" width="36" height="72" rx="7" style="fill: var(--card); stroke: var(--ink)" stroke-width="4"/><circle cx="30" cy="62" r="5" style="fill: var(--coral)"/><circle cx="30" cy="62" r="11" style="fill: none; stroke: var(--coral)" stroke-width="2.5"/><circle cx="30" cy="62" r="17" style="fill: none; stroke: var(--coral)" stroke-width="1.5" opacity=".5"/><path d="M22 22 H38" style="stroke: var(--ink-soft)" stroke-width="3" stroke-linecap="round"/></svg>
-          <img src="img/black-sedan.webp" alt="A black sedan pulling up">
+          <img src="img/black-sedan.webp" alt="A black sedan pulling up" width="480" height="138" loading="lazy" decoding="async">
         </div><span class="lab">One tap</span></div>
       </div>
       <p class="msg" id="uberMsg" aria-live="polite"></p>
@@ -295,7 +297,7 @@ a { color: var(--coral); }
     <div class="kicker">Why I'm reading this out loud</div>
     <h2>One idea a day, on camera</h2>
     <div class="reel">
-      <a class="cover" href="https://www.instagram.com/reel/DedY2bCq79b/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Who should you sell to first?"><span class="play">▶ Watch the reel on Instagram</span></a>
+      <a class="cover" href="https://www.instagram.com/reel/DedY2bCq79b/" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Reel cover: Who should you sell to first?" width="800" height="340" loading="lazy" decoding="async"><span class="play">▶ Watch the reel on Instagram</span></a>
       <div class="stack">
         <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn. This one is also a <a href="https://www.youtube.com/shorts/aDrlUzb-PSk" target="_blank" rel="noopener">YouTube Short</a>.</p>
         <p>I build <a href="https://ayuapp.com" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. Who is the user in the most pain? That's the question I'm taking from this chapter.</p>

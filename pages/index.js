@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Seo from "../components/Seo";
 import Journey, { PAGES } from "../components/Journey";
-import JourneyFooter from "../components/JourneyFooter";
+import SiteFooter from "../components/SiteFooter";
 import JourneyNav from "../components/JourneyNav";
 import HeroCopy from "../components/HeroCopy";
 
@@ -73,7 +73,7 @@ export default function Home() {
         </Journey>
       </div>
       <div ref={spacerRef} aria-hidden="true" style={{ height: failed ? "100vh" : `${PAGES * 100}vh` }} />
-      <JourneyFooter sound={sound} />
+      <SiteFooter sound={sound} credits fade />
     </div>
   );
 }

@@ -188,6 +188,7 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
   const blr = surface(THREE, 12.97, 77.59);
   const upRef = new THREE.Vector3(0, 1, 0);
   const camDir = new THREE.Vector3();
+  const side = new THREE.Vector3();
   const target = new THREE.Vector3();
   const look = new THREE.Vector3();
   // Earth turns on its axis over time. Close in, the camera turns with it so
@@ -215,12 +216,12 @@ export const createEarth = async (THREE, { tier, maxTex }) => {
     const lift = smoothstep(0.0, 0.5, t);
     camDir.copy(blr).applyAxisAngle(upRef, camRot + lerp(0.0, 0.5, lift)).normalize();
     // Tilt the approach so the horizon is visible from orbit.
-    const side = new THREE.Vector3().crossVectors(camDir, upRef).normalize();
+    side.crossVectors(camDir, upRef).normalize();
     camDir.applyAxisAngle(side, lerp(-0.22, 0.0, lift)).normalize();
     camera.position.copy(camDir).multiplyScalar(d);
     // Look: a point ahead on the surface from orbit, the centre later.
     look.copy(blr).applyAxisAngle(upRef, camRot + 0.09).multiplyScalar(1.0);
-    target.copy(look).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.0, 0.35, t));
+    target.copy(look).multiplyScalar(1 - smoothstep(0.0, 0.35, t));
     camera.up.copy(upRef);
     camera.lookAt(target);
     camera.fov = lerp(44, 36, smoothstep(0.3, 0.8, t));

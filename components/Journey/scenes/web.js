@@ -88,15 +88,21 @@ export const createWeb = async (THREE, { small }) => {
   const webMat = pointsMaterial(THREE, { map: sprite, intensity: 1.7, minPx: 1, maxPx: 4 });
   const web = new THREE.Points(geo, webMat);
   // Pulled far back, the whole web lands on a few hundred pixels and every
-  // point blends into the same ones; on phones a quarter of them reads the same.
-  const FAR_STRIDE = small ? 4 : 1;
+  // point blends into the same ones, so a quarter of them (at four times the
+  // brightness) reads the same. With all of them it ran at ~10 fps on an M4.
+  const FAR_STRIDE = 4;
   const geoFar = FAR_STRIDE > 1 ? strided(THREE, geo, FAR_STRIDE) : geo;
   web.frustumCulled = false;
   scene.add(web);
   // Soft haze over the same structure so the filaments read as gas, not dots.
   const HAZE_STRIDE = small ? 6 : 1;
   const hazeMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: 0.22 * HAZE_STRIDE, minPx: 6, maxPx: 70 });
-  const haze = new THREE.Points(HAZE_STRIDE > 1 ? strided(THREE, geo, HAZE_STRIDE) : geo, hazeMat);
+  const hazeGeo = HAZE_STRIDE > 1 ? strided(THREE, geo, HAZE_STRIDE) : geo;
+  // Far back the haze piles onto the same few pixels too (and is nearly
+  // faded out): 1 in 16 carries it there.
+  const HAZE_FAR = 16;
+  const hazeGeoFar = strided(THREE, geo, HAZE_FAR);
+  const haze = new THREE.Points(hazeGeo, hazeMat);
   haze.frustumCulled = false;
   scene.add(haze);
 
@@ -160,6 +166,7 @@ export const createWeb = async (THREE, { small }) => {
   scene.add(cmb);
 
   const dir = new THREE.Vector3(0.5, 0.62, 0.6).normalize();
+  const Y = new THREE.Vector3(0, 1, 0);
   const resize = (w, h) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -169,8 +176,7 @@ export const createWeb = async (THREE, { small }) => {
     uniMat.uniforms.time.value = time;
     const d = track([[0, 4.2], [0.3, 120], [0.55, 700], [0.8, 20000], [1, 46000]], t, { log: true });
     const spin = t * 0.9;
-    const dd = dir.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), spin);
-    camera.position.copy(dd).multiplyScalar(d);
+    camera.position.copy(dir).applyAxisAngle(Y, spin).multiplyScalar(d);
     camera.lookAt(0, 0, 0);
     camera.near = d * 0.002;
     camera.far = d * 40 + 40000;
@@ -188,7 +194,10 @@ export const createWeb = async (THREE, { small }) => {
     const far = t > 0.68;
     web.geometry = far ? geoFar : geo;
     webMat.uniforms.intensity.value = far ? 1.7 * FAR_STRIDE : 1.7;
-    haze.visible = hazeMat.uniforms.fade.value > 0;
+    // Below ~1 % it no longer shows; it was still costing ~60 ms a frame.
+    haze.visible = hazeMat.uniforms.fade.value > 0.01;
+    haze.geometry = far ? hazeGeoFar : hazeGeo;
+    hazeMat.uniforms.intensity.value = 0.22 * (far ? HAZE_FAR : HAZE_STRIDE);
     universe.visible = uniMat.uniforms.fade.value > 0;
     cmb.visible = cmb.material.uniforms.fade.value > 0;
     lgMat.opacity = 1 - smoothstep(0.1, 0.3, t);

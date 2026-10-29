@@ -57,11 +57,12 @@ export const createLocal = async (THREE, { small, reducedMotion }) => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
+  const dir = new THREE.Vector3();
   const update = ({ t, time }) => {
     gals.forEach((g) => g.setTime(time));
     const d = track([[0, 16], [0.5, 60], [1, 120]], t, { log: true });
     const dv = track([[0, [0, 0.93, 0.37]], [0.5, [0.45, 0.75, 0.5]], [1, [0.7, 0.45, 0.55]]], t);
-    const dir = new THREE.Vector3(dv[0], dv[1], dv[2]).normalize();
+    dir.set(dv[0], dv[1], dv[2]).normalize();
     target.set(0, 0, 0).lerp(center, smoothstep(0.25, 0.8, t));
     camera.position.copy(target).addScaledVector(dir, d);
     camera.lookAt(target);

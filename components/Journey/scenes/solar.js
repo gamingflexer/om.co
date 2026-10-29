@@ -425,7 +425,7 @@ export const createSolar = async (THREE, { tier, small }) => {
     // Moving the pointer left or right swings the viewpoint round the Sun.
     dir.applyAxisAngle(yAxis, -look.x * 0.35 * smoothstep(0.1, 0.3, t));
     setOrbitVisibility(dir.y);
-    target.copy(earthPos).lerp(new THREE.Vector3(0, 0, 0), smoothstep(0.03, 0.16, t));
+    target.copy(earthPos).multiplyScalar(1 - smoothstep(0.03, 0.16, t));
     camera.position.copy(target).addScaledVector(dir, d);
     camera.lookAt(target);
     camera.fov = 40;

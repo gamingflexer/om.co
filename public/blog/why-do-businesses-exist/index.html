@@ -65,7 +65,7 @@ mark { background: none; color: inherit; background-image: linear-gradient(trans
 button { font: inherit; cursor: pointer; }
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
 a { color: var(--coral); }
-.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .12s; }
+.btn { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .35rem 1.1rem .45rem; box-shadow: 3px 3px 0 var(--coral); transition: transform .2s cubic-bezier(.22,1,.36,1); }
 .btn:hover { transform: translate(-1px, -1px); }
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
 .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
@@ -85,7 +85,7 @@ a { color: var(--coral); }
 .eq { position: absolute; left: 50%; top: 58%; translate: -50% -50%; width: clamp(44px, 12vw, 72px); aspect-ratio: 1; border-radius: 50%; background: var(--card); border: 3px solid var(--ink); display: grid; place-items: center; z-index: 2; }
 .eq svg { width: 62%; height: auto; display: block; }
 .twin-controls { display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem; }
-.twin-controls input[type=range] { width: 100%; accent-color: var(--coral); }
+.twin-controls input[type=range] { width: 100%; height: 28px; margin: 0; accent-color: var(--coral); }
 .twin-msg { font-family: var(--hand); font-weight: 700; font-size: 1.4rem; line-height: 1.15; min-height: 1.6em; text-align: center; }
 .bubble-label { font-family: var(--hand); font-weight: 700; }
 
@@ -115,7 +115,7 @@ a { color: var(--coral); }
 .ask .q { font-family: var(--hand); font-weight: 700; font-size: 1.45rem; line-height: 1.1; }
 .ask .tally { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
 .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
-.ticks li { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; display: flex; gap: .5rem; align-items: center; opacity: 0; transform: translateX(-8px); transition: opacity .3s, transform .3s; }
+.ticks li { font-family: var(--hand); font-weight: 700; font-size: 1.35rem; display: flex; gap: .5rem; align-items: center; opacity: 0; transform: translateX(-8px); transition: opacity .3s, transform .45s cubic-bezier(.22,1,.36,1); }
 .ticks.on li { opacity: 1; transform: none; }
 .ticks.on li:nth-child(2) { transition-delay: .25s; }
 .ticks li::before { content: "✓"; color: var(--coral); }
@@ -350,7 +350,7 @@ a { color: var(--coral); }
     <div class="kicker">Why I'm reading this out loud</div>
     <h2>One idea a day, on camera</h2>
     <div class="reel">
-      <a class="cover" href="https://www.youtube.com/shorts/1HOWZAflSYw" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Short cover: Why do businesses exist? A caveman and a person today, the same thought bubble"><span class="play">▶ Watch the Short</span></a>
+      <a class="cover" href="https://www.youtube.com/shorts/1HOWZAflSYw" target="_blank" rel="noopener"><img src="img/reel-cover.jpg" alt="Short cover: Why do businesses exist? A caveman and a person today, the same thought bubble" width="560" height="487" loading="lazy" decoding="async"><span class="play">▶ Watch the Short</span></a>
       <div class="stack">
         <p>We met Paras at <a href="https://lossfunk.com/" target="_blank" rel="noopener">Lossfunk</a>, where he spends his time now. I'm opening his book one idea at a time, one short video each, and writing up what I learn.</p>
         <p>I build <a href="https://www.ayuapp.com/" target="_blank" rel="noopener">Ayu</a>, a health records app for Indian families. The desire under it is older than any app: knowing your family is okay. We're just trying to meet it a little better.</p>

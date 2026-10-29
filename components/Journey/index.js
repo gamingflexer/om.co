@@ -44,8 +44,13 @@ export const HERO_FADE = [0.006, 0.03];
 
 const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
   const containerRef = useRef(null);
-  const [progress, setProgress] = useState(0);
-  const [loaded, setLoaded] = useState(false);
+  // Scroll progress drives the hero copy, the scroll cue and the progress
+  // line. They are written straight to the DOM from the render loop, so
+  // scrolling never re-renders React (it used to, every frame).
+  const heroRef = useRef(null);
+  const hintRef = useRef(null);
+  const barRef = useRef(null);
+  const overlayRef = useRef("on");
   const [soundOn, setSoundOn] = useState(false);
   // Loading overlay: target progress lives in a ref, the eased value shown
   // to the user is state.
@@ -53,6 +58,16 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
   const [shown, setShown] = useState(0);
   // on → settling (bar full, dot animation plays to its hold pose) → fading → off
   const [overlay, setOverlay] = useState("on");
+  useEffect(() => {
+    overlayRef.current = overlay;
+  }, [overlay]);
+  // The hero copy fades in on a CSS transition once the loader is gone; after
+  // that it follows the (already smoothed) scroll directly, with no lag.
+  useEffect(() => {
+    if (overlay !== "off" || !heroRef.current) return undefined;
+    const id = setTimeout(() => heroRef.current && (heroRef.current.style.transition = "none"), 1000);
+    return () => clearTimeout(id);
+  }, [overlay]);
   const [failed, setFailed] = useState(false);
   // Seconds left on a slow load (null until SLOW_AFTER, Infinity when the
   // rate is too low to estimate).
@@ -186,8 +201,11 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         fade: { value: 0 },
         res: { value: new THREE.Vector2(1, 1) },
       };
+      // With no incoming stage the composite reads B from this opaque black
+      // pixel instead of clearing and resolving a whole multisampled target.
+      const black = new THREE.DataTexture(new Uint8Array([0, 0, 0, 255]), 1, 1);
+      black.needsUpdate = true;
       const compScene = new THREE.Scene();
-      const blank = new THREE.Scene();
       const compCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
       compScene.add(
         new THREE.Mesh(
@@ -278,10 +296,17 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         );
       });
 
+      // Dynamic resolution: the pixel ratio starts at the device's (capped)
+      // value and steps down only while frames run long, then climbs back.
+      // A fast GPU never leaves full resolution.
+      const maxDpr = renderer.getPixelRatio();
+      const minDpr = Math.max(0.75, maxDpr * 0.6);
+      let rect = container.getBoundingClientRect();
       const resize = () => {
         W = container.clientWidth;
         H = container.clientHeight;
         if (!W || !H) return;
+        rect = container.getBoundingClientRect();
         renderer.setSize(W, H, false);
         const dpr = renderer.getPixelRatio();
         rtA.setSize(Math.floor(W * dpr), Math.floor(H * dpr));
@@ -293,20 +318,25 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       const ro = new ResizeObserver(resize);
       ro.observe(container);
 
-      // Scroll → progress, smoothed.
+      // Scroll → progress, smoothed. Once the footer covers the whole
+      // viewport the scene is not drawn at all.
       let target = 0;
       let s = 0;
+      let covered = false;
       const onScroll = () => {
         const spacer = spacerRef && spacerRef.current;
-        const max = (spacer ? spacer.offsetTop + spacer.offsetHeight : document.documentElement.scrollHeight) - window.innerHeight;
+        const end = spacer ? spacer.offsetTop + spacer.offsetHeight : document.documentElement.scrollHeight;
+        const max = end - window.innerHeight;
         target = max > 0 ? clamp(window.scrollY / max, 0, 1) : 0;
+        const foot = spacer && spacer.nextElementSibling;
+        covered = !!foot && foot.offsetHeight >= window.innerHeight && window.scrollY >= end;
       };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
 
       // Head look follows the pointer in the hero stages.
       const onPointerMove = (e) => {
-        const r = container.getBoundingClientRect();
+        const r = rect;
         const px = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
         const py = clamp((e.clientY - (r.top + r.height * 0.3)) / (r.height / 2), -1, 1);
         Object.values(scenes).forEach((sc) => sc.setPointer && sc.setPointer(px, py));
@@ -326,22 +356,65 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       warm(iris);
       done.warm = 0.85;
       report();
-      setLoaded(true);
 
       const clock = new THREE.Clock();
       let raf = 0;
       let lastProgress = -1;
+      let lastOverlay = null;
       let fade = 0;
+      // Frame-time bookkeeping for the dynamic resolution.
+      let ema = 1 / 60;
+      let since = 0;
+      let flips = 0;
+      let lastDir = 0;
+      const setDpr = (d) => {
+        d = Math.round(clamp(d, minDpr, maxDpr) * 100) / 100;
+        if (Math.abs(d - renderer.getPixelRatio()) < 0.01) return;
+        renderer.setPixelRatio(d);
+        resize();
+      };
+      const adapt = (dt) => {
+        ema += (dt - ema) * 0.08;
+        since += dt;
+        if (since < 1.2 || warmQueue.length) return;
+        const dpr = renderer.getPixelRatio();
+        // Under ~45 fps: drop 15 %. Back above ~57 fps for 3 s: raise 10 %.
+        // After a few up/down flips it stays where it is.
+        if (ema > 1 / 45 && dpr > minDpr) {
+          setDpr(dpr * 0.85);
+          flips += lastDir > 0 ? 1 : 0;
+          lastDir = -1;
+          since = 0;
+        } else if (ema < 1 / 57 && dpr < maxDpr && since > 3 && flips < 4) {
+          setDpr(dpr * 1.1);
+          lastDir = 1;
+          since = 0;
+        }
+      };
+      const writeProgress = (p) => {
+        const hf = smoothstep(HERO_FADE[0], HERO_FADE[1], p);
+        const hero = heroRef.current;
+        if (hero && overlayRef.current === "off") {
+          hero.style.opacity = String(1 - hf);
+          hero.style.transform = `translate3d(0, ${-hf * 40}px, 0)`;
+          hero.style.pointerEvents = p < HERO_FADE[1] ? "auto" : "none";
+        }
+        if (hintRef.current) hintRef.current.style.opacity = overlayRef.current === "off" && p < 0.03 ? "1" : "0";
+        if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+      };
       const tick = () => {
         raf = requestAnimationFrame(tick);
         const dt = Math.min(clock.getDelta(), 0.1);
         const time = clock.elapsedTime;
         s += (target - s) * (1 - Math.exp(-dt * 5.5));
-        if (Math.abs(s - lastProgress) > 0.002) {
+        if (Math.abs(s - lastProgress) > 0.0005 || overlayRef.current !== lastOverlay) {
           lastProgress = s;
-          setProgress(s);
+          lastOverlay = overlayRef.current;
+          writeProgress(s);
         }
         if (warmQueue.length) warm(warmQueue.shift());
+        if (covered && fade >= 1) return;
+        adapt(dt);
         fade = Math.min(1, fade + dt * 0.8);
         compUniforms.fade.value = fade * fade;
         compUniforms.time.value = time;
@@ -363,24 +436,22 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
           const o1 = A.b;
           w = smoothstep(o0, o1, s);
         }
-        // An empty slot still goes through render(): the targets are
-        // multisampled and three.js only resolves them after a render, so a
-        // bare clear() would leave the last frame in the texture (it showed
-        // as a second iris through the open pupil).
+        // A slot with no (built) stage samples the black pixel rather than
+        // its target: the targets are multisampled and only resolved after a
+        // render, so a stale one would still hold its last frame (it once
+        // showed as a second iris through the open pupil).
         const render = (st, rt) => {
           const sc = st && scenes[st.id];
+          if (!sc) return false;
           renderer.setRenderTarget(rt);
           renderer.setClearColor(0x000000, 1);
-          if (!sc) {
-            renderer.render(blank, compCam);
-            return;
-          }
           renderer.clear();
           sc.update({ t: st.t, dt, time, reverse: !!st.reverse });
           renderer.render(sc.scene, sc.camera);
+          return true;
         };
-        render(A, rtA);
-        render(B, rtB);
+        compUniforms.texA.value = render(A, rtA) ? rtA.texture : black;
+        compUniforms.texB.value = render(B, rtB) ? rtB.texture : black;
         compUniforms.w.value = w;
         renderer.setRenderTarget(null);
         renderer.render(compScene, compCam);
@@ -393,7 +464,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       });
 
       if (new URLSearchParams(window.location.search).has("debug")) {
-        window.__journey = { scenes, hero, STAGES, get s() { return s; } };
+        window.__journey = { scenes, hero, renderer, STAGES, get s() { return s; } };
       }
 
       cleanup = () => {
@@ -404,6 +475,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         Object.values(scenes).forEach((sc) => sc.dispose && sc.dispose());
         rtA.dispose();
         rtB.dispose();
+        black.dispose();
         renderer.dispose();
         canvas.remove();
       };
@@ -431,14 +503,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       {/* Hero copy (name, taglines, links) over the opening stage. It fades
           as Om slides to the centre and the push into his eye begins. */}
       {children && (
-        <div
-          className="journey-hero"
-          style={{
-            opacity: overlay === "off" ? 1 - smoothstep(HERO_FADE[0], HERO_FADE[1], progress) : 0,
-            transform: `translateY(${-smoothstep(HERO_FADE[0], HERO_FADE[1], progress) * 40}px)`,
-            pointerEvents: progress < HERO_FADE[1] ? "auto" : "none",
-          }}
-        >
+        <div ref={heroRef} className="journey-hero">
           {children}
         </div>
       )}
@@ -464,11 +529,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       {/* Scroll cue (after about.senbuzy.com): a pulsing "Scroll" label over
           a hairline with a glowing dot sliding down it. Fades out once the
           journey starts. */}
-      <div
-        aria-hidden="true"
-        className="journey-hint"
-        style={{ opacity: loaded && overlay === "off" && progress < 0.03 ? 1 : 0 }}
-      >
+      <div ref={hintRef} aria-hidden="true" className="journey-hint" style={{ opacity: 0 }}>
         <span className="journey-hint__label">Scroll</span>
         <span className="journey-hint__track">
           <span className="journey-hint__dot" />
@@ -490,7 +551,7 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         </button>
       )}
       {/* Thin progress line, no text. */}
-      <div aria-hidden="true" className="pointer-events-none fixed left-0 top-0 z-20 h-px bg-white/60" style={{ width: `${progress * 100}%`, transition: "width 120ms linear" }} />
+      <div ref={barRef} aria-hidden="true" className="journey-progress" />
     </>
   );
 };
