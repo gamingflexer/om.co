@@ -38,6 +38,8 @@ const PHASES = { modules: 0.3, model: 0.5, warm: 0.2 };
 // After this long, the loader adds an estimate of the time left.
 const SLOW_AFTER = 35;
 const MODULE_COUNT = 13;
+// Glow added on top of the picture, per unit of the bloom chain's output.
+const BLOOM_STRENGTH = 0.07;
 
 // How far the hero copy stays on screen (global progress) before it fades.
 export const HERO_FADE = [0.006, 0.03];
@@ -172,9 +174,12 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const small = Math.min(window.innerWidth, window.innerHeight) < 700 || /Mobi|Android/i.test(navigator.userAgent);
       const tier = small ? "m" : "h";
+      // Phones with little memory or few cores: lower resolution cap and no
+      // multisampling (the half-float MSAA resolve is what they choke on).
+      const lowEnd = small && ((navigator.deviceMemory || 8) <= 4 || (navigator.hardwareConcurrency || 8) <= 4);
 
       const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, lowEnd ? 1.25 : small ? 1.5 : 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.NeutralToneMapping;
       renderer.toneMappingExposure = 1.0;
@@ -190,12 +195,14 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       const maxTex = renderer.capabilities.maxTextureSize;
 
       // Two HDR targets for the cross-fade.
-      const rtOpts = { type: THREE.HalfFloatType, samples: small ? 2 : 4, depthBuffer: true };
+      const rtOpts = { type: THREE.HalfFloatType, samples: lowEnd ? 0 : small ? 2 : 4, depthBuffer: true };
       const rtA = new THREE.WebGLRenderTarget(1, 1, rtOpts);
       const rtB = new THREE.WebGLRenderTarget(1, 1, rtOpts);
       const compUniforms = {
         texA: { value: rtA.texture },
         texB: { value: rtB.texture },
+        bloomTex: { value: null },
+        bloomI: { value: 0 },
         w: { value: 0 },
         time: { value: 0 },
         fade: { value: 0 },
@@ -205,36 +212,130 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
       // pixel instead of clearing and resolving a whole multisampled target.
       const black = new THREE.DataTexture(new Uint8Array([0, 0, 0, 255]), 1, 1);
       black.needsUpdate = true;
-      const compScene = new THREE.Scene();
       const compCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-      compScene.add(
-        new THREE.Mesh(
-          new THREE.PlaneGeometry(2, 2),
-          new THREE.ShaderMaterial({
-            uniforms: compUniforms,
-            depthTest: false,
-            depthWrite: false,
-            vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
-            fragmentShader: `
-              precision highp float;
-              uniform sampler2D texA, texB; uniform float w, time, fade; uniform vec2 res; varying vec2 vUv;
-              void main(){
-                vec4 A = texture2D(texA, vUv); vec4 B = texture2D(texB, vUv);
-                float aA = clamp(A.a, 0.0, 1.0); float aB = clamp(B.a, 0.0, 1.0);
-                float m = max(w * aB, 1.0 - aA);
-                vec3 col = mix(A.rgb, B.rgb, m);
-                vec2 q = vUv - 0.5;
-                col *= 1.0 - 0.45 * smoothstep(0.15, 0.75, dot(q, q));
-                float g = fract(sin(dot(gl_FragCoord.xy + vec2(time * 61.0, time * 37.0), vec2(12.9898, 78.233))) * 43758.5453);
-                col += (g - 0.5) * 0.015;
-                col *= fade;
-                gl_FragColor = vec4(col, 1.0);
-                #include <tonemapping_fragment>
-                #include <colorspace_fragment>
-              }`,
-          })
-        )
+      const quadGeo = new THREE.PlaneGeometry(2, 2);
+      const QUAD_VS = "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }";
+      // The cross-fade of the two stage targets, shared by the bloom
+      // prefilter and the final composite.
+      const MIX_FN = `
+        uniform sampler2D texA, texB; uniform float w;
+        vec3 stageMix(vec2 uv){
+          vec4 A = texture2D(texA, uv); vec4 B = texture2D(texB, uv);
+          float aA = clamp(A.a, 0.0, 1.0); float aB = clamp(B.a, 0.0, 1.0);
+          return mix(A.rgb, B.rgb, max(w * aB, 1.0 - aA));
+        }`;
+      const pass = (fragmentShader, uniforms) => {
+        const sc = new THREE.Scene();
+        const material = new THREE.ShaderMaterial({ uniforms, depthTest: false, depthWrite: false, vertexShader: QUAD_VS, fragmentShader });
+        sc.add(new THREE.Mesh(quadGeo, material));
+        return { scene: sc, material };
+      };
+      const comp = pass(
+        `
+          precision highp float;
+          ${MIX_FN}
+          uniform sampler2D bloomTex; uniform float bloomI, time, fade; uniform vec2 res; varying vec2 vUv;
+          float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+          void main(){
+            vec3 col = stageMix(vUv);
+            col += texture2D(bloomTex, vUv).rgb * bloomI;
+            vec2 q = vUv - 0.5;
+            col *= 1.0 - 0.45 * smoothstep(0.15, 0.75, dot(q, q));
+            vec2 px = gl_FragCoord.xy + vec2(time * 61.0, time * 37.0);
+            col += (hash(px) - 0.5) * 0.012 * (0.35 + col);
+            col *= fade;
+            gl_FragColor = vec4(max(col, 0.0), 1.0);
+            #include <tonemapping_fragment>
+            #include <colorspace_fragment>
+            // Triangular dither at one 8-bit step: no banding in skies and glows.
+            gl_FragColor.rgb += (hash(px + 17.0) + hash(px + 59.0) - 1.0) / 255.0;
+          }`,
+        compUniforms
       );
+      const compScene = comp.scene;
+
+      // HDR bloom (dual-filter mip chain): only pixels brighter than the
+      // threshold glow, so lit surfaces stay crisp and suns, discs and star
+      // cores get a real halo. Half resolution at the top, a few levels down.
+      const BLOOM_LEVELS = small ? 4 : 5;
+      const bloomOpts = { type: THREE.HalfFloatType, depthBuffer: false, stencilBuffer: false };
+      const bloomDown = [];
+      const bloomUp = [];
+      for (let i = 0; i < BLOOM_LEVELS; i++) {
+        bloomDown.push(new THREE.WebGLRenderTarget(1, 1, bloomOpts));
+        if (i < BLOOM_LEVELS - 1) bloomUp.push(new THREE.WebGLRenderTarget(1, 1, bloomOpts));
+      }
+      const preU = { texA: compUniforms.texA, texB: compUniforms.texB, w: compUniforms.w, texel: { value: new THREE.Vector2() } };
+      const prefilter = pass(
+        `
+          precision highp float;
+          ${MIX_FN}
+          uniform vec2 texel; varying vec2 vUv;
+          vec3 tap(vec2 o){
+            vec3 c = min(stageMix(vUv + o * texel), vec3(64.0));
+            float br = max(c.r, max(c.g, c.b));
+            // Soft knee around 1.0, then a luma weight against fireflies.
+            float soft = clamp(br - 0.55, 0.0, 0.9); soft = soft * soft / 1.8;
+            c *= max(soft, br - 1.0) / max(br, 1e-4);
+            return c / (1.0 + max(c.r, max(c.g, c.b)) * 0.25);
+          }
+          void main(){
+            vec3 c = tap(vec2(-1.0, -1.0)) + tap(vec2(1.0, -1.0)) + tap(vec2(-1.0, 1.0)) + tap(vec2(1.0, 1.0));
+            gl_FragColor = vec4(c * 0.25, 1.0);
+          }`,
+        preU
+      );
+      const downU = { src: { value: null }, texel: { value: new THREE.Vector2() } };
+      const down = pass(
+        `
+          precision highp float;
+          uniform sampler2D src; uniform vec2 texel; varying vec2 vUv;
+          void main(){
+            vec3 c = texture2D(src, vUv).rgb * 4.0;
+            c += texture2D(src, vUv + texel * vec2(-1.0, -1.0)).rgb;
+            c += texture2D(src, vUv + texel * vec2(1.0, -1.0)).rgb;
+            c += texture2D(src, vUv + texel * vec2(-1.0, 1.0)).rgb;
+            c += texture2D(src, vUv + texel * vec2(1.0, 1.0)).rgb;
+            gl_FragColor = vec4(c / 8.0, 1.0);
+          }`,
+        downU
+      );
+      const upU = { src: { value: null }, base: { value: null }, texel: { value: new THREE.Vector2() } };
+      const up = pass(
+        `
+          precision highp float;
+          uniform sampler2D src, base; uniform vec2 texel; varying vec2 vUv;
+          void main(){
+            vec3 c = texture2D(src, vUv + texel * vec2(-2.0, 0.0)).rgb + texture2D(src, vUv + texel * vec2(2.0, 0.0)).rgb
+                   + texture2D(src, vUv + texel * vec2(0.0, -2.0)).rgb + texture2D(src, vUv + texel * vec2(0.0, 2.0)).rgb;
+            c += 2.0 * (texture2D(src, vUv + texel * vec2(-1.0, -1.0)).rgb + texture2D(src, vUv + texel * vec2(1.0, -1.0)).rgb
+                      + texture2D(src, vUv + texel * vec2(-1.0, 1.0)).rgb + texture2D(src, vUv + texel * vec2(1.0, 1.0)).rgb);
+            gl_FragColor = vec4(c / 12.0 + texture2D(base, vUv).rgb, 1.0);
+          }`,
+        upU
+      );
+      const blit = (p, target) => {
+        renderer.setRenderTarget(target);
+        renderer.render(p.scene, compCam);
+      };
+      const renderBloom = () => {
+        preU.texel.value.set(0.5 / bloomDown[0].width, 0.5 / bloomDown[0].height);
+        blit(prefilter, bloomDown[0]);
+        for (let i = 1; i < BLOOM_LEVELS; i++) {
+          downU.src.value = bloomDown[i - 1].texture;
+          downU.texel.value.set(0.5 / bloomDown[i].width, 0.5 / bloomDown[i].height);
+          blit(down, bloomDown[i]);
+        }
+        let src = bloomDown[BLOOM_LEVELS - 1];
+        for (let i = BLOOM_LEVELS - 2; i >= 0; i--) {
+          upU.src.value = src.texture;
+          upU.base.value = bloomDown[i].texture;
+          upU.texel.value.set(0.5 / src.width, 0.5 / src.height);
+          blit(up, bloomUp[i]);
+          src = bloomUp[i];
+        }
+        return src.texture;
+      };
 
       // Scenes (shared instances for the two hero/iris stages).
       const hero = heroM.createHero(THREE, {
@@ -312,6 +413,12 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         rtA.setSize(Math.floor(W * dpr), Math.floor(H * dpr));
         rtB.setSize(Math.floor(W * dpr), Math.floor(H * dpr));
         compUniforms.res.value.set(W * dpr, H * dpr);
+        for (let i = 0; i < BLOOM_LEVELS; i++) {
+          const bw = Math.max(2, Math.floor((W * dpr) / (2 << i)));
+          const bh = Math.max(2, Math.floor((H * dpr) / (2 << i)));
+          bloomDown[i].setSize(bw, bh);
+          if (bloomUp[i]) bloomUp[i].setSize(bw, bh);
+        }
         Object.values(scenes).forEach((s) => s.resize(W, H, dpr));
       };
       resize();
@@ -453,6 +560,13 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         compUniforms.texA.value = render(A, rtA) ? rtA.texture : black;
         compUniforms.texB.value = render(B, rtB) ? rtB.texture : black;
         compUniforms.w.value = w;
+        // Each stage may scale the glow (scene.bloom, default 1); 0 on both
+        // skips the bloom passes altogether.
+        const bA = A && scenes[A.id] ? scenes[A.id].bloom ?? 1 : 0;
+        const bB = B && scenes[B.id] ? scenes[B.id].bloom ?? 1 : 0;
+        const bloomI = (B ? bA + (bB - bA) * w : bA) * BLOOM_STRENGTH;
+        compUniforms.bloomI.value = bloomI;
+        compUniforms.bloomTex.value = bloomI > 0.001 ? renderBloom() : black;
         renderer.setRenderTarget(null);
         renderer.render(compScene, compCam);
       };
@@ -475,6 +589,8 @@ const Journey = ({ className = "", spacerRef, sound, onFail, children }) => {
         Object.values(scenes).forEach((sc) => sc.dispose && sc.dispose());
         rtA.dispose();
         rtB.dispose();
+        bloomDown.forEach((t) => t.dispose());
+        bloomUp.forEach((t) => t.dispose());
         black.dispose();
         renderer.dispose();
         canvas.remove();

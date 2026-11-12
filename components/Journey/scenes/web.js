@@ -55,13 +55,15 @@ export const createWeb = async (THREE, { small }) => {
       const u = r();
       const s4 = 4 * u * (1 - u);
       // Denser towards the ends (clusters), thinner in the middle.
-      const spread = (1.4 + 2.2 * Math.sin(u * Math.PI)) * thick;
+      // Thin threads: a tight core with a little scatter, slightly looser mid-span.
+      const spread = (0.45 + 0.9 * Math.sin(u * Math.PI)) * thick * (r() < 0.8 ? 1 : 2.6);
       put(
         lerp(a[0], b[0], u) + bow[0] * s4 + gauss(r) * spread,
         lerp(a[1], b[1], u) + bow[1] * s4 + gauss(r) * spread,
         lerp(a[2], b[2], u) + bow[2] * s4 + gauss(r) * spread,
         0.3 + 0.5 * r(),
-        0.5 + r() * 1.1
+        0.5 + r() * 1.1,
+        [0.78, 0.88, 1.0]
       );
     }
   });
@@ -69,9 +71,9 @@ export const createWeb = async (THREE, { small }) => {
   nodes.forEach((a, i) => {
     const big = i < 3;
     const cnt = big ? clusterBudget * 12 : clusterBudget;
-    const sg = big ? 3.2 : 1.2 + r() * 1.6;
+    const sg = big ? 2.6 : 0.7 + r() * 1.2;
     for (let k = 0; k < cnt; k++) {
-      put(a[0] + gauss(r) * sg, a[1] + gauss(r) * sg, a[2] + gauss(r) * sg, 0.35 + 0.45 * r(), 0.4 + r() * 0.9, big ? [1, 0.9, 0.75] : [0.9, 0.9, 1]);
+      put(a[0] + gauss(r) * sg, a[1] + gauss(r) * sg, a[2] + gauss(r) * sg, 0.35 + 0.45 * r(), 0.4 + r() * 0.9, big ? [1, 0.86, 0.66] : [1, 0.92, 0.78]);
     }
   });
   while (n < total) {
@@ -95,8 +97,9 @@ export const createWeb = async (THREE, { small }) => {
   web.frustumCulled = false;
   scene.add(web);
   // Soft haze over the same structure so the filaments read as gas, not dots.
-  const HAZE_STRIDE = small ? 6 : 1;
-  const hazeMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: 0.22 * HAZE_STRIDE, minPx: 6, maxPx: 70 });
+  const HAZE_STRIDE = small ? 6 : 2;
+  const HAZE_I = 0.1;
+  const hazeMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }), intensity: HAZE_I * HAZE_STRIDE, minPx: 4, maxPx: 34 });
   const hazeGeo = HAZE_STRIDE > 1 ? strided(THREE, geo, HAZE_STRIDE) : geo;
   // Far back the haze piles onto the same few pixels too (and is nearly
   // faded out): 1 in 16 carries it there.
@@ -123,15 +126,39 @@ export const createWeb = async (THREE, { small }) => {
   const usize = new Float32Array(un);
   const uphase = new Float32Array(un);
   const R = 14000;
-  for (let i = 0; i < un; i++) {
-    const d = Math.cbrt(r()) * R;
+  // Not a uniform fog: galaxies sit on the walls and threads of a foam, with
+  // voids between. Two scales of interfering plane waves give that pattern
+  // cheaply; a point survives where the field is near zero (a wall).
+  const waves = [];
+  for (let k = 0; k < 6; k++) {
     const th = r() * Math.PI * 2;
     const ph = Math.acos(2 * r() - 1);
-    upos.set([Math.sin(ph) * Math.cos(th) * d, Math.cos(ph) * d, Math.sin(ph) * Math.sin(th) * d], i * 3);
+    const f = ((k < 3 ? 1 : 2.4) * Math.PI * 2) / 2600;
+    waves.push([Math.sin(ph) * Math.cos(th) * f, Math.cos(ph) * f, Math.sin(ph) * Math.sin(th) * f, r() * 6.28]);
+  }
+  const foam = (x, y, z) => {
+    let a = 0;
+    let b = 0;
+    for (let k = 0; k < 3; k++) a += Math.sin(waves[k][0] * x + waves[k][1] * y + waves[k][2] * z + waves[k][3]);
+    for (let k = 3; k < 6; k++) b += Math.sin(waves[k][0] * x + waves[k][1] * y + waves[k][2] * z + waves[k][3]);
+    return Math.exp(-a * a * 5.0) * 0.8 + Math.exp(-b * b * 6.0) * 0.4;
+  };
+  for (let i = 0; i < un; i++) {
+    let x, y, z, d;
+    for (let tries = 0; tries < 24; tries++) {
+      d = Math.cbrt(r()) * R;
+      const th = r() * Math.PI * 2;
+      const ph = Math.acos(2 * r() - 1);
+      x = Math.sin(ph) * Math.cos(th) * d;
+      y = Math.cos(ph) * d;
+      z = Math.sin(ph) * Math.sin(th) * d;
+      if (r() < foam(x, y, z) + 0.015) break;
+    }
+    upos.set([x, y, z], i * 3);
     const b = 0.5 + 0.6 * r();
     const warm = d / R;
     ucol.set([b, b * (0.95 - 0.1 * warm), b * (0.9 - 0.25 * warm)], i * 3);
-    usize[i] = 260 + r() * 700;
+    usize[i] = 200 + r() * 520;
     uphase[i] = r() * 6.28;
   }
   const ugeo = new THREE.BufferGeometry();
@@ -139,7 +166,7 @@ export const createWeb = async (THREE, { small }) => {
   ugeo.setAttribute("color", new THREE.BufferAttribute(ucol, 3));
   ugeo.setAttribute("size", new THREE.BufferAttribute(usize, 1));
   ugeo.setAttribute("phase", new THREE.BufferAttribute(uphase, 1));
-  const uniMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.15, falloff: 1.5 }), intensity: 0.8, minPx: 2, maxPx: 7 });
+  const uniMat = pointsMaterial(THREE, { map: spriteTexture(THREE, { core: 0.15, falloff: 1.5 }), intensity: 1.0, minPx: 1.0, maxPx: 4 });
   const universe = new THREE.Points(ugeo, uniMat);
   universe.frustumCulled = false;
   scene.add(universe);
@@ -197,7 +224,7 @@ export const createWeb = async (THREE, { small }) => {
     // Below ~1 % it no longer shows; it was still costing ~60 ms a frame.
     haze.visible = hazeMat.uniforms.fade.value > 0.01;
     haze.geometry = far ? hazeGeoFar : hazeGeo;
-    hazeMat.uniforms.intensity.value = 0.22 * (far ? HAZE_FAR : HAZE_STRIDE);
+    hazeMat.uniforms.intensity.value = HAZE_I * (far ? HAZE_FAR : HAZE_STRIDE);
     universe.visible = uniMat.uniforms.fade.value > 0;
     cmb.visible = cmb.material.uniforms.fade.value > 0;
     lgMat.opacity = 1 - smoothstep(0.1, 0.3, t);

@@ -191,7 +191,7 @@ export const createSolar = async (THREE, { tier, small }) => {
         vec3 col = mix(edge, centre, smoothstep(0.0, 0.7, mu));
         col *= gran * spot + fac;
         col *= ld;
-        gl_FragColor = vec4(col * 1.35, 1.0);
+        gl_FragColor = vec4(col * 1.7, 1.0); // HDR: the composite blooms it
       }`,
   });
   const sun = new THREE.Mesh(new THREE.SphereGeometry(SUN_R, 128, 96), sunMat);

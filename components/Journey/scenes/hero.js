@@ -15,14 +15,14 @@ const NIGHT = {
 const PHASES = [
   { h: 0, ...NIGHT },
   { h: 4.8, ...NIGHT },
-  { h: 5.6, zenith: "#101a42", mid: "#3a3f78", horizon: "#d9788a", glow: "#ff9a7a", glowI: 0.5, grass: "#1d3624", light: "#c9b4ff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
+  { h: 5.6, zenith: "#101a42", mid: "#3a3f78", horizon: "#d9788a", glow: "#ff9a7a", glowI: 0.5, grass: "#1d3624", light: "#c4ccff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
   { h: 6.3, zenith: "#3f63a8", mid: "#e3a27e", horizon: "#ffb56b", glow: "#ffb347", glowI: 1.2, grass: "#355f33", light: "#ffcf9e", lightI: 1.0, envI: 0.45, emissive: 0.18, rimI: 1.2 },
   { h: 7.5, zenith: "#5b9ae0", mid: "#a9cff0", horizon: "#ffe0b5", glow: "#fff0c8", glowI: 0.5, grass: "#4a8a40", light: "#fff0d8", lightI: 1.3, envI: 0.75, emissive: 0.26, rimI: 0.6 },
   { h: 10, zenith: "#3f8be0", mid: "#8fc2f0", horizon: "#d8ecff", glow: "#ffffff", glowI: 0.3, grass: "#4f9443", light: "#fff6e6", lightI: 1.45, envI: 0.85, emissive: 0.3, rimI: 0.3 },
   { h: 15.5, zenith: "#3f8be0", mid: "#8fc2f0", horizon: "#d8ecff", glow: "#ffffff", glowI: 0.3, grass: "#4f9443", light: "#fff6e6", lightI: 1.45, envI: 0.85, emissive: 0.3, rimI: 0.3 },
   { h: 17.3, zenith: "#4a7cc4", mid: "#f0c79a", horizon: "#ffc98a", glow: "#ffc06a", glowI: 0.8, grass: "#4a8238", light: "#ffd9a8", lightI: 1.3, envI: 0.7, emissive: 0.26, rimI: 0.9 },
   { h: 18.3, zenith: "#2e3f86", mid: "#e0726a", horizon: "#ff8a3d", glow: "#ff6a2a", glowI: 1.4, grass: "#345a2c", light: "#ffb07a", lightI: 1.0, envI: 0.45, emissive: 0.18, rimI: 1.4 },
-  { h: 19, zenith: "#161d4a", mid: "#5b3f7a", horizon: "#c8607a", glow: "#ff6a6a", glowI: 0.5, grass: "#1f3a26", light: "#b9a8ff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
+  { h: 19, zenith: "#161d4a", mid: "#46507e", horizon: "#c8607a", glow: "#ff6a6a", glowI: 0.5, grass: "#1f3a26", light: "#b4c4ff", lightI: 0.8, envI: 0.28, emissive: 0.15, rimI: 0.4 },
   { h: 19.8, ...NIGHT },
   { h: 24, ...NIGHT },
 ];
@@ -110,20 +110,70 @@ const groundTexture = (THREE) => {
 // the primitive Om. Head/neck bones are found by name (mixamorig:Head or
 // anything containing "head"/"neck"); the eye landmark is a mesh named
 // "eye" if there is one, otherwise a point in front of the head bone.
-const loadModelAvatar = (THREE, gltf, { reducedMotion }) => {
+const loadModelAvatar = (THREE, gltf, { reducedMotion, small }) => {
   const group = gltf.scene;
   let eyeMesh = null;
   let eyeBone = null;
   let head = null;
   let neck = null;
   const materials = [];
+  const stray = [];
   group.traverse((o) => {
     if (o.isMesh) {
+      // Leftover helper meshes (no skin, no texture) are not part of Om.
+      if (!o.isSkinnedMesh && !(o.material && o.material.map)) {
+        stray.push(o);
+        return;
+      }
       o.castShadow = true;
       o.frustumCulled = false;
+      const kind = /hair/i.test(o.name) ? "hair" : /lash/i.test(o.name) ? "lash" : /eye/i.test(o.name) ? "eye" : /body|skin|head/i.test(o.name) ? "skin" : "cloth";
+      // The eyes share the body material; they get their own wet one.
+      if (kind === "eye") o.material = o.material.clone();
       (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
         materials.push(m);
-        if (m.map) m.map.anisotropy = 8;
+        if (m.map) m.map.anisotropy = small ? 4 : 8;
+        // Night lift goes through the texture, so it never greys him out.
+        if (m.emissive && m.map) {
+          m.emissiveMap = m.map;
+          m.emissive.set(0xffffff);
+          m.emissiveIntensity = 0;
+        }
+        if (kind === "skin") {
+          m.roughness = 0.58;
+          if (!small && "sheen" in m) {
+            m.sheen = 0.35;
+            m.sheenRoughness = 0.45;
+            m.sheenColor.set(0xc98a6a);
+          }
+        } else if (kind === "eye") {
+          m.roughness = 0.12;
+          m.envMapIntensity = 1.6;
+          if ("clearcoat" in m) {
+            m.clearcoat = 1;
+            m.clearcoatRoughness = 0.04;
+          }
+        } else if (kind === "hair") {
+          // Cut-out strands resolved by MSAA instead of sorted blending:
+          // no see-through sorting errors, soft edges.
+          m.transparent = false;
+          m.alphaTest = 0.32;
+          m.alphaToCoverage = true;
+          m.depthWrite = true;
+          m.side = THREE.DoubleSide;
+          m.roughness = 0.42;
+          m.envMapIntensity = 0.7;
+        } else if (kind === "lash") {
+          m.color.set(0x1a1310);
+          o.castShadow = false;
+        } else {
+          m.roughness = 0.92;
+          if (!small && "sheen" in m) {
+            m.sheen = 0.5;
+            m.sheenRoughness = 0.8;
+            m.sheenColor.set(0xffffff);
+          }
+        }
       });
       // A single-eye mesh (left/right in the name) gives the landmark
       // directly; a combined "Eyes" mesh does not.
@@ -135,6 +185,7 @@ const loadModelAvatar = (THREE, gltf, { reducedMotion }) => {
       if (!neck && /neck$/i.test(o.name)) neck = o;
     }
   });
+  stray.forEach((o) => o.removeFromParent());
   if (!head && !eyeMesh && !eyeBone) return null;
   // Feet on the ground, facing +z, metres.
   group.updateMatrixWorld(true);
@@ -460,7 +511,7 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps, onMode
       }
       const [{ GLTFLoader }, { MeshoptDecoder }] = await loaderMod;
       const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(buf, "/models/");
-      const model = loadModelAvatar(THREE, gltf, { reducedMotion });
+      const model = loadModelAvatar(THREE, gltf, { reducedMotion, small });
       if (!model) return;
       scene.remove(om.group);
       om.dispose();
@@ -528,8 +579,10 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps, onMode
     const glow = Math.max(0, num("emissive") - 0.18) * 1.2;
     om.materials.forEach((mat) => {
       if (!mat.emissive) return;
-      mat.emissive.copy(mat.color);
-      mat.emissiveIntensity = glow;
+      // Textured (modelled) Om glows through his own texture; the primitive
+      // placeholder through its flat colour.
+      if (!mat.emissiveMap) mat.emissive.copy(mat.color);
+      mat.emissiveIntensity = mat.emissiveMap ? glow * 0.6 : glow;
     });
     starMat.opacity = 0.85 * clamp((0.5 - num("envI")) / 0.3, 0, 1);
 

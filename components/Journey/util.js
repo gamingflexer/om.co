@@ -347,11 +347,53 @@ export const makeGalaxy = (
   let peak = 0;
   for (let i = 0; i < G * G; i++) peak = Math.max(peak, g1[i * 3] + g1[i * 3 + 1] + g1[i * 3 + 2]);
   const norm = 1 / (peak * 0.12);
+  // Dust lanes: dark, mottled bands along the inner edge of each arm (where
+  // the particles were thinned out above), strongest in the mid disc.
+  const lattice = (x, y) => {
+    const h = Math.sin(x * 127.1 + y * 311.7 + seed * 17.3) * 43758.5453;
+    return h - Math.floor(h);
+  };
+  const vnoise = (x, y) => {
+    const xi = Math.floor(x);
+    const yi = Math.floor(y);
+    let fx = x - xi;
+    let fy = y - yi;
+    fx = fx * fx * (3 - 2 * fx);
+    fy = fy * fy * (3 - 2 * fy);
+    return lerp(lerp(lattice(xi, yi), lattice(xi + 1, yi), fx), lerp(lattice(xi, yi + 1), lattice(xi + 1, yi + 1), fx), fy);
+  };
+  const dustAt = (x, z) => {
+    const rr = Math.hypot(x, z);
+    const rn = rr / radius;
+    if (rn < 0.08 || rn > 1.05) return 0;
+    const spread = 0.12 + 0.35 * rn;
+    const theta = Math.log(rr / (radius * 0.07) + 1) / pitch;
+    const step = (Math.PI * 2) / arms;
+    let d = (Math.atan2(z, x) - theta) % step;
+    if (d < 0) d += step;
+    if (d > step / 2) d -= step;
+    const u = d / spread;
+    const lane = smoothstep(0.0, 0.3, u) * (1 - smoothstep(0.36, 0.9, u));
+    const n = 0.35 + 0.65 * vnoise(x * (22 / radius), z * (22 / radius)) * (0.5 + vnoise(x * (70 / radius), z * (70 / radius)));
+    return clamp(lane * n * smoothstep(0.08, 0.2, rn) * (1 - smoothstep(0.75, 1.05, rn)) * 1.0, 0, 0.6);
+  };
   for (let i = 0; i < G * G; i++) {
-    for (let ch = 0; ch < 3; ch++) {
-      const v = (g1[i * 3 + ch] * 0.5 + g2[i * 3 + ch] * 0.9 + g3[i * 3 + ch] * 1.4) * norm;
-      img.data[i * 4 + ch] = Math.round(clamp(Math.sqrt(clamp(v, 0, 1)), 0, 1) * 255);
-    }
+    const x = (((i % G) + 0.5) / G - 0.5) * 2 * radius;
+    const z = ((Math.floor(i / G) + 0.5) / G - 0.5) * 2 * radius;
+    const dust = arms > 2 ? dustAt(x, z) : 0;
+    let v0 = (g1[i * 3] * 0.5 + g2[i * 3] * 0.9 + g3[i * 3] * 1.4) * norm;
+    let v1 = (g1[i * 3 + 1] * 0.5 + g2[i * 3 + 1] * 0.9 + g3[i * 3 + 1] * 1.4) * norm;
+    let v2 = (g1[i * 3 + 2] * 0.5 + g2[i * 3 + 2] * 0.9 + g3[i * 3 + 2] * 1.4) * norm;
+    // Dust absorbs blue more than red, and never touches the wide halo (g3).
+    v0 *= 1 - dust * 0.75;
+    v1 *= 1 - dust * 0.88;
+    v2 *= 1 - dust;
+    // Roll the bright core off instead of clipping it, so the bulge keeps
+    // its warm colour rather than burning out to white.
+    const k = 1.35 / (1 + 0.9 * Math.max(v0, v1, v2));
+    img.data[i * 4] = Math.round(Math.sqrt(clamp(v0 * k, 0, 1)) * 255);
+    img.data[i * 4 + 1] = Math.round(Math.sqrt(clamp(v1 * k, 0, 1)) * 255);
+    img.data[i * 4 + 2] = Math.round(Math.sqrt(clamp(v2 * k, 0, 1)) * 255);
     img.data[i * 4 + 3] = 255;
   }
   ctx.putImageData(img, 0, 0);

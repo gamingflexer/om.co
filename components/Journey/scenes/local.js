@@ -39,14 +39,20 @@ export const createLocal = async (THREE, { small, reducedMotion }) => {
   }
 
   // Far-field galaxies for depth.
-  const farMat = new THREE.SpriteMaterial({ map: sprite, color: 0xd8dcff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.28 });
-  for (let i = 0; i < 500; i++) {
-    const s = new THREE.Sprite(farMat);
+  // Distant galaxies come in every tilt and type: elongated smudges at four
+  // orientations, warm ellipticals and bluer spirals, not round dots.
+  const farMats = [0xffe2c0, 0xd6e2ff, 0xfff1dc, 0xc8d8ff].map(
+    (color, k) => new THREE.SpriteMaterial({ map: sprite, color, rotation: k * 0.8 + 0.3, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.65 })
+  );
+  const farCount = small ? 420 : 900;
+  for (let i = 0; i < farCount; i++) {
+    const s = new THREE.Sprite(farMats[i % 4]);
     const d = 1500 + r() * 9000;
     const th = r() * Math.PI * 2;
     const ph = Math.acos(2 * r() - 1);
     s.position.set(Math.sin(ph) * Math.cos(th) * d, Math.cos(ph) * d, Math.sin(ph) * Math.sin(th) * d);
-    s.scale.setScalar(d * 0.006 * (0.5 + r()));
+    const k = d * 0.0075 * (0.4 + 1.2 * r() * r());
+    s.scale.set(k, k * (0.28 + 0.72 * r()), 1);
     scene.add(s);
   }
 

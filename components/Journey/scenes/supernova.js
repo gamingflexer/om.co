@@ -33,8 +33,9 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
           float mu = max(dot(normalize(vN), V), 0.0);
           float limb = 0.35 + 0.65 * pow(mu, 0.6);
           float g = noise(vP * 6.0 + time * 0.05) * 0.6 + noise(vP * 18.0 - time * 0.08) * 0.4;
-          vec3 col = mix(vec3(0.75, 0.85, 1.0), vec3(1.0, 0.98, 0.95), g);
-          col *= limb * (2.2 + 6.0 * heat);
+          vec3 col = mix(vec3(0.5, 0.68, 1.0), vec3(0.92, 0.96, 1.0), g);
+          // Limb-darkened and only mildly over 1: the bloom gives the halo.
+          col *= pow(limb, 1.6) * (1.5 + 6.0 * heat);
           gl_FragColor = vec4(col, 1.0);
         }`,
     })
@@ -51,7 +52,10 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
   // The haze is drawn from every 3rd particle (every 4th on phones) at
   // matching brightness: the blobs are so soft and overlap so much that it
   // reads the same, at a third of the fill cost (it halved the frame rate).
-  const ejecta = makeEjecta(THREE, { count: small ? 30000 : 90000, hazeStride: small ? 4 : 3 });
+  const ejecta = makeEjecta(THREE, { count: small ? 14000 : 40000, haze: false });
+  // The gas itself: one raymarched volume of filaments (no sprite haze).
+  const remnant = makeRemnant(THREE, { steps: small ? 9 : 11, octaves: small ? 2 : 3 });
+  scene.add(remnant.mesh);
   const shellUniforms = ejecta.uniforms;
   scene.add(ejecta.group);
   // Fireball: a hot core that fills the young shell and cools away.
@@ -161,8 +165,9 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
     ejecta.group.visible = shellUniforms.fade.value > 0;
     shellUniforms.time.value = time;
     const age = shellUniforms.age.value;
+    remnant.set(R, age, shellUniforms.fade.value, time);
     fireball.scale.setScalar(Math.max(0.01, R * 1.25));
-    fireball.material.opacity = shellUniforms.fade.value * lerp(0.85, 0.0, smoothstep(0.0, 0.9, age));
+    fireball.material.opacity = shellUniforms.fade.value * lerp(0.7, 0.0, smoothstep(0.0, 0.6, age));
     fireball.material.color.setRGB(1.0, lerp(0.95, 0.35, age), lerp(0.85, 0.1, age));
     fireball.visible = fireball.material.opacity > 0.002;
     ringUniforms.R.value = 44 * Math.pow(smoothstep(0.26, 1.0, t), 0.75);
@@ -196,7 +201,7 @@ export const createSupernova = async (THREE, { tier, small, reducedMotion }) => 
 // O III teal filaments). Shared with the pulsar stage, which sits inside
 // the same remnant.
 // hazeStride > 1 draws the soft haze from every n-th particle, n times brighter.
-export const makeEjecta = (THREE, { count, rngSeed = 42, hazeStride = 1 }) => {
+export const makeEjecta = (THREE, { count, rngSeed = 42, hazeStride = 1, haze = true }) => {
   const r = rng(rngSeed);
   const dirs = new Float32Array(count * 3);
   const speed = new Float32Array(count);
@@ -282,6 +287,89 @@ export const makeEjecta = (THREE, { count, rngSeed = 42, hazeStride = 1 }) => {
   hazeMat.uniforms = { ...shellUniforms, haze: { value: hazeStride }, map: { value: spriteTexture(THREE, { core: 0.0, falloff: 1.4 }) } };
   const shellHaze = new THREE.Points(hazeStride > 1 ? strided(THREE, shellGeo, hazeStride) : shellGeo, hazeMat);
   shellHaze.frustumCulled = false;
-  group.add(shellHaze);
+  if (haze) group.add(shellHaze);
   return { group, uniforms: shellUniforms };
+};
+
+// The remnant's gas as a volume: a sphere whose fragment shader marches the
+// view ray through the shell and sums emission from a ridged-noise filament
+// field (a thin outer blast wave, Rayleigh–Taylor filaments inside it, as in
+// the Crab and Cassiopeia A). One mesh, a dozen or so samples a pixel, in
+// place of tens of thousands of blended haze sprites. The pattern is defined
+// in units of the shell radius, so it expands with the shell.
+export const makeRemnant = (THREE, { steps = 16, octaves = 3 } = {}) => {
+  const uniforms = { R: { value: 1 }, age: { value: 0 }, fade: { value: 0 }, time: { value: 0 } };
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 32, 20),
+    new THREE.ShaderMaterial({
+      uniforms,
+      side: THREE.BackSide,
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+      vertexShader: "varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }",
+      fragmentShader: `
+        precision highp float;
+        uniform float R, age, fade, time; varying vec3 vW;
+        float hash(vec3 p){ return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
+        float noise(vec3 p){ vec3 i = floor(p); vec3 f = fract(p); f = f*f*(3.0-2.0*f);
+          return mix(mix(mix(hash(i), hash(i+vec3(1,0,0)), f.x), mix(hash(i+vec3(0,1,0)), hash(i+vec3(1,1,0)), f.x), f.y),
+                     mix(mix(hash(i+vec3(0,0,1)), hash(i+vec3(1,0,1)), f.x), mix(hash(i+vec3(0,1,1)), hash(i+vec3(1,1,1)), f.x), f.y), f.z); }
+        float ridge(vec3 p){ return 1.0 - abs(noise(p) * 2.0 - 1.0); }
+        void main(){
+          vec3 ro = cameraPosition; vec3 rd = normalize(vW - cameraPosition);
+          float Ro = R * 1.42;
+          float b = dot(ro, rd); float c = dot(ro, ro) - Ro * Ro; float h = b * b - c;
+          if (h <= 0.0) discard;
+          h = sqrt(h);
+          float t0 = max(-b - h, 0.0); float t1 = -b + h;
+          float dt = (t1 - t0) / float(${steps});
+          // Half a step of jitter hides the slicing without turning into grain.
+          float jit = 0.25 + 0.5 * fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+          // Filaments sharpen as the remnant ages; young ejecta is a smooth fireball.
+          float fil = smoothstep(0.05, 0.6, age);
+          vec3 sum = vec3(0.0);
+          for (int i = 0; i < ${steps}; i++) {
+            vec3 q = (ro + rd * (t0 + (float(i) + jit) * dt)) / R;
+            float rn = length(q);
+            if (rn > 1.42) continue;
+            float r1 = ridge(q * 3.2 + 11.0);
+            ${octaves > 2 ? "float r2 = ridge(q * 7.5 + 3.0); float r3 = ridge(q * 17.0 + 29.0);" : "float r2 = ridge(q * 7.5 + 3.0); float r3 = r2;"}
+            float web = pow(r1, 8.0) * 1.0 + pow(r2, 10.0) * 0.9 + pow(r3, 12.0) * 0.6;
+            web = max(web - 0.12, 0.0) * 1.7 * (0.35 + 1.3 * noise(q * 1.7 + 5.0));
+            // Outer blast wave: a thin skin, lumpy; inner ejecta: filaments.
+            float skinR = 1.12 + 0.1 * (noise(q * 2.3) - 0.5) * fil;
+            float skin = exp(-pow((rn - skinR) / 0.045, 2.0));
+            float body = smoothstep(0.18, 0.5, rn) * (1.0 - smoothstep(0.9, 1.08, rn));
+            float dens = skin * mix(0.5, 0.06 + 1.4 * pow(r2, 6.0), fil) + body * mix(0.3, web * 1.5, fil);
+            // Emission lines: hydrogen red, oxygen teal, sulphur orange, sorted
+            // by a slow field so neighbouring filaments differ.
+            float k = noise(q * 2.1 + 40.0);
+            vec3 lines = mix(vec3(1.0, 0.16, 0.07), vec3(0.18, 0.85, 0.78), smoothstep(0.5, 0.7, k));
+            lines = mix(lines, vec3(1.0, 0.55, 0.16), smoothstep(0.7, 0.85, noise(q * 3.7 + 71.0)));
+            vec3 hot = mix(vec3(1.0, 0.5, 0.16), vec3(1.0, 0.93, 0.8), pow(1.0 - age, 3.0));
+            vec3 col = mix(hot, lines, smoothstep(0.35, 0.85, age));
+            // The blast wave itself is thin, hot, blue-white X-ray/synchrotron.
+            col = mix(col, vec3(0.6, 0.78, 1.0), skin * 0.55 * fil);
+            sum += col * dens;
+          }
+          float bright = mix(1.2, 0.36, age);
+          gl_FragColor = vec4(sum * (dt / R) * bright * fade, 1.0);
+        }`,
+    })
+  );
+  mesh.frustumCulled = false;
+  mesh.renderOrder = 2;
+  return {
+    mesh,
+    set: (R, age, fade, time) => {
+      uniforms.R.value = Math.max(R, 0.001);
+      uniforms.age.value = age;
+      uniforms.fade.value = fade;
+      uniforms.time.value = time;
+      mesh.scale.setScalar(Math.max(R, 0.001) * 1.45);
+      mesh.visible = fade > 0.001;
+    },
+  };
 };
