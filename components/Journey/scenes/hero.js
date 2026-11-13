@@ -1,5 +1,6 @@
 import { clamp, lerp, smoothstep, track } from "../util";
 import { createCharacter } from "./character";
+import { irisZoom } from "./iris";
 
 // Opening and closing stage: Om (built from primitives in character.js)
 // standing on a grassy meadow. The sky, sun/moon and light follow the time
@@ -638,18 +639,28 @@ export const createHero = (THREE, { renderer, small, reducedMotion, deps, onMode
     const chestTgt = [0, 1.4, 0];
     const faceCam = [face.x, face.y + 0.01, face.z + 0.5];
     const faceTgt = [face.x, face.y, face.z];
-    // The iris must fill the same share of the screen as the iris stage's
-    // first frame: radius = 0.62 of the half height at fov 34.
-    const eyeDist = irisRadius / (0.62 * Math.tan(THREE.MathUtils.degToRad(34) / 2));
-    const eyeCam = [eye.x, eye.y, eye.z + eyeDist];
-    const eyeTgt = [eye.x, eye.y, eye.z];
-    const p = track([[0, heroCam], [0.3, centreCam], [0.48, chestCam], [0.72, faceCam], [0.9, eyeCam], [1, eyeCam]], t);
-    const tg = track([[0, heroTgt], [0.3, centreTgt], [0.48, chestTgt], [0.72, faceTgt], [0.9, eyeTgt], [1, eyeTgt]], t);
+    // Hand-over to the iris stage. The head is not modelled for a macro
+    // shot, so the camera stops well short of the eye and the procedural
+    // eye takes over there: through the cross-fade (the last sixth of this
+    // stage, see STAGES in ../index.js) the camera follows the iris stage's
+    // own zoom, keeping both irises the same size on screen.
+    const HAND = 5 / 6;
+    const irisU = (Math.max(t - HAND, 0) / (1 - HAND)) * (reverse ? 0.206 : 0.263);
+    // The iris stage measures in half the shorter side of the screen.
+    const eyeDistAt = (u) => irisRadius / (irisZoom(u) * Math.tan(THREE.MathUtils.degToRad(34) / 2) * Math.min(1, camera.aspect));
+    // Aim a touch below the joint: the lids sit low over the ball, so the
+    // visible opening is centred under it.
+    const eyeY = eye.y - irisRadius * 0.3;
+    const eyeTgt = [eye.x, eyeY, eye.z];
+    const eyeCam = [eye.x, eyeY, eye.z + eyeDistAt(0)];
+    const p = track([[0, heroCam], [0.3, centreCam], [0.48, chestCam], [0.72, faceCam], [HAND, eyeCam], [1, eyeCam]], t);
+    const tg = track([[0, heroTgt], [0.3, centreTgt], [0.48, chestTgt], [0.72, faceTgt], [HAND, eyeTgt], [1, eyeTgt]], t);
     camPos.set(p[0], p[1], p[2]);
     camTarget.set(tg[0], tg[1], tg[2]);
+    if (t > HAND) camPos.z = eye.z + eyeDistAt(irisU);
     camera.position.copy(camPos);
     camera.lookAt(camTarget);
-    camera.fov = lerp(30, 34, smoothstep(0.72, 0.9, t));
+    camera.fov = lerp(30, 34, smoothstep(0.72, HAND, t));
     camera.near = lerp(0.1, 0.01, smoothstep(0.6, 1, t));
     camera.updateProjectionMatrix();
   };
